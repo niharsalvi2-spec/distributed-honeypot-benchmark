@@ -1,0 +1,102 @@
+{
+  "experiment_id": "E05_STATISTICAL_TRIALS",
+  "total_trials": 30,
+  "base_seed": 42000,
+  "metrics": {
+    "precision": {
+      "n": 30,
+      "mean": 1.0,
+      "median": 1.0,
+      "std": 0.0,
+      "variance": 0.0,
+      "min": 1.0,
+      "max": 1.0,
+      "ci_95_lower": 1.0,
+      "ci_95_upper": 1.0,
+      "ci_95_display": "1.0 +/- 0.0"
+    },
+    "recall": {
+      "n": 30,
+      "mean": 1.0,
+      "median": 1.0,
+      "std": 0.0,
+      "variance": 0.0,
+      "min": 1.0,
+      "max": 1.0,
+      "ci_95_lower": 1.0,
+      "ci_95_upper": 1.0,
+      "ci_95_display": "1.0 +/- 0.0"
+    },
+    "f1_score": {
+      "n": 30,
+      "mean": 1.0,
+      "median": 1.0,
+      "std": 0.0,
+      "variance": 0.0,
+      "min": 1.0,
+      "max": 1.0,
+      "ci_95_lower": 1.0,
+      "ci_95_upper": 1.0,
+      "ci_95_display": "1.0 +/- 0.0"
+    },
+    "contamination": {
+      "n": 30,
+      "mean": 0.0,
+      "median": 0.0,
+      "std": 0.0,
+      "variance": 0.0,
+      "min": 0,
+      "max": 0,
+      "ci_95_lower": 0.0,
+      "ci_95_upper": 0.0,
+      "ci_95_display": "0.0 +/- 0.0"
+    }
+  },
+  "trials_summary": [
+    {
+      "trial": 1,
+      "seed": 42001,
+      "noise_count": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "contamination": 0
+    },
+    {
+      "trial": 2,
+      "seed": 42002,
+      "noise_count": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "contamination": 0
+    },
+    {
+      "trial": 3,
+      "seed": 42003,
+      "noise_count": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "contamination": 0
+    },
+    {
+      "trial": 4,
+      "seed": 42004,
+      "noise_count": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "contamination": 0
+    },
+    {
+      "trial": 5,
+      "seed": 42005,
+      "noise_count": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "contamination": 0
+    }
+  ]
+}

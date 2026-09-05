@@ -124,12 +124,37 @@ class RunManager:
 
         # 3. Create top-level official experiment manifest
         exp_id = run_id.split("_")[0]
+
+        # Read persisted execution_mode from metadata.json
+        exec_mode = "native"
+        meta_file = os.path.join(results_dir, "metadata.json")
+        if os.path.exists(meta_file):
+            try:
+                with open(meta_file, "r", encoding="utf-8") as f:
+                    m_data = json.load(f)
+                    exec_mode = m_data.get("execution_mode", "native")
+            except Exception:
+                exec_mode = "native"
+
+        # Read node_count from configuration.yaml if present
+        nodes_count = 3
+        cfg_file = os.path.join(results_dir, "configuration.yaml")
+        if not os.path.exists(cfg_file):
+            cfg_file = os.path.join(self.configs_dir, "experiments", f"{exp_id}.yaml")
+        if os.path.exists(cfg_file):
+            try:
+                with open(cfg_file, "r", encoding="utf-8") as f:
+                    cfg_data = yaml.safe_load(f) or {}
+                    nodes_count = cfg_data.get("environment", {}).get("node_count") or cfg_data.get("nodes_count", 3)
+            except Exception:
+                nodes_count = 3
+
         DataIntegrityManager.create_experiment_manifest(
             run_id=run_id,
             experiment_id=exp_id,
-            execution_mode="native",
+            execution_mode=exec_mode,
             repositories=raw_manifest.get("repositories", {}),
-            nodes_count=3,
+            nodes_count=nodes_count,
             config_path=f"configs/experiments/{exp_id}.yaml",
             workload_path=f"workloads/controlled_attack/{exp_id}",
             clock_config={"physical": True, "lamport": True, "vector": True},

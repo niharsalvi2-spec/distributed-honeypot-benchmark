@@ -37,22 +37,35 @@
     ]
   },
   "3. Behaviour-Only (Tactic Match)": {
-    "true_positives": 18,
-    "false_positives": 0,
-    "false_negatives": 0,
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1_score": 1.0,
-    "cross_attacker_contamination_count": 0,
-    "contaminated_pairs": []
+    "true_positives": 13,
+    "false_positives": 15,
+    "false_negatives": 5,
+    "precision": 0.4643,
+    "recall": 0.7222,
+    "f1_score": 0.5652,
+    "cross_attacker_contamination_count": 3,
+    "contaminated_pairs": [
+      [
+        "evt-alpha-002",
+        "evt-beta-002"
+      ],
+      [
+        "evt-alpha-003",
+        "evt-beta-003"
+      ],
+      [
+        "evt-alpha-005",
+        "evt-beta-002"
+      ]
+    ]
   },
   "4. Causal-Ordering Only (Happens-Before)": {
-    "true_positives": 18,
+    "true_positives": 6,
     "false_positives": 0,
-    "false_negatives": 0,
+    "false_negatives": 12,
     "precision": 1.0,
-    "recall": 1.0,
-    "f1_score": 1.0,
+    "recall": 0.3333,
+    "f1_score": 0.5,
     "cross_attacker_contamination_count": 0,
     "contaminated_pairs": []
   },

@@ -98,3 +98,64 @@ def test_feature_ablation_oracle_validation(oracle):
     # 3. Multi-tier achieves target F1
     assert multi_tier["f1_score"] >= 0.85
     assert multi_tier["cross_attacker_contamination_count"] == 0
+
+def test_oracle_everything_split_collapses_recall(oracle):
+    """
+    Scientific Test B: Everything Split.
+    If an algorithm isolates every event into its own single-element cluster,
+    pairwise True Positives must be 0, Recall must collapse to 0.0, and F1 must be 0.0.
+    """
+    all_events = [
+        "evt-alpha-001", "evt-alpha-002", "evt-alpha-003",
+        "evt-alpha-004", "evt-alpha-005", "evt-alpha-006",
+        "evt-beta-001", "evt-beta-002", "evt-beta-003"
+    ]
+    split_clusters = [[eid] for eid in all_events]
+    metrics = oracle.evaluate_correlation(split_clusters, only_attack_clusters=True)
+    assert metrics["true_positives"] == 0
+    assert metrics["recall"] == 0.0
+    assert metrics["f1_score"] == 0.0
+
+def test_oracle_everything_merged_collapses_precision(oracle):
+    """
+    Scientific Test C: Everything Merged.
+    If an algorithm merges all independent actors into a single giant blob,
+    Recall is 1.0 but False Positives surge, Precision drops, and Cross-Attacker Contamination is detected.
+    """
+    all_events = [
+        "evt-alpha-001", "evt-alpha-002", "evt-alpha-003",
+        "evt-alpha-004", "evt-alpha-005", "evt-alpha-006",
+        "evt-beta-001", "evt-beta-002", "evt-beta-003"
+    ]
+    merged_cluster = [all_events]
+    metrics = oracle.evaluate_correlation(merged_cluster, only_attack_clusters=True)
+    assert metrics["recall"] == 1.0
+    assert metrics["precision"] < 0.60
+    assert metrics["cross_attacker_contamination_count"] >= 4
+
+def test_oracle_missing_events_penalizes_completeness(oracle):
+    """
+    Scientific Test D: Partial Sequence / Incomplete Reconstruction.
+    Reconstructing only 2 out of 6 events in correct order gives SRA=1.0,
+    but completeness=0.3333, so composite_sequence_score must be penalized.
+    """
+    partial_seq = ["evt-alpha-001", "evt-alpha-002"]
+    metrics = oracle.evaluate_ordering(partial_seq, actor_id="ACTOR_ALPHA")
+    assert metrics["sra"] == 1.0
+    assert metrics["completeness"] == round(2 / 6, 4)
+    assert metrics["composite_sequence_score"] < 0.40
+
+def test_oracle_partial_order_evaluation(oracle):
+    """
+    Scientific Test E: Partial Order DAG Evaluation.
+    Evaluates topological relations (BEFORE / AFTER / EQUAL).
+    """
+    relations = {
+        ("evt-alpha-001", "evt-alpha-002"): "BEFORE",
+        ("evt-alpha-002", "evt-alpha-003"): "BEFORE",
+        ("evt-alpha-003", "evt-alpha-001"): "AFTER"
+    }
+    metrics = oracle.evaluate_partial_order(relations, actor_id="ACTOR_ALPHA")
+    assert metrics["relation_accuracy"] == 1.0
+    assert metrics["correct_relations"] == 3
+

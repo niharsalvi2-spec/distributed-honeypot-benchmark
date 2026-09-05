@@ -86,15 +86,73 @@ class BenchmarkOracle:
         kendall_tau = ((concordant - inversions) / total_pairs) if total_pairs > 0 else 1.0
 
         completeness = len(filtered_obs) / len(true_seq)
+        composite_sequence_score = round(sra * completeness, 4)
 
         return {
             "actor_id": actor_id,
             "sra": round(sra, 4),
+            "completeness": round(completeness, 4),
+            "composite_sequence_score": composite_sequence_score,
             "inversion_count": inversions,
             "total_pairs": total_pairs,
             "inversion_rate": round(inversion_rate, 4),
-            "kendall_tau": round(kendall_tau, 4),
-            "completeness": round(completeness, 4)
+            "kendall_tau": round(kendall_tau, 4)
+        }
+
+    def evaluate_partial_order(
+        self,
+        predicted_relations: Dict[Tuple[str, str], str],
+        actor_id: str = "ACTOR_ALPHA"
+    ) -> Dict[str, Any]:
+        """
+        Evaluates predicted partial order relations (BEFORE, AFTER, CONCURRENT, EQUAL)
+        against true causal graph edges and topological constraints.
+        predicted_relations: { ('evt-1', 'evt-2'): 'BEFORE' | 'CONCURRENT' | ... }
+        """
+        chain = self.order_specs.get(actor_id, {})
+        true_seq = chain.get("linear_sequence", [])
+        causal_edges = chain.get("causal_edges", [])
+        
+        # Build set of explicit direct causal happens-before edges
+        direct_edges = {(edge["from"], edge["to"]): "BEFORE" for edge in causal_edges}
+        for edge in causal_edges:
+            direct_edges[(edge["to"], edge["from"])] = "AFTER"
+
+        total_evaluated = 0
+        correct_relations = 0
+        concurrent_tp = 0
+        concurrent_fp = 0
+
+        for pair, pred_rel in predicted_relations.items():
+            u, v = pair
+            if u not in true_seq or v not in true_seq:
+                continue
+            total_evaluated += 1
+            idx_u = true_seq.index(u)
+            idx_v = true_seq.index(v)
+
+            if idx_u < idx_v:
+                expected_rel = "BEFORE"
+            elif idx_u > idx_v:
+                expected_rel = "AFTER"
+            else:
+                expected_rel = "EQUAL"
+
+            if pred_rel == expected_rel:
+                correct_relations += 1
+            if pred_rel == "CONCURRENT":
+                if expected_rel == "EQUAL":
+                    concurrent_tp += 1
+                else:
+                    concurrent_fp += 1
+
+        accuracy = (correct_relations / total_evaluated) if total_evaluated > 0 else 1.0
+        return {
+            "actor_id": actor_id,
+            "total_evaluated_pairs": total_evaluated,
+            "correct_relations": correct_relations,
+            "relation_accuracy": round(accuracy, 4),
+            "concurrent_false_positives": concurrent_fp
         }
 
     def evaluate_correlation(self, predicted_clusters: List[List[str]], only_attack_clusters: bool = True) -> Dict[str, Any]:

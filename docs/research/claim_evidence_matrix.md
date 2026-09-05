@@ -25,5 +25,5 @@ This document establishes the formal **Claim-to-Evidence traceability matrix** f
 ### Status Criteria Definitions
 
 - **Verified (Algorithmic):** Evaluated against unlabeled telemetry using genuine feature extraction, distance metrics, and graph clustering evaluated by the independent `BenchmarkOracle`.
-- **Verified (Harness):** Software implementation and deterministic unit/integration test assertions passing ($56/56$ tests).
+- **Verified (Harness):** Software implementation and deterministic unit/integration test assertions passing ($73/73$ tests).
 - **Active In Progress (Physical Fleet):** Deployment to multi-node physical cloud honeypot fleet undergoing continuous longitudinal data collection.

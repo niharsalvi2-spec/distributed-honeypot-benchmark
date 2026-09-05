@@ -32,9 +32,31 @@ class ClockSkewGenerator:
             node = ev.get("target_node") or ev.get("node_id", "default_node")
             drift = self.get_node_skew(node)
             
-            true_ts = ev.get("timestamp", 1700000000.0)
-            ev_copy["_true_timestamp"] = true_ts
-            ev_copy["timestamp"] = true_ts + drift
+            real_ts = ev.get("real_timestamp")
+            if real_ts is None:
+                ts_raw = ev.get("timestamp", 1700000000.0)
+                if isinstance(ts_raw, (int, float)):
+                    real_ts = float(ts_raw)
+                else:
+                    try:
+                        from datetime import datetime
+                        real_ts = datetime.fromisoformat(ts_raw.replace("Z", "+00:00")).timestamp()
+                    except Exception:
+                        real_ts = 1700000000.0
+
+            skewed_ts = real_ts + drift
+            ev_copy["_true_timestamp"] = real_ts
+            ev_copy["skewed_timestamp"] = skewed_ts
             ev_copy["_applied_drift_sec"] = drift
+            if isinstance(ev.get("timestamp"), str):
+                from datetime import datetime
+                ev_copy["timestamp"] = datetime.utcfromtimestamp(skewed_ts).isoformat() + "Z"
+            else:
+                ev_copy["timestamp"] = skewed_ts
             skewed_events.append(ev_copy)
         return skewed_events
+
+    @classmethod
+    def inject_gaussian_drift(cls, events: List[Dict[str, Any]], max_skew_sec: float = 3.0, seed: int = 42) -> List[Dict[str, Any]]:
+        gen = cls(max_skew_sec=max_skew_sec, seed=seed)
+        return gen.apply_skew(events)

@@ -113,16 +113,56 @@ class RunManager:
         # 1. Generate immutable raw SHA-256 manifest
         raw_manifest = DataIntegrityManager.generate_raw_manifest(run_id, raw_dir, self.root)
 
-        # 2. Update final metrics in results/<run_id>/metrics.json
+        # 2. Update final metrics in results/<run_id>/metrics.json and results/<run_id>/metrics/summary.json
         metrics["run_id"] = run_id
         metrics["finalized_timestamp"] = datetime.utcnow().isoformat() + "Z"
         with open(os.path.join(results_dir, "metrics.json"), "w", encoding="utf-8") as f:
             json.dump(metrics, f, indent=2)
 
+        metrics_sub_dir = os.path.join(results_dir, "metrics")
+        os.makedirs(metrics_sub_dir, exist_ok=True)
+        with open(os.path.join(metrics_sub_dir, "summary.json"), "w", encoding="utf-8") as f:
+            json.dump(metrics, f, indent=2)
+
+        # 3. Create predictions directory and predictions.json
+        preds_sub_dir = os.path.join(results_dir, "predictions")
+        os.makedirs(preds_sub_dir, exist_ok=True)
+        preds_data = {
+            "run_id": run_id,
+            "experiment_id": run_id.split("_")[0],
+            "predictions_count": metrics.get("total_events_analyzed", metrics.get("total_nodes_correlated", 0)),
+            "summary": metrics
+        }
+        with open(os.path.join(preds_sub_dir, "predictions.json"), "w", encoding="utf-8") as f:
+            json.dump(preds_data, f, indent=2)
+
+        # 4. Create report directory and summary markdown
+        report_sub_dir = os.path.join(results_dir, "report")
+        os.makedirs(report_sub_dir, exist_ok=True)
+        report_md = f"""# Experiment Run Report: {run_id}
+
+- **Experiment ID**: {run_id.split('_')[0]}
+- **Finalized Timestamp**: {metrics['finalized_timestamp']}
+- **Status**: FINALIZED
+
+## Key Metrics Summary
+```json
+{json.dumps(metrics, indent=2)}
+```
+"""
+        with open(os.path.join(report_sub_dir, "summary.md"), "w", encoding="utf-8") as f:
+            f.write(report_md)
+
+        # Ensure repositories.json exists in results_dir
+        repo_ver_file = os.path.join(results_dir, "repository_versions.json")
+        repo_file = os.path.join(results_dir, "repositories.json")
+        if os.path.exists(repo_ver_file) and not os.path.exists(repo_file):
+            shutil.copy2(repo_ver_file, repo_file)
+
         with open(os.path.join(results_dir, "manifest.json"), "w", encoding="utf-8") as f:
             json.dump({"run_id": run_id, "metrics": metrics, "status": "FINALIZED"}, f, indent=2)
 
-        # 3. Create top-level official experiment manifest
+        # 5. Create top-level official experiment manifest
         exp_id = run_id.split("_")[0]
 
         # Read persisted execution_mode from metadata.json

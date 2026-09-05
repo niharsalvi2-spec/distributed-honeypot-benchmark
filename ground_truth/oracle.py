@@ -102,16 +102,18 @@ class BenchmarkOracle:
     def evaluate_partial_order(
         self,
         predicted_relations: Dict[Tuple[str, str], str],
-        actor_id: str = "ACTOR_ALPHA"
+        actor_id: str = "ACTOR_ALPHA",
+        true_sequence: Optional[List[str]] = None,
+        causal_dag: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
         Evaluates predicted partial order relations (BEFORE, AFTER, CONCURRENT, EQUAL)
         against true causal graph edges and topological constraints.
         predicted_relations: { ('evt-1', 'evt-2'): 'BEFORE' | 'CONCURRENT' | ... }
         """
-        chain = self.order_specs.get(actor_id, {})
-        true_seq = chain.get("linear_sequence", [])
-        causal_edges = chain.get("causal_edges", [])
+        chain = causal_dag or self.order_specs.get(actor_id, {})
+        true_seq = true_sequence or chain.get("linear_sequence", chain.get("nodes", []))
+        causal_edges = chain.get("causal_edges", chain.get("edges", []))
         
         # Build set of explicit direct causal happens-before edges
         direct_edges = {(edge["from"], edge["to"]): "BEFORE" for edge in causal_edges}

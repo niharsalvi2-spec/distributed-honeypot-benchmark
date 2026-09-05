@@ -1,0 +1,58 @@
+{
+  "skew_sweep": [
+    {
+      "skew_drift_ms": 0.0,
+      "physical_inversion_rate": 0.0,
+      "physical_kendall_tau": 1.0,
+      "physical_sra": 1.0,
+      "lamport_inversion_rate": 0.0,
+      "lamport_kendall_tau": 1.0,
+      "lamport_sra": 1.0
+    },
+    {
+      "skew_drift_ms": 100.0,
+      "physical_inversion_rate": 0.0,
+      "physical_kendall_tau": 1.0,
+      "physical_sra": 1.0,
+      "lamport_inversion_rate": 0.0,
+      "lamport_kendall_tau": 1.0,
+      "lamport_sra": 1.0
+    },
+    {
+      "skew_drift_ms": 500.0,
+      "physical_inversion_rate": 0.0,
+      "physical_kendall_tau": 1.0,
+      "physical_sra": 1.0,
+      "lamport_inversion_rate": 0.0,
+      "lamport_kendall_tau": 1.0,
+      "lamport_sra": 1.0
+    },
+    {
+      "skew_drift_ms": 1000.0,
+      "physical_inversion_rate": 0.0368,
+      "physical_kendall_tau": 0.9263,
+      "physical_sra": 0.9632,
+      "lamport_inversion_rate": 0.0,
+      "lamport_kendall_tau": 1.0,
+      "lamport_sra": 1.0
+    },
+    {
+      "skew_drift_ms": 2000.0,
+      "physical_inversion_rate": 0.0632,
+      "physical_kendall_tau": 0.8737,
+      "physical_sra": 0.9368,
+      "lamport_inversion_rate": 0.0,
+      "lamport_kendall_tau": 1.0,
+      "lamport_sra": 1.0
+    },
+    {
+      "skew_drift_ms": 5000.0,
+      "physical_inversion_rate": 0.2053,
+      "physical_kendall_tau": 0.5895,
+      "physical_sra": 0.7947,
+      "lamport_inversion_rate": 0.0,
+      "lamport_kendall_tau": 1.0,
+      "lamport_sra": 1.0
+    }
+  ]
+}

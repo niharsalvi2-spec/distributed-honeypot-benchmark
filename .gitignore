@@ -70,6 +70,8 @@ data/spool/
 data/normalized/E*_*
 data/processed/**/E*_*
 results/E*_*
+artifacts/experiment_manifests/E*_*
+artifacts/checksums/E*_*
 archive/failed_runs/*
 
 # Preserve baseline raw data and directory scaffolding

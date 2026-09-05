@@ -1,17 +1,28 @@
 {
   "trial": 21,
+  "trial_id": "trial_021",
   "seed": 42021,
+  "parameters": {
+    "num_actors": 3,
+    "noise_count": 4,
+    "clock_skew_ms": 1012.13,
+    "network_delay_ms": 40.78,
+    "packet_loss": 0.0713,
+    "jitter_ms": 15.62,
+    "total_events": 16,
+    "attack_events": 12
+  },
   "correlation": {
     "proposed_f1": 1.0,
     "proposed_precision": 1.0,
     "proposed_recall": 1.0,
     "contamination": 0,
-    "source_only_f1": 0.7143,
-    "temporal_only_f1": 0.6667
+    "source_only_f1": 0.7647,
+    "temporal_only_f1": 0.4828
   },
   "clocks": {
-    "physical_inversion_rate": 0.2121,
-    "physical_kendall_tau": 0.5757575757575757,
+    "physical_inversion_rate": 0.0455,
+    "physical_kendall_tau": 0.909090909090909,
     "lamport_inversion_rate": 0.0152,
     "lamport_kendall_tau": 0.9696969696969696,
     "vector_dag_accuracy": 0.9697

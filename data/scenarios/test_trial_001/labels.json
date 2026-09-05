@@ -1,0 +1,13 @@
+{
+  "ACTOR_ALPHA": [
+    "evt_stoch_a_1",
+    "evt_stoch_a_2",
+    "evt_stoch_a_3",
+    "evt_stoch_a_5",
+    "evt_stoch_a_6"
+  ],
+  "ACTOR_BETA": [
+    "evt_stoch_b_1",
+    "evt_stoch_b_3"
+  ]
+}

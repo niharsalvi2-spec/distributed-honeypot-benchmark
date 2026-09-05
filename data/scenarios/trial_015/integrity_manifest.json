@@ -1,0 +1,10 @@
+{
+  "trial_id": "trial_015",
+  "staged_files": {
+    "scenario.json": "e9ff65e8cdafb3851e9f2faf3711be671a51d5d06809259d92096c47806ce24c",
+    "ground_truth_dag.json": "9e43aeda203fad93d9a64c933b0b49e24e9a5463267f08274ea405722e7865f7",
+    "labels.json": "e95db248e20acf38bf9dcb404608f3eaca98e58ea0d962e7ecbaf23df2a223d6",
+    "parameters.json": "6cf638ed37bf3577fdb8bfa2c9baf98c5ccb8731be727bdcb5a38641bd3012b4"
+  },
+  "status": "IMMUTABLE_STAGE_COMPLETE"
+}

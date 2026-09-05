@@ -1,0 +1,80 @@
+{
+  "schema_version": "2.0.0",
+  "audit_name": "Independent Reproduction Certificate",
+  "status": "REPRODUCED_AND_VERIFIED",
+  "timestamp_utc": "2026-09-05T21:55:51.645228+00:00",
+  "environment": {
+    "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+    "platform": "win32"
+  },
+  "steps": {
+    "Configuration Integrity Check": {
+      "passed": true,
+      "duration_sec": 0.0,
+      "details": {
+        "benchmark_config": true,
+        "experiment_registry": true
+      }
+    },
+    "Automated Regression Test Suite": {
+      "passed": true,
+      "duration_sec": 4.009,
+      "details": {
+        "pytest_exit_code": 0,
+        "status": "ALL_TESTS_PASSED"
+      }
+    },
+    "E01 Baseline Multi-Sensor Pipeline": {
+      "passed": true,
+      "duration_sec": 1.12,
+      "details": {
+        "experiment_id": "E01",
+        "run_id": "E01_20260905_034",
+        "total_events_analyzed": 20,
+        "schema_compliance_rate": 1.0,
+        "mean_field_completeness": 1.0,
+        "distinct_repositories_verified": 7,
+        "protocols_verified": [
+          "MSSQL",
+          "SMB",
+          "SSH",
+          "TCP"
+        ],
+        "sessions_preserved": true,
+        "hypothesis_H1_supported": true,
+        "end_to_end_pipeline_verified": true,
+        "finalized_timestamp": "2026-09-05T21:55:50.785881Z"
+      }
+    },
+    "E07 Distributed Clock Ordering Experiment": {
+      "passed": true,
+      "duration_sec": 0.695,
+      "details": {
+        "experiment_id": "E07",
+        "run_id": "E07_20260905_014",
+        "physical_inversion_rate": 0.197,
+        "physical_kendall_tau": 0.6061,
+        "physical_sra": 0.803,
+        "lamport_inversion_rate": 0.0152,
+        "lamport_kendall_tau": 0.9697,
+        "lamport_sra": 0.9848,
+        "dag_partial_order_accuracy": 0.9697,
+        "total_evaluated_pairs": 132,
+        "hypothesis_H3a_supported": true,
+        "hypothesis_H3b_supported": true,
+        "finalized_timestamp": "2026-09-05T21:55:51.487281Z"
+      }
+    },
+    "30-Trial Monte Carlo Reproduction & Variance Audit": {
+      "passed": true,
+      "duration_sec": 0.158,
+      "details": {
+        "trials_evaluated": 30,
+        "metrics_verified": true,
+        "stochastic_variance_confirmed": true,
+        "hypotheses_confirmed": true
+      }
+    }
+  },
+  "reproducibility_score": 10.0
+}

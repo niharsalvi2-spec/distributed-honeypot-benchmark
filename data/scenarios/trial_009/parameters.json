@@ -1,0 +1,10 @@
+{
+  "num_actors": 3,
+  "noise_count": 6,
+  "clock_skew_ms": 3305.97,
+  "network_delay_ms": 22.59,
+  "packet_loss": 0.0473,
+  "jitter_ms": 65.12,
+  "total_events": 17,
+  "attack_events": 11
+}

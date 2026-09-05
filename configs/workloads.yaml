@@ -1,0 +1,3 @@
+workloads:
+  benign_rate: 10
+  attack_campaigns: [campaign_A, campaign_B, cross_service, interleaved]

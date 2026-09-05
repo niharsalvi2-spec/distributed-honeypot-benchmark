@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "command_event",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string"
+    },
+    "node_id": {
+      "type": "string"
+    },
+    "service_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_ip": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "event_id",
+    "node_id",
+    "service_id"
+  ]
+}

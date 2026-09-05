@@ -1,0 +1,25 @@
+# Node Failure Injection Schedule
+# Experiment: E08_node_failure
+
+experiment_id: "E08"
+fault_model: "crash_stop_and_recovery"
+
+fault_injections:
+  - trial_id: "trial_01"
+    target_node: "node_beta"
+    failure_type: "SIGKILL"
+    injection_offset_seconds: 15.0
+    recovery_offset_seconds: 35.0
+    expected_behavior: "Node stops telemetry emissions; heartbeat monitor alerts within 5s."
+
+  - trial_id: "trial_02"
+    target_node: "node_gamma"
+    failure_type: "network_blackhole"
+    injection_offset_seconds: 20.0
+    recovery_offset_seconds: 40.0
+    expected_behavior: "Packets to node drop silently; local buffer begins spooling."
+
+evaluation_criteria:
+  max_acceptable_recovery_sec: 10.0
+  event_loss_rate_limit: 0.15
+  zero_loss_post_reconnect: true

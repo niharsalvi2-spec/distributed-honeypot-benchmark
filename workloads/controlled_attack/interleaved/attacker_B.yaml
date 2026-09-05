@@ -1,0 +1,5 @@
+attacker_id: ATTACKER-BETA
+ip: 198.51.100.99
+rate_hz: 0.2
+strategy: stealth_slow_probe
+events_count: 5

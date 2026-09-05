@@ -1,0 +1,14 @@
+{
+  "name": "honeytrap",
+  "url": "https://github.com/honeytrap/honeytrap.git",
+  "tier": "secondary",
+  "latest_commit_hash": "05965fc67deab17b48e43873abc5f509067ef098",
+  "author": "Rados\u0142aw Panuszewski",
+  "author_email": "radoslaw.panuszewski15@gmail.com",
+  "commit_date": "Mon Dec 20 13:12:07 2021 +0100",
+  "commit_subject": "Fix producing events to kafka channel (#506)",
+  "status": "EXTRACTED",
+  "local_path": "c:\\Users\\nihar\\Desktop\\Acedemics\\DS\\Benchmarking Project\\distributed-honeypot-benchmark\\repositories\\secondary\\honeytrap\\source",
+  "total_source_files": 318,
+  "total_source_bytes": 1636041
+}

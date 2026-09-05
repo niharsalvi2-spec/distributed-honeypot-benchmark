@@ -1,0 +1,4 @@
+nodes:
+  - { id: node_01, role: sensor, services: [ssh], ip: 172.28.0.21 }
+  - { id: node_02, role: sensor, services: [ftp, http], ip: 172.28.0.22 }
+  - { id: node_03, role: collector, ip: 172.28.0.10 }

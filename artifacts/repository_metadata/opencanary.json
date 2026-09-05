@@ -1,0 +1,14 @@
+{
+  "name": "opencanary",
+  "url": "https://github.com/thinkst/opencanary.git",
+  "tier": "primary",
+  "latest_commit_hash": "86f072541e3f2f4916699bfdf8ae672f44eea10e",
+  "author": "Ion",
+  "author_email": "ivanterescheenko@gmail.com",
+  "commit_date": "Thu Aug 13 09:52:47 2026 +0200",
+  "commit_subject": "docs: fix config file precedence order in README (#500)",
+  "status": "EXTRACTED",
+  "local_path": "c:\\Users\\nihar\\Desktop\\Acedemics\\DS\\Benchmarking Project\\distributed-honeypot-benchmark\\repositories\\primary\\opencanary\\source",
+  "total_source_files": 294,
+  "total_source_bytes": 7163638
+}

@@ -1,0 +1,5 @@
+experiment_id: E07
+description: Automated configuration for E07
+iterations: 10
+timeout_seconds: 300
+collect_metrics: true

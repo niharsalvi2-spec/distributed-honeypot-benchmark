@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this benchmark suite or baseline evaluation methodology, please cite it as below."
+authors:
+  - name: "Team Gamergenix"
+    affiliation: "Pimpri Chinchwad College of Engineering, Pune"
+title: "Distributed Honeypot Benchmark Framework: Evaluating Event Ordering, Cross-Service Correlation, and Attacker Profiling"
+version: 1.0.0
+date-released: 2026-08-15
+url: "https://github.com/gamergenix/distributed-honeypot-benchmark"
+keywords:
+  - distributed systems
+  - honeypots
+  - event correlation
+  - lamport clocks
+  - attack sequence reconstruction

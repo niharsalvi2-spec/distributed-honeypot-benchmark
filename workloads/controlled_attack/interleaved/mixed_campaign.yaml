@@ -1,0 +1,8 @@
+campaign_type: interleaved_concurrent
+actors:
+- ATTACKER-ALPHA
+- ATTACKER-BETA
+total_duration_sec: 30.0
+expected_separation_criteria:
+- source_ip
+- session_fingerprint

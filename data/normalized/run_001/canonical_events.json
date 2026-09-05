@@ -1,0 +1,50 @@
+[
+  {
+    "event_id": "can_c8f18a1f",
+    "node_id": "node_cowrie",
+    "service_id": "cowrie",
+    "transport_protocol": "TCP",
+    "source": {
+      "ip": "127.0.0.1",
+      "port": 0
+    },
+    "timestamps": {
+      "physical_raw": "2026-09-05T17:08:50.901817Z",
+      "physical_ingested": "2026-09-05T17:08:50.901817Z",
+      "lamport_logical": 0,
+      "vector_clock": {}
+    },
+    "event_type": "GENERIC_EVENT",
+    "payload_features": {},
+    "data_lineage": {
+      "run_id": "run_001",
+      "raw_repo": "cowrie",
+      "raw_checksum": "59f9f6e0068728ca6fa981d1d85c5be8568d3cca54f3514b16f6b3d9876f044f",
+      "normalization_timestamp": "2026-09-05T17:08:50.901817Z"
+    }
+  },
+  {
+    "event_id": "can_bfb9edd0",
+    "node_id": "node_cowrie",
+    "service_id": "cowrie",
+    "transport_protocol": "TCP",
+    "source": {
+      "ip": "127.0.0.1",
+      "port": 0
+    },
+    "timestamps": {
+      "physical_raw": "2026-09-05T17:08:50.904930Z",
+      "physical_ingested": "2026-09-05T17:08:50.904930Z",
+      "lamport_logical": 0,
+      "vector_clock": {}
+    },
+    "event_type": "GENERIC_EVENT",
+    "payload_features": {},
+    "data_lineage": {
+      "run_id": "run_001",
+      "raw_repo": "cowrie",
+      "raw_checksum": "bf328633563dd5f1ca12e947b3ed60d50348d1b2240766c325eda49b544827a6",
+      "normalization_timestamp": "2026-09-05T17:08:50.904930Z"
+    }
+  }
+]

@@ -1,0 +1,5 @@
+services:
+  ssh: { port: 2222, proto: TCP }
+  ftp: { port: 2121, proto: TCP }
+  http: { port: 8080, proto: TCP }
+  smb: { port: 4450, proto: TCP }

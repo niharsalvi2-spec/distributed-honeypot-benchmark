@@ -1,0 +1,8 @@
+experiment: E09_partition_tolerance
+fault_type: bipartite_split
+partition_schedule:
+- start_sec: 10.0
+  end_sec: 30.0
+  isolated_nodes:
+  - node_gamma
+  reconnection_strategy: drain_local_queue

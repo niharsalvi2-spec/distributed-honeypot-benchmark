@@ -1,0 +1,5 @@
+version: '3.8'
+services:
+  dionaea:
+    build: .
+    container_name: benchmark_dionaea

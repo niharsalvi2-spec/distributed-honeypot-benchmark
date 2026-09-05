@@ -1,0 +1,8 @@
+capability,cowrie,opencanary,tpot,dionaea,mhn,proposed
+interactive_ssh,YES,YES,YES,NO,YES,YES
+interactive_ftp,NO,YES,NO,YES,NO,YES
+interactive_http,NO,YES,YES,YES,NO,YES
+distributed_nodes,NO,NO,NO,NO,YES,YES
+logical_clocks,NO,NO,NO,NO,NO,YES
+cross_service_correlation,NO,NO,NO,NO,NO,YES
+unified_attacker_profile,NO,NO,NO,NO,NO,YES

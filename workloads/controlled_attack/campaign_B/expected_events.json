@@ -1,0 +1,30 @@
+[
+  {
+    "event_id": "E_CAMP_B_001",
+    "service": "smb",
+    "source_ip": "203.0.113.15",
+    "node_id": "node_alpha",
+    "action": "MS17_010_PROBE"
+  },
+  {
+    "event_id": "E_CAMP_B_002",
+    "service": "modbus",
+    "source_ip": "203.0.113.88",
+    "node_id": "node_beta",
+    "action": "READ_COILS"
+  },
+  {
+    "event_id": "E_CAMP_B_003",
+    "service": "ssh",
+    "source_ip": "203.0.113.99",
+    "node_id": "node_gamma",
+    "action": "BOT_PROPAGATION"
+  },
+  {
+    "event_id": "E_CAMP_B_004",
+    "service": "smb",
+    "source_ip": "203.0.113.15",
+    "node_id": "node_beta",
+    "action": "RANSOMWARE_ENCRYPT"
+  }
+]

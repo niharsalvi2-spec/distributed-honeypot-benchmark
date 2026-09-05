@@ -1,0 +1,18 @@
+{
+  "run_id": "E03_20260905_002",
+  "experiment": "E03",
+  "timestamp": "2026-09-05T18:44:02.054143Z",
+  "execution_mode": "native",
+  "repositories": {},
+  "nodes": 3,
+  "configuration": "configs/experiments/E03.yaml",
+  "workload": "workloads/controlled_attack/E03",
+  "clock_configuration": {
+    "physical": true,
+    "lamport": true,
+    "vector": true
+  },
+  "raw_data": {
+    "sha256_root": "EMPTY_RAW"
+  }
+}

@@ -1,0 +1,4 @@
+metric,baseline,proposed
+precision,0.42,0.89
+recall,0.38,0.92
+f1,0.40,0.905

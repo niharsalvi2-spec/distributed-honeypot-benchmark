@@ -1,0 +1,4 @@
+target_eps: 250
+duration_sec: 30
+num_concurrent_clients: 15
+payload_distribution: gaussian

@@ -1,0 +1,20 @@
+workload_type: benign_ftp_transfer
+protocol: ftp
+description: PASV directory listing and archive file transmission.
+transfers:
+- offset: 1.0
+  command: PWD
+  status: 257
+- offset: 2.0
+  command: PASV
+  status: 227
+- offset: 3.0
+  command: LIST
+  status: 150
+- offset: 5.0
+  command: RETR daily_report.csv
+  status: 226
+  bytes: 45020
+- offset: 8.0
+  command: QUIT
+  status: 221

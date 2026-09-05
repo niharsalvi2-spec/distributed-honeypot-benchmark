@@ -1,0 +1,6 @@
+global:
+  scrape_interval: 5s
+scrape_configs:
+  - job_name: 'benchmark_nodes'
+    static_configs:
+      - targets: ['collector:8000', 'node-exporter:9100']

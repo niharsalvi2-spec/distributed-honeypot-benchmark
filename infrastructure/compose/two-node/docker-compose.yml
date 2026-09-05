@@ -1,0 +1,10 @@
+# Topology: two-node
+version: '3.8'
+networks:
+  benchmark-net:
+    driver: bridge
+services:
+  collector:
+    image: benchmark_collector:latest
+    networks:
+      - benchmark-net

@@ -1,0 +1,4 @@
+target_eps: 1000
+duration_sec: 30
+num_concurrent_clients: 50
+payload_distribution: bursty

@@ -1,0 +1,14 @@
+experiment: E07_clock_perturbation
+fault_type: physical_clock_skew
+scenarios:
+- id: symmetric_drift
+  drift_rate_ppm: 200
+  description: Gradual positive clock drift
+- id: asymmetric_step_offset
+  node_offsets_ms:
+    node_alpha: 0
+    node_beta: 5000
+    node_gamma: -3500
+- id: random_jitter
+  jitter_std_ms: 150.0
+  distribution: gaussian

@@ -1,0 +1,14 @@
+{
+  "name": "tpot",
+  "url": "https://github.com/telekom-security/tpotce.git",
+  "tier": "primary",
+  "latest_commit_hash": "3fefebaff4a632fd8d12f88f4d68fd99bd697ed8",
+  "author": "Marco Ochse",
+  "author_email": "m.ochse@telekom.de",
+  "commit_date": "Fri Sep 4 12:10:42 2026 +0200",
+  "commit_subject": "fix: update CERT contact link for responsible issue reporting",
+  "status": "EXTRACTED",
+  "local_path": "c:\\Users\\nihar\\Desktop\\Acedemics\\DS\\Benchmarking Project\\distributed-honeypot-benchmark\\repositories\\primary\\tpot\\source",
+  "total_source_files": 2275,
+  "total_source_bytes": 100702822
+}

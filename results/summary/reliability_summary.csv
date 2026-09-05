@@ -1,0 +1,3 @@
+scenario,events_lost,recovery_status
+node_drop,0,RECOVERED
+collector_restart,0,RECOVERED

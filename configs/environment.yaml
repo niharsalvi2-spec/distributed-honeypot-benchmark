@@ -1,0 +1,5 @@
+platform: docker
+isolation_level: bridge
+resource_limits:
+  cpu: 2.0
+  memory: 4GB

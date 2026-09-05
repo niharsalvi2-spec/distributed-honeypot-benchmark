@@ -1,0 +1,12 @@
+experiment: E08_node_failure
+fault_type: node_crash_stop
+crash_schedule:
+- node_id: node_beta
+  crash_at_sec: 10.0
+  recover_at_sec: 25.0
+  behavior: power_loss
+- node_id: node_gamma
+  crash_at_sec: 18.0
+  recover_at_sec: 22.0
+  behavior: clean_shutdown
+expected_recovery_window_sec: 5.0

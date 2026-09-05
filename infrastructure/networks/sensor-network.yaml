@@ -1,0 +1,6 @@
+name: sensor-network
+driver: bridge
+enable_ipv6: false
+ipam:
+  config:
+    - subnet: 172.29.0.0/16

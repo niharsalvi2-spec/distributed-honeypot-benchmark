@@ -1,0 +1,12 @@
+workload_type: benign_session_termination
+protocol: ssh
+description: Graceful session tear-down, idle timeout, and client socket closures.
+termination_events:
+- session_id: sess_benign_001
+  offset: 15.0
+  reason: client_exit
+  exit_code: 0
+- session_id: sess_benign_002
+  offset: 300.0
+  reason: idle_timeout
+  exit_code: 142

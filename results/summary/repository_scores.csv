@@ -1,0 +1,8 @@
+repository,interaction,distributed,services,ordering,score
+cowrie,Medium,No,SSH/Telnet,Physical,58
+opencanary,Low,No,Multi,Physical,52
+tpot,Mixed,No,Multi,Physical,64
+dionaea,Medium,No,Multi,Physical,55
+mhn,Mixed,Yes,Multi,Physical,68
+conpot,Low,No,ICS,Physical,45
+honeytrap,Low,No,Multi,Physical,48

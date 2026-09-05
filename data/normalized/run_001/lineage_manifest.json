@@ -1,0 +1,9 @@
+{
+  "run_id": "run_001",
+  "repo": "cowrie",
+  "raw_source_dir": "c:\\Users\\nihar\\Desktop\\Acedemics\\DS\\Benchmarking Project\\distributed-honeypot-benchmark\\data\\raw\\cowrie\\run_001",
+  "normalized_file": "c:\\Users\\nihar\\Desktop\\Acedemics\\DS\\Benchmarking Project\\distributed-honeypot-benchmark\\data\\normalized\\run_001\\canonical_events.json",
+  "event_count": 2,
+  "pipeline_stage": "NORMALIZED",
+  "timestamp": "2026-09-05T17:08:50.904930Z"
+}

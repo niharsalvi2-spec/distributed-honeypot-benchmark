@@ -1,0 +1,14 @@
+{
+  "name": "dionaea",
+  "url": "https://github.com/DinoTools/dionaea.git",
+  "tier": "primary",
+  "latest_commit_hash": "4e459f1b672a5b4c1e8335c0bff1b93738019215",
+  "author": "PhiBo",
+  "author_email": "phibo@dinotools.org",
+  "commit_date": "Mon Feb 8 06:48:52 2021 +0100",
+  "commit_subject": "git - Merge pull request #320 from Jc2k/hpfeeds_fix_reconnect",
+  "status": "EXTRACTED",
+  "local_path": "c:\\Users\\nihar\\Desktop\\Acedemics\\DS\\Benchmarking Project\\distributed-honeypot-benchmark\\repositories\\primary\\dionaea\\source",
+  "total_source_files": 350,
+  "total_source_bytes": 2190041
+}

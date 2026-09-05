@@ -1,0 +1,24 @@
+# Collector Daemon Failure Injection Schedule
+# Experiment: E09_collector_failure
+
+experiment_id: "E09"
+fault_model: "ingestion_daemon_crash_and_recovery"
+
+fault_injections:
+  - trial_id: "trial_collector_outage"
+    target_component: "http_ingestor_daemon"
+    failure_type: "process_termination"
+    injection_offset_seconds: 10.0
+    outage_duration_seconds: 20.0
+    recovery_offset_seconds: 30.0
+    client_spool_policy: "persistent_disk_queue"
+
+spool_configuration:
+  spool_directory: "data/spool"
+  max_memory_buffer_size: 5000
+  disk_sync_interval_ms: 100
+
+evaluation_criteria:
+  expected_event_loss_rate: 0.0
+  zero_loss_guaranteed: true
+  max_drain_latency_seconds: 5.0

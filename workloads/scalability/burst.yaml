@@ -1,0 +1,4 @@
+burst_peak_eps: 3000
+burst_duration_sec: 2.0
+idle_interval_sec: 5.0
+burst_cycles: 5

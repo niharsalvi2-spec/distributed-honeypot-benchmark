@@ -1,0 +1,15 @@
+name: Triple Cross-Service Attack
+attacker_ip: 198.51.100.111
+chain:
+- step: 1
+  service: http
+  action: SQL_INJECTION
+  t: 0.0
+- step: 2
+  service: ssh
+  action: LATERAL_LOGIN
+  t: 5.0
+- step: 3
+  service: ftp
+  action: EXFILTRATION
+  t: 12.0

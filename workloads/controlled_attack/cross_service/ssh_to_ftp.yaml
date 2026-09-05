@@ -1,0 +1,11 @@
+name: 'Cross-Service Pivot: SSH to FTP'
+attacker_ip: 198.51.100.111
+stages:
+- t: 0.0
+  service: ssh
+  action: DUMP_CREDENTIALS
+  command: cat /var/www/.env
+- t: 8.0
+  service: ftp
+  action: DATA_STAGING
+  command: STOR stolen_data.tar.gz

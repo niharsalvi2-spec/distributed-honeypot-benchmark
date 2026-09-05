@@ -1,0 +1,14 @@
+{
+  "name": "mhn",
+  "url": "https://github.com/pwnlandia/mhn.git",
+  "tier": "primary",
+  "latest_commit_hash": "2fa4f7727ad6bf1a7b7cb440f5cfc8320099362c",
+  "author": "Brady Sullivan",
+  "author_email": "brady@bsull.com",
+  "commit_date": "Tue Dec 12 21:50:40 2023 -0800",
+  "commit_subject": "Merge pull request #868 from pwnlandia/2023-project-announcement",
+  "status": "EXTRACTED",
+  "local_path": "c:\\Users\\nihar\\Desktop\\Acedemics\\DS\\Benchmarking Project\\distributed-honeypot-benchmark\\repositories\\primary\\mhn\\source",
+  "total_source_files": 389,
+  "total_source_bytes": 1386166
+}

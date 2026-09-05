@@ -1,0 +1,26 @@
+campaign_id: CAMP-B-DISTRIBUTED-BOTNET
+steps:
+- step_id: SB1
+  offset_sec: 0.0
+  ip: 203.0.113.15
+  node: node_alpha
+  service: smb
+  action: MS17_010_PROBE
+- step_id: SB2
+  offset_sec: 3.0
+  ip: 203.0.113.88
+  node: node_beta
+  service: modbus
+  action: READ_COILS
+- step_id: SB3
+  offset_sec: 8.0
+  ip: 203.0.113.99
+  node: node_gamma
+  service: ssh
+  action: BOT_PROPAGATION
+- step_id: SB4
+  offset_sec: 14.0
+  ip: 203.0.113.15
+  node: node_beta
+  service: smb
+  action: RANSOMWARE_ENCRYPT

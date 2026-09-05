@@ -1,0 +1,3 @@
+clock_mode: VECTOR_CLOCK
+simulate_skew: true
+max_skew_ms: 1000

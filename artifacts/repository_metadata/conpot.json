@@ -1,0 +1,14 @@
+{
+  "name": "conpot",
+  "url": "https://github.com/mushorg/conpot.git",
+  "tier": "secondary",
+  "latest_commit_hash": "9bbcc7ccaace002ef49e17e6893e1e68209eed55",
+  "author": "Lukas Rist",
+  "author_email": "glaslos@gmail.com",
+  "commit_date": "Sat Sep 5 13:37:05 2026 +0200",
+  "commit_subject": "improved modbus invalid request handling",
+  "status": "EXTRACTED",
+  "local_path": "c:\\Users\\nihar\\Desktop\\Acedemics\\DS\\Benchmarking Project\\distributed-honeypot-benchmark\\repositories\\secondary\\conpot\\source",
+  "total_source_files": 254,
+  "total_source_bytes": 1456734
+}

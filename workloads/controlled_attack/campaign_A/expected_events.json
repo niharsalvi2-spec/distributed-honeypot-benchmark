@@ -1,0 +1,56 @@
+[
+  {
+    "event_id": "E_CAMP_A_001",
+    "stage": "Reconnaissance",
+    "service": "http",
+    "action": "RECON_SCAN",
+    "source_ip": "198.51.100.42",
+    "node_id": "node_alpha",
+    "parent_event_id": null
+  },
+  {
+    "event_id": "E_CAMP_A_002",
+    "stage": "Initial Access",
+    "service": "http",
+    "action": "VULN_EXPLOIT",
+    "source_ip": "198.51.100.42",
+    "node_id": "node_alpha",
+    "parent_event_id": "E_CAMP_A_001"
+  },
+  {
+    "event_id": "E_CAMP_A_003",
+    "stage": "Execution",
+    "service": "ssh",
+    "action": "BRUTE_FORCE",
+    "source_ip": "198.51.100.42",
+    "node_id": "node_alpha",
+    "parent_event_id": "E_CAMP_A_002"
+  },
+  {
+    "event_id": "E_CAMP_A_004",
+    "stage": "Privilege Escalation",
+    "service": "ssh",
+    "action": "SUCCESS_LOGIN",
+    "source_ip": "198.51.100.42",
+    "node_id": "node_alpha",
+    "parent_event_id": "E_CAMP_A_003"
+  },
+  {
+    "event_id": "E_CAMP_A_005",
+    "stage": "Execution",
+    "service": "ssh",
+    "action": "EXEC_SHELL",
+    "source_ip": "198.51.100.42",
+    "node_id": "node_alpha",
+    "parent_event_id": "E_CAMP_A_004"
+  },
+  {
+    "event_id": "E_CAMP_A_006",
+    "stage": "Exfiltration",
+    "service": "ftp",
+    "action": "PIVOT_EXFIL",
+    "source_ip": "198.51.100.42",
+    "node_id": "node_beta",
+    "parent_event_id": "E_CAMP_A_005"
+  }
+]

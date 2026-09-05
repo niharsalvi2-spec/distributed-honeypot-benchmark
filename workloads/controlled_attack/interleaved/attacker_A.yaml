@@ -1,0 +1,5 @@
+attacker_id: ATTACKER-ALPHA
+ip: 192.0.2.77
+rate_hz: 5.0
+strategy: brute_force_flood
+events_count: 20

@@ -1,0 +1,5 @@
+experiment_id: E05
+description: Automated configuration for E05
+iterations: 10
+timeout_seconds: 300
+collect_metrics: true

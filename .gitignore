@@ -1,0 +1,81 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables & secrets
+.env
+*.pem
+*.key
+
+# Cloned third-party audit repositories (audited in Phase 1)
+repositories/primary/
+repositories/secondary/
+
+# Scratch & temporary scripts
+scratch/
+
+# Test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Transient experiment run data
+data/raw/**/E*_*
+data/raw/E*_*
+data/raw/cross_service/
+data/raw/distributed/
+data/raw/failure/
+data/raw/interleaved/
+data/raw/scalability/
+data/raw/skewed/
+data/raw/spool_recovery/
+data/spool/
+data/normalized/E*_*
+data/processed/**/E*_*
+results/E*_*
+archive/failed_runs/*
+
+# Preserve baseline raw data and directory scaffolding
+!data/raw/**/run_001/
+!data/raw/**/run_001/*
+!data/raw/**/.gitkeep
+!data/normalized/**/.gitkeep
+!data/processed/**/.gitkeep
+!results/**/.gitkeep

@@ -1,0 +1,5 @@
+hypothesis,test,stat,p_value,result
+H1_Distributed_Observation,Mann-Whitney U,14.5,0.0002,REJECT_NULL
+H2_Cross_Node_Correlation,Paired t-test,8.92,1e-05,REJECT_NULL
+H3_Logical_Event_Ordering,Wilcoxon Signed-Rank,0.0,5e-05,REJECT_NULL
+H4_Scalability,Linear Regression,0.985,1e-05,REJECT_NULL

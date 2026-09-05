@@ -1,0 +1,56 @@
+# Scalability & Stress Benchmark Configuration
+# Distributed Honeypot Benchmark Framework
+
+experiment:
+  id: "E10_scalability"
+  title: "Multi-Node Load Scaling and Resource Consumption Profiling"
+
+topology_scaling:
+  node_steps: [1, 2, 3, 5, 10]
+  topology_modes:
+    - "single_node_baseline"
+    - "three_node_cluster"
+    - "five_node_tier"
+    - "ten_node_distributed_fabric"
+
+workload_intensities:
+  low:
+    target_eps: 50
+    concurrency: 5
+    duration_seconds: 30
+    payload_distribution: "constant"
+  medium:
+    target_eps: 250
+    concurrency: 15
+    duration_seconds: 45
+    payload_distribution: "gaussian"
+  high:
+    target_eps: 1000
+    concurrency: 50
+    duration_seconds: 60
+    payload_distribution: "poisson"
+  burst:
+    peak_eps: 3000
+    burst_duration_sec: 2.0
+    idle_duration_sec: 5.0
+    cycles: 5
+
+profiling_metrics:
+  cpu:
+    sample_interval_ms: 250
+    record_percentiles: [50, 90, 95, 99]
+  memory:
+    sample_interval_ms: 500
+    track_resident_set_size: true
+    track_virtual_memory: true
+    leak_detection_window_sec: 30
+  disk:
+    track_raw_growth: true
+    track_normalized_growth: true
+    compression_ratio: true
+
+saturation_thresholds:
+  max_acceptable_latency_ms: 100.0
+  max_acceptable_cpu_percent: 85.0
+  max_acceptable_memory_mb: 512.0
+  queue_overflow_drop_policy: "spool_to_disk"

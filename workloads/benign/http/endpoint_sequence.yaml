@@ -1,0 +1,16 @@
+workload_type: benign_endpoint_exploration
+protocol: http
+description: Periodic health checks and robot crawler indexing.
+probes:
+- offset: 0.0
+  method: GET
+  path: /robots.txt
+  status_code: 200
+- offset: 10.0
+  method: GET
+  path: /sitemap.xml
+  status_code: 404
+- offset: 60.0
+  method: GET
+  path: /healthz
+  status_code: 200

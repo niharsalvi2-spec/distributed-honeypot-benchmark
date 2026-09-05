@@ -1,0 +1,12 @@
+campaign_id: CAMP-B-DISTRIBUTED-BOTNET
+description: Coordinated multi-source botnet probe targeting Modbus and SMB across
+  nodes.
+attacker_ips:
+- 203.0.113.15
+- 203.0.113.88
+- 203.0.113.99
+nodes_targeted:
+- node_alpha
+- node_beta
+- node_gamma
+total_stages: 4

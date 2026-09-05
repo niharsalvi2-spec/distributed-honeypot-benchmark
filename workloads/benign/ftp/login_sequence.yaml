@@ -1,0 +1,14 @@
+workload_type: benign_ftp_auth
+protocol: ftp
+description: Authorized automated backup upload and anonymous archive exploration.
+logins:
+- offset: 0.0
+  user: anonymous
+  password: guest@example.com
+  success: true
+  ip: 10.0.0.30
+- offset: 15.0
+  user: backup_user
+  password: BackupVault2026!
+  success: true
+  ip: 10.0.0.4

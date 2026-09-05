@@ -1,0 +1,12 @@
+name: 'Cross-Service Pivot: HTTP to SSH'
+attacker_ip: 198.51.100.111
+stages:
+- t: 0.0
+  service: http
+  action: DIRECTORY_TRAVERSAL
+  path: /view?file=../../.ssh/id_rsa
+- t: 6.5
+  service: ssh
+  action: KEY_BASED_LOGIN
+  key: stolen_id_rsa
+  status: 200

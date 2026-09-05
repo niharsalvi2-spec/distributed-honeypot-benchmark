@@ -1,0 +1,6 @@
+groups:
+  - name: benchmark_alerts
+    rules:
+      - alert: NodeDown
+        expr: up == 0
+        for: 10s

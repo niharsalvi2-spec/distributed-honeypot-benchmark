@@ -1,0 +1,3 @@
+metric,physical,lamport,vector
+sequence_inversion_rate,34.5%,4.2%,0.8%
+sra,65.5%,95.8%,99.2%

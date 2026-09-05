@@ -1,0 +1,30 @@
+workload_type: benign_web_traffic
+protocol: http
+description: Standard browsing traffic hitting static assets, documentation, and user
+  dashboard.
+requests:
+- offset: 0.0
+  method: GET
+  path: /
+  status_code: 200
+  user_agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+- offset: 0.4
+  method: GET
+  path: /static/css/theme.css
+  status_code: 200
+  user_agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+- offset: 0.8
+  method: GET
+  path: /static/js/app.js
+  status_code: 200
+  user_agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+- offset: 1.2
+  method: GET
+  path: /favicon.ico
+  status_code: 200
+  user_agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+- offset: 4.5
+  method: GET
+  path: /api/v1/health
+  status_code: 200
+  user_agent: curl/7.88.1

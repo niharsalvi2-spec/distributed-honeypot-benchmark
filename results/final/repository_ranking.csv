@@ -1,0 +1,4 @@
+rank,name,verdict
+1,MHN,Distributed but uncoordinated
+2,T-Pot,Multi-sensor but single host
+3,Cowrie,SSH only; no cross-service correlation

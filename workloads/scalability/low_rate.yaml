@@ -1,0 +1,4 @@
+target_eps: 50
+duration_sec: 20
+num_concurrent_clients: 5
+payload_distribution: constant

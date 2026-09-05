@@ -1,0 +1,14 @@
+{
+  "name": "cowrie",
+  "url": "https://github.com/cowrie/cowrie.git",
+  "tier": "primary",
+  "latest_commit_hash": "3e8f0682f483c232076ab77a43a57f8d7187408b",
+  "author": "Krishnashis Das",
+  "author_email": "81500145+I-am-Krish@users.noreply.github.com",
+  "commit_date": "Sun Aug 23 04:52:12 2026 +0530",
+  "commit_subject": "fix(mkdir): catch OSError and process all arguments (#40583)",
+  "status": "EXTRACTED",
+  "local_path": "c:\\Users\\nihar\\Desktop\\Acedemics\\DS\\Benchmarking Project\\distributed-honeypot-benchmark\\repositories\\primary\\cowrie\\source",
+  "total_source_files": 520,
+  "total_source_bytes": 3709202
+}

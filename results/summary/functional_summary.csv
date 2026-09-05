@@ -1,0 +1,3 @@
+metric,baseline,proposed
+event_coverage,45%,92%
+schema_fidelity,0.65,0.98

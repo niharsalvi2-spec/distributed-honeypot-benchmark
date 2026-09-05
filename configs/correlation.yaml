@@ -1,0 +1,8 @@
+weights:
+  source: 0.35
+  temporal: 0.25
+  behavior: 0.25
+  order: 0.15
+thresholds:
+  high: 0.75
+  low: 0.45

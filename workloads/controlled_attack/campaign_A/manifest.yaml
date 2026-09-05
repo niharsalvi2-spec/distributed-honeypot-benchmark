@@ -1,0 +1,14 @@
+campaign_id: CAMP-A-MULTI-STAGE
+attacker_ip: 198.51.100.42
+description: Multi-stage advanced attack progressing through reconnaissance, web exploitation,
+  SSH pivot, and exfiltration.
+nodes_targeted:
+- node_alpha
+- node_beta
+total_stages: 5
+kill_chain_phases:
+- Reconnaissance
+- Initial Access
+- Execution & Persistence
+- Privilege Escalation
+- Exfiltration

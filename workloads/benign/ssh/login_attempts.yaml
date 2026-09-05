@@ -1,0 +1,40 @@
+workload_type: benign_authentication
+protocol: ssh
+description: Realistic benign administrative access patterns with routine authentication
+  and occasional typo recovery.
+attempts:
+- timestamp_offset: 0.0
+  user: sysadmin
+  password: CorrectPassword2026!
+  source_ip: 10.0.0.15
+  port: 2222
+  success: true
+  auth_type: password
+- timestamp_offset: 5.2
+  user: developer
+  password: DevPassWrong123
+  source_ip: 10.0.0.22
+  port: 2222
+  success: false
+  auth_type: password
+- timestamp_offset: 7.8
+  user: developer
+  password: DevPassCorrect2026!
+  source_ip: 10.0.0.22
+  port: 2222
+  success: true
+  auth_type: password
+- timestamp_offset: 14.1
+  user: ansible-deployer
+  key_fingerprint: SHA256:4a3b8c9d0e1f2a3b
+  source_ip: 10.0.0.5
+  port: 2222
+  success: true
+  auth_type: publickey
+- timestamp_offset: 22.0
+  user: monitor_agent
+  password: HealthCheckPass!1
+  source_ip: 10.0.0.2
+  port: 2222
+  success: true
+  auth_type: password

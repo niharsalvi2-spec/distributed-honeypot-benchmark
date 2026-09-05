@@ -1,0 +1,6 @@
+repositories:
+  cowrie: { tier: primary, version: 'v2.6.0' }
+  opencanary: { tier: primary, version: 'v0.9.0' }
+  tpot: { tier: primary, version: '24.04' }
+  dionaea: { tier: primary, version: '0.11.0' }
+  mhn: { tier: primary, version: 'v2.0' }

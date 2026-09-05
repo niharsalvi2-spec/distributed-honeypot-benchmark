@@ -1,0 +1,2 @@
+metric,ci_lower,ci_upper,confidence
+f1_score,0.884,0.922,95%

@@ -1,0 +1,5 @@
+experiment: E09_collector_failure
+fault_type: ingestion_daemon_crash
+outage_duration_sec: 15.0
+client_buffer_capacity_events: 10000
+drop_policy: spool_to_disk

@@ -1,0 +1,37 @@
+workload_type: benign_terminal_session
+protocol: ssh
+description: Standard interactive maintenance commands executed during an authorized
+  shell session.
+commands:
+- offset: 1.0
+  command: whoami
+  expected_output: 'sysadmin
+
+    '
+- offset: 2.5
+  command: uname -a
+  expected_output: 'Linux honeypot-node 5.15.0- generic x86_64
+
+    '
+- offset: 4.0
+  command: df -h
+  expected_output: 'Filesystem      Size  Used Avail Use% Mounted on
+
+    /dev/sda1        50G   12G   36G  25% /
+
+    '
+- offset: 6.8
+  command: uptime
+  expected_output: ' 12:34:56 up 45 days,  2:15,  1 user,  load average: 0.12, 0.08,
+    0.05
+
+    '
+- offset: 9.2
+  command: systemctl status sshd
+  expected_output: "\u25CF ssh.service - OpenBSD Secure Shell server\n   Loaded: loaded\n\
+    \   Active: active (running)\n"
+- offset: 12.0
+  command: exit
+  expected_output: 'logout
+
+    '

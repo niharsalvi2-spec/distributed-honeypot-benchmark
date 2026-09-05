@@ -1,0 +1,4 @@
+version: 1.0
+suite_name: distributed_honeypot_benchmark
+output_dir: data/benchmark_runs
+seed: 42

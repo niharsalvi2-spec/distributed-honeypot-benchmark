@@ -1,0 +1,35 @@
+{
+  "campaign_id": "CAMP-2026-MULTI-001",
+  "description": "Multi-stage cross-service attack campaign intermixed with background scanning noise and a concurrent credential stuffer.",
+  "actors": [
+    {
+      "actor_id": "ACTOR_ALPHA",
+      "intent": "Targeted APT lateral intrusion",
+      "stages": [
+        {"stage": "RECON", "service": "HTTP", "node": "node-1", "event_id": "evt-alpha-001"},
+        {"stage": "INITIAL_ACCESS", "service": "SSH", "node": "node-1", "event_id": "evt-alpha-002"},
+        {"stage": "EXECUTION", "service": "SSH", "node": "node-1", "event_id": "evt-alpha-003"},
+        {"stage": "PERSISTENCE", "service": "HTTP", "node": "node-1", "event_id": "evt-alpha-004"},
+        {"stage": "LATERAL_MOVEMENT", "service": "SMB", "node": "node-2", "event_id": "evt-alpha-005"},
+        {"stage": "PAYLOAD_DROP", "service": "SMB", "node": "node-2", "event_id": "evt-alpha-006"}
+      ]
+    },
+    {
+      "actor_id": "ACTOR_BETA",
+      "intent": "Automated brute-force botnet",
+      "stages": [
+        {"stage": "SCAN", "service": "SSH", "node": "node-2", "event_id": "evt-beta-001"},
+        {"stage": "BRUTE_FORCE_1", "service": "SSH", "node": "node-2", "event_id": "evt-beta-002"},
+        {"stage": "BRUTE_FORCE_2", "service": "SSH", "node": "node-2", "event_id": "evt-beta-003"}
+      ]
+    },
+    {
+      "actor_id": "BENIGN_NOISE",
+      "intent": "Internet background telemetry",
+      "stages": [
+        {"stage": "SYN_PROBE", "service": "HTTP", "node": "node-1", "event_id": "evt-noise-001"},
+        {"stage": "NTP_SCAN", "service": "NTP", "node": "node-2", "event_id": "evt-noise-002"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+version: "1.0.0"
+description: "Frozen Master Registry for Distributed Honeypot Benchmark Experiments (E01–E10)"
+created_at: "2026-09-06"
+governing_institution: "PCCOE, Pune (Team Gamergenix)"
+
+status_definitions:
+  planned: "Theoretical specification and experimental hypothesis formally documented."
+  implemented: "Executable runner module and data pipeline implemented in codebase."
+  verified: "Validated against synthetic ground-truth oracle and automated test suite."
+  validated: "Empirically evaluated against live multi-sensor physical honeypot deployment."
+  published: "Peer-reviewed, cross-validated, and archived in public benchmark dataset."
+
+experiments:
+  E01:
+    slug: "baseline_ingestion"
+    title: "Baseline Ingestion & Canonical Normalization"
+    version: "1.0.0"
+    research_question: "RQ1"
+    hypothesis: "H1: Heterogeneous raw log formats (Cowrie, OpenCanary, Dionaea) can be losslessly normalized into a canonical schema with schema validity rate >= 99.9%."
+    runner_module: "experiments.runners.E01_baseline_ingestion"
+    tested_capability: "Parser completeness, schema conformity, and field mapping"
+    injected_conditions: "Unordered raw JSON, syslog, and sqlite event streams"
+    oracle_target: "schema_validity_rate >= 0.999, parsing_latency <= 1.0ms"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false
+
+  E02:
+    slug: "clock_skew_ordering"
+    title: "Lamport Clock vs. Physical Clock Skew"
+    version: "1.0.0"
+    research_question: "RQ3"
+    hypothesis: "H3a: Lamport logical clocks reduce causal order inversions to 0% under synthetic physical clock drift delta in [-5.0s, +5.0s]."
+    runner_module: "experiments.runners.E02_clock_skew_ordering"
+    tested_capability: "Logical event ordering under asymmetric clock skew"
+    injected_conditions: "Gaussian clock drift (mean=0s, std=2.5s) injected into node timestamps"
+    oracle_target: "inversion_rate == 0.0, kendall_tau == 1.0"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false
+
+  E03:
+    slug: "vector_clock_concurrency"
+    title: "Vector Clock Causal Independence & Concurrency"
+    version: "1.0.0"
+    research_question: "RQ3"
+    hypothesis: "H3b: Vector clocks distinguish causally dependent events (a -> b) from concurrent events (a || b) with 100% recall across distributed honeypot nodes."
+    runner_module: "experiments.runners.E03_vector_clock_concurrency"
+    tested_capability: "Concurrent event detection and partial order representation"
+    injected_conditions: "Simultaneous independent attacker sessions on disjoint nodes"
+    oracle_target: "concurrency_detection_recall == 1.0"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false
+
+  E04:
+    slug: "network_jitter_loss"
+    title: "Network Jitter & Packet Loss Resilience"
+    version: "1.0.0"
+    research_question: "RQ3"
+    hypothesis: "H3c: Priority causal buffers prevent log loss and maintain sequence accuracy under network delay jitter (up to 200ms) and packet drop (up to 15%)."
+    runner_module: "experiments.runners.E04_network_jitter_loss"
+    tested_capability: "Ingestion queue stability and jitter tolerance"
+    injected_conditions: "Artificial delay jitter [0-200ms] and randomized drop [0-15%]"
+    oracle_target: "buffer_overflow_rate == 0.0, sequence_recovery_rate >= 0.95"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false
+
+  E05:
+    slug: "cross_service_correlation"
+    title: "Cross-Service Attacker Attribution"
+    version: "1.0.0"
+    research_question: "RQ2"
+    hypothesis: "H2: Multi-tier correlation (source attribution + temporal sliding windows + MITRE tactic chains) achieves F1 >= 0.85 across multi-service attack campaigns."
+    runner_module: "experiments.runners.E05_cross_service_correlation"
+    tested_capability: "Attacker session clustering across SSH, HTTP, and SMB services"
+    injected_conditions: "Multi-stage intrusion intermixed with background scanning noise"
+    oracle_target: "precision >= 0.85, recall >= 0.85, f1_score >= 0.85"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false
+
+  E06:
+    slug: "graph_lateral_movement"
+    title: "Graph-Based Lateral Movement Reconstruction"
+    version: "1.0.0"
+    research_question: "RQ1"
+    hypothesis: "H1b: NetworkX bipartite graph modeling reconstructs internal pivot paths with Graph Edit Distance (GED) <= 2.0 relative to ground truth topology."
+    runner_module: "experiments.runners.E06_graph_lateral_movement"
+    tested_capability: "Attacker traversal DAG extraction across multiple nodes"
+    injected_conditions: "Internal pivot workloads hopping across decoy subnets"
+    oracle_target: "graph_edge_recall >= 0.85, path_precision >= 0.85"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false
+
+  E07:
+    slug: "mitre_sequence_alignment"
+    title: "MITRE ATT&CK Tactic Sequence Alignment"
+    version: "1.0.0"
+    research_question: "RQ2"
+    hypothesis: "H2b: Attack sequence mapper aligns reconstructed stages to MITRE Enterprise Matrix with Levenshtein sequence similarity >= 0.85."
+    runner_module: "experiments.runners.E07_mitre_sequence_alignment"
+    tested_capability: "Attacker progression alignment (Recon -> Access -> Lateral -> Impact)"
+    injected_conditions: "Standardized ATT&CK-tagged multi-stage workloads"
+    oracle_target: "sequence_similarity >= 0.85"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false
+
+  E08:
+    slug: "multi_attacker_noise"
+    title: "Multi-Attacker Noise Disambiguation"
+    version: "1.0.0"
+    research_question: "RQ2"
+    hypothesis: "H2c: Community detection clustering disambiguates overlapping simultaneous threat actors with Adjusted Rand Index (ARI) >= 0.80."
+    runner_module: "experiments.runners.E08_multi_attacker_noise"
+    tested_capability: "Concurrent campaign separation and noise rejection"
+    injected_conditions: "Concurrent multi-actor injection with high-volume scanning noise"
+    oracle_target: "adjusted_rand_index >= 0.80, cross_attacker_contamination == 0"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false
+
+  E09:
+    slug: "scalability_stress"
+    title: "Throughput & Scalability Under Load"
+    version: "1.0.0"
+    research_question: "RQ4"
+    hypothesis: "H4: Pipeline ingestion throughput scales linearly with O(N) node count, maintaining P95 event processing latency < 10ms up to 10,000 events/sec."
+    runner_module: "experiments.runners.E09_scalability_stress"
+    tested_capability: "Sustained event ingestion rate and queue latency bounds"
+    injected_conditions: "Synthetic stress workloads (100 to 10,000 events/sec)"
+    oracle_target: "throughput_events_per_sec >= 5000, p95_latency_ms <= 10.0"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false
+
+  E10:
+    slug: "end_to_end_pipeline"
+    title: "End-to-End Autonomous Benchmark Harness"
+    version: "1.0.0"
+    research_question: "RQ1-RQ4"
+    hypothesis: "H_master: Full autonomous execution from raw sensor logs to final benchmark report completes without manual intervention and outputs full lineage."
+    runner_module: "experiments.runners.E10_end_to_end_pipeline"
+    tested_capability: "Integrated pipeline execution across all 6 data lifecycle stages"
+    injected_conditions: "Composite multi-sensor multi-stage campaign log corpus"
+    oracle_target: "pipeline_success == true, lineage_manifest_complete == true"
+    status:
+      planned: true
+      implemented: true
+      verified: true
+      validated: false
+      published: false

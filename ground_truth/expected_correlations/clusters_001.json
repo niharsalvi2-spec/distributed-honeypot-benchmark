@@ -1,0 +1,44 @@
+{
+  "cluster_spec_version": "1.0.0",
+  "expected_clusters": [
+    {
+      "cluster_id": "CLUSTER_ALPHA",
+      "actor_id": "ACTOR_ALPHA",
+      "is_attack": true,
+      "event_ids": [
+        "evt-alpha-001",
+        "evt-alpha-002",
+        "evt-alpha-003",
+        "evt-alpha-004",
+        "evt-alpha-005",
+        "evt-alpha-006"
+      ]
+    },
+    {
+      "cluster_id": "CLUSTER_BETA",
+      "actor_id": "ACTOR_BETA",
+      "is_attack": true,
+      "event_ids": [
+        "evt-beta-001",
+        "evt-beta-002",
+        "evt-beta-003"
+      ]
+    },
+    {
+      "cluster_id": "CLUSTER_NOISE",
+      "actor_id": "BENIGN_NOISE",
+      "is_attack": false,
+      "event_ids": [
+        "evt-noise-001",
+        "evt-noise-002"
+      ]
+    }
+  ],
+  "disallowed_pairs": [
+    ["evt-alpha-001", "evt-beta-001"],
+    ["evt-alpha-002", "evt-beta-002"],
+    ["evt-alpha-003", "evt-beta-003"],
+    ["evt-alpha-005", "evt-beta-002"],
+    ["evt-alpha-006", "evt-noise-001"]
+  ]
+}

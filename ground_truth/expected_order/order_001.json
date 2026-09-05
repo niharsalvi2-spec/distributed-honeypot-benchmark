@@ -1,0 +1,33 @@
+{
+  "order_spec_version": "1.0.0",
+  "causal_chains": {
+    "ACTOR_ALPHA": {
+      "linear_sequence": [
+        "evt-alpha-001",
+        "evt-alpha-002",
+        "evt-alpha-003",
+        "evt-alpha-004",
+        "evt-alpha-005",
+        "evt-alpha-006"
+      ],
+      "causal_edges": [
+        {"from": "evt-alpha-001", "to": "evt-alpha-002", "relation": "recon_to_auth"},
+        {"from": "evt-alpha-002", "to": "evt-alpha-003", "relation": "auth_to_exec"},
+        {"from": "evt-alpha-003", "to": "evt-alpha-004", "relation": "exec_to_persist"},
+        {"from": "evt-alpha-004", "to": "evt-alpha-005", "relation": "pivot_lateral_jump"},
+        {"from": "evt-alpha-005", "to": "evt-alpha-006", "relation": "smb_to_drop"}
+      ]
+    },
+    "ACTOR_BETA": {
+      "linear_sequence": [
+        "evt-beta-001",
+        "evt-beta-002",
+        "evt-beta-003"
+      ],
+      "causal_edges": [
+        {"from": "evt-beta-001", "to": "evt-beta-002", "relation": "probe_to_brute"},
+        {"from": "evt-beta-002", "to": "evt-beta-003", "relation": "subsequent_brute"}
+      ]
+    }
+  }
+}

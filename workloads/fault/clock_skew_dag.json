@@ -1,0 +1,32 @@
+{
+  "scenario_id": "E07_CLOCK_PERTURBATION_DAG",
+  "version": "1.0.0",
+  "description": "Pre-defined ground truth causal DAG with explicit concurrent and dependent event branches",
+  "nodes": [
+    "EV_PERTRUB_000",
+    "EV_PERTRUB_001",
+    "EV_PERTRUB_002",
+    "EV_PERTRUB_003",
+    "EV_PERTRUB_004",
+    "EV_PERTRUB_005",
+    "EV_PERTRUB_006",
+    "EV_PERTRUB_007",
+    "EV_PERTRUB_008",
+    "EV_PERTRUB_009",
+    "EV_PERTRUB_010",
+    "EV_PERTRUB_011"
+  ],
+  "edges": [
+    {"from": "EV_PERTRUB_000", "to": "EV_PERTRUB_001", "type": "message_send_recv"},
+    {"from": "EV_PERTRUB_001", "to": "EV_PERTRUB_003", "type": "message_send_recv"},
+    {"from": "EV_PERTRUB_002", "to": "EV_PERTRUB_004", "type": "message_send_recv"},
+    {"from": "EV_PERTRUB_003", "to": "EV_PERTRUB_005", "type": "causal_dependency"},
+    {"from": "EV_PERTRUB_004", "to": "EV_PERTRUB_005", "type": "causal_dependency"},
+    {"from": "EV_PERTRUB_005", "to": "EV_PERTRUB_006", "type": "local_transition"},
+    {"from": "EV_PERTRUB_006", "to": "EV_PERTRUB_007", "type": "message_send_recv"},
+    {"from": "EV_PERTRUB_007", "to": "EV_PERTRUB_008", "type": "local_transition"},
+    {"from": "EV_PERTRUB_008", "to": "EV_PERTRUB_009", "type": "message_send_recv"},
+    {"from": "EV_PERTRUB_009", "to": "EV_PERTRUB_010", "type": "causal_dependency"},
+    {"from": "EV_PERTRUB_010", "to": "EV_PERTRUB_011", "type": "local_transition"}
+  ]
+}

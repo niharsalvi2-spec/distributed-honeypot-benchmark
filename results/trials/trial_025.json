@@ -1,0 +1,56 @@
+{
+  "trial": 25,
+  "seed": 42025,
+  "noise_count": 4,
+  "proposed_f1": 1.0,
+  "source_only_f1": 0.7143,
+  "temporal_only_f1": 0.6667,
+  "contamination": 0,
+  "proposed_metrics": {
+    "true_positives": 18,
+    "false_positives": 0,
+    "false_negatives": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "cross_attacker_contamination_count": 0,
+    "contaminated_pairs": []
+  },
+  "source_only_metrics": {
+    "true_positives": 10,
+    "false_positives": 0,
+    "false_negatives": 8,
+    "precision": 1.0,
+    "recall": 0.5556,
+    "f1_score": 0.7143,
+    "cross_attacker_contamination_count": 0,
+    "contaminated_pairs": []
+  },
+  "temporal_only_metrics": {
+    "true_positives": 18,
+    "false_positives": 18,
+    "false_negatives": 0,
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1_score": 0.6667,
+    "cross_attacker_contamination_count": 4,
+    "contaminated_pairs": [
+      [
+        "evt-alpha-001",
+        "evt-beta-001"
+      ],
+      [
+        "evt-alpha-002",
+        "evt-beta-002"
+      ],
+      [
+        "evt-alpha-003",
+        "evt-beta-003"
+      ],
+      [
+        "evt-alpha-005",
+        "evt-beta-002"
+      ]
+    ]
+  }
+}

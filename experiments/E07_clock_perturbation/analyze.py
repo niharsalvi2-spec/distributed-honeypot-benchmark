@@ -27,49 +27,48 @@ def analyze_run(run_id: str) -> Dict[str, Any]:
                 if line.strip():
                     raw_events.append(json.loads(line))
 
-    # 1. Setup multi-node distributed cluster
+    # 1. Load Decoupled Ground Truth DAG from pre-defined workload
+    dag_path = os.path.join(project_root, "workloads", "fault", "clock_skew_dag.json")
+    with open(dag_path, "r", encoding="utf-8") as f:
+        ground_truth_dag = json.load(f)
+
+    # 2. Setup multi-node distributed cluster
     cluster_nodes = ["node_alpha", "node_beta", "node_gamma"]
     nodes = {nid: DistributedNode(nid, cluster_nodes) for nid in cluster_nodes}
     channel = DistributedChannel(latency_ms=15.0, jitter_ms=5.0, drop_rate=0.0)
 
-    # 2. Simulate causal message passing and local events
-    # Construct a causal DAG where:
-    # ev_000 (alpha) -> ev_001 (beta via message)
-    # ev_002 (gamma) is concurrent with ev_000 and ev_001
-    # ev_003 (alpha) receives from beta
-    ground_truth_dag = {
-        "nodes": [e["event_id"] for e in raw_events],
-        "edges": []
-    }
-    
-    # Process events through distributed nodes
+    # Map outgoing and incoming causal dependencies from the DAG
+    outgoing_edges = {}
+    incoming_edges = {}
+    for edge in ground_truth_dag.get("edges", []):
+        outgoing_edges.setdefault(edge["from"], []).append(edge["to"])
+        incoming_edges.setdefault(edge["to"], []).append(edge["from"])
+
+    # 3. Simulate message passing across nodes following DAG dependencies
     lamport_timestamps = {}
     vector_clocks = {}
+    pending_messages = {}
 
-    for idx, ev in enumerate(raw_events):
+    for ev in raw_events:
         eid = ev["event_id"]
         nid = ev["node_id"]
         node = nodes[nid]
 
-        if idx == 0:
-            # Local event on alpha
-            node.lamport_clock.tick()
-            node.vector_clock.tick()
-            msg = node.send_event(ev, "node_beta", channel)
-            channel.deliver_all(nodes)
-        elif idx == 1:
-            # beta receives message from alpha -> causal dependency alpha -> beta
-            ground_truth_dag["edges"].append({"from": raw_events[0]["event_id"], "to": eid})
-        elif idx == 2:
-            # Independent event on gamma (concurrent with 0 and 1)
-            node.lamport_clock.tick()
-            node.vector_clock.tick()
-        else:
-            # Subsequent causal chain
-            node.lamport_clock.tick()
-            node.vector_clock.tick()
-            prev_eid = raw_events[idx - 1]["event_id"]
-            ground_truth_dag["edges"].append({"from": prev_eid, "to": eid})
+        # Check if this event receives messages from preceding events
+        if eid in incoming_edges:
+            for pred_eid in incoming_edges[eid]:
+                if pred_eid in pending_messages:
+                    msg = pending_messages[pred_eid]
+                    node.receive_event(msg)
+
+        # Local clock tick for event occurrence
+        node.lamport_clock.tick()
+        node.vector_clock.tick()
+
+        # If this event has outgoing edges to subsequent events, dispatch message
+        if eid in outgoing_edges:
+            msg = node.send_event(ev, recipient_id="cluster_broadcast", channel=channel)
+            pending_messages[eid] = msg
 
         lamport_timestamps[eid] = node.lamport_clock.read()
         vector_clocks[eid] = dict(node.vector_clock.clock)

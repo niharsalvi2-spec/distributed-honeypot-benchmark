@@ -159,3 +159,37 @@ def test_oracle_partial_order_evaluation(oracle):
     assert metrics["relation_accuracy"] == 1.0
     assert metrics["correct_relations"] == 3
 
+def test_oracle_detects_concurrency_in_branching_dag(oracle):
+    """
+    Scientific Test F: Concurrency in Branching DAG (A -> B, A -> C, B -> D, C -> D).
+    Proves that B and C are correctly identified as CONCURRENT (B || C) by DAG reachability
+    rather than being forced into a false linear total order.
+    """
+    branching_dag = {
+        "nodes": ["A", "B", "C", "D"],
+        "edges": [
+            {"from": "A", "to": "B"},
+            {"from": "A", "to": "C"},
+            {"from": "B", "to": "D"},
+            {"from": "C", "to": "D"}
+        ]
+    }
+    # Relations: A before B, A before C, B || C, C || B, B before D, C before D
+    predicted_relations = {
+        ("A", "B"): "BEFORE",
+        ("A", "C"): "BEFORE",
+        ("B", "C"): "CONCURRENT",
+        ("C", "B"): "CONCURRENT",
+        ("B", "D"): "BEFORE",
+        ("C", "D"): "BEFORE",
+        ("D", "A"): "AFTER"
+    }
+    metrics = oracle.evaluate_partial_order(predicted_relations, causal_dag=branching_dag)
+    assert metrics["relation_accuracy"] == 1.0
+    assert metrics["concurrency_metrics"]["ground_truth_concurrent_pairs"] == 2
+    assert metrics["concurrency_metrics"]["true_positives"] == 2
+    assert metrics["concurrency_metrics"]["false_positives"] == 0
+    assert metrics["concurrency_metrics"]["precision"] == 1.0
+    assert metrics["concurrency_metrics"]["recall"] == 1.0
+    assert metrics["concurrency_metrics"]["f1_score"] == 1.0
+

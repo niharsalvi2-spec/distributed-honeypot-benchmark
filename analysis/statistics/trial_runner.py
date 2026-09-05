@@ -99,15 +99,25 @@ class StatisticalTrialRunner:
             f1_list.append(metrics["f1_score"])
             contamination_list.append(metrics["cross_attacker_contamination_count"])
 
-            trial_records.append({
+            trial_data = {
                 "trial": t_idx,
                 "seed": seed,
                 "noise_count": extra_noise_count,
                 "proposed_f1": metrics["f1_score"],
                 "source_only_f1": src_metrics["f1_score"],
                 "temporal_only_f1": temp_metrics["f1_score"],
-                "contamination": metrics["cross_attacker_contamination_count"]
-            })
+                "contamination": metrics["cross_attacker_contamination_count"],
+                "proposed_metrics": metrics,
+                "source_only_metrics": src_metrics,
+                "temporal_only_metrics": temp_metrics
+            }
+            trial_records.append(trial_data)
+
+            # Persist individual trial manifest
+            trials_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "results", "trials"))
+            os.makedirs(trials_dir, exist_ok=True)
+            with open(os.path.join(trials_dir, f"trial_{t_idx:03d}.json"), "w", encoding="utf-8") as tf:
+                json.dump(trial_data, tf, indent=2)
 
         # Statistical comparison vs baselines
         proposed_f1s = [r["proposed_f1"] for r in trial_records]

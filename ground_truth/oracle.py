@@ -108,53 +108,82 @@ class BenchmarkOracle:
     ) -> Dict[str, Any]:
         """
         Evaluates predicted partial order relations (BEFORE, AFTER, CONCURRENT, EQUAL)
-        against true causal graph edges and topological constraints.
-        predicted_relations: { ('evt-1', 'evt-2'): 'BEFORE' | 'CONCURRENT' | ... }
+        against true causal DAG reachability semantics using NetworkX:
+        - u ->* v (directed path exists): BEFORE
+        - v ->* u (directed path exists): AFTER
+        - u == v: EQUAL
+        - neither path exists: CONCURRENT (u || v)
         """
+        import networkx as nx
         chain = causal_dag or self.order_specs.get(actor_id, {})
-        true_seq = true_sequence or chain.get("linear_sequence", chain.get("nodes", []))
-        causal_edges = chain.get("causal_edges", chain.get("edges", []))
-        
-        # Build set of explicit direct causal happens-before edges
-        direct_edges = {(edge["from"], edge["to"]): "BEFORE" for edge in causal_edges}
+        nodes = chain.get("nodes") or true_sequence or chain.get("linear_sequence", [])
+        causal_edges = chain.get("causal_edges") or chain.get("edges", [])
+
+        # Construct NetworkX DiGraph representing true causal happens-before relations
+        G = nx.DiGraph()
+        G.add_nodes_from(nodes)
         for edge in causal_edges:
-            direct_edges[(edge["to"], edge["from"])] = "AFTER"
+            G.add_edge(edge["from"], edge["to"])
+
+        # If no explicit edges were provided but a linear sequence exists, treat as linear total order
+        if len(causal_edges) == 0 and len(nodes) > 1:
+            for i in range(len(nodes) - 1):
+                G.add_edge(nodes[i], nodes[i+1])
 
         total_evaluated = 0
         correct_relations = 0
-        concurrent_tp = 0
-        concurrent_fp = 0
+        concurrency_tp = 0
+        concurrency_fp = 0
+        concurrency_fn = 0
+        gt_concurrent_count = 0
 
         for pair, pred_rel in predicted_relations.items():
             u, v = pair
-            if u not in true_seq or v not in true_seq:
+            if not G.has_node(u) or not G.has_node(v):
                 continue
             total_evaluated += 1
-            idx_u = true_seq.index(u)
-            idx_v = true_seq.index(v)
 
-            if idx_u < idx_v:
+            if u == v:
+                expected_rel = "EQUAL"
+            elif nx.has_path(G, u, v):
                 expected_rel = "BEFORE"
-            elif idx_u > idx_v:
+            elif nx.has_path(G, v, u):
                 expected_rel = "AFTER"
             else:
-                expected_rel = "EQUAL"
+                expected_rel = "CONCURRENT"
+
+            if expected_rel == "CONCURRENT":
+                gt_concurrent_count += 1
 
             if pred_rel == expected_rel:
                 correct_relations += 1
-            if pred_rel == "CONCURRENT":
-                if expected_rel == "EQUAL":
-                    concurrent_tp += 1
-                else:
-                    concurrent_fp += 1
+
+            if pred_rel == "CONCURRENT" and expected_rel == "CONCURRENT":
+                concurrency_tp += 1
+            elif pred_rel == "CONCURRENT" and expected_rel != "CONCURRENT":
+                concurrency_fp += 1
+            elif pred_rel != "CONCURRENT" and expected_rel == "CONCURRENT":
+                concurrency_fn += 1
 
         accuracy = (correct_relations / total_evaluated) if total_evaluated > 0 else 1.0
+        conc_prec = concurrency_tp / (concurrency_tp + concurrency_fp) if (concurrency_tp + concurrency_fp) > 0 else 1.0
+        conc_rec = concurrency_tp / (concurrency_tp + concurrency_fn) if (concurrency_tp + concurrency_fn) > 0 else 1.0
+        conc_f1 = (2 * conc_prec * conc_rec) / (conc_prec + conc_rec) if (conc_prec + conc_rec) > 0 else 1.0
+
         return {
             "actor_id": actor_id,
             "total_evaluated_pairs": total_evaluated,
             "correct_relations": correct_relations,
             "relation_accuracy": round(accuracy, 4),
-            "concurrent_false_positives": concurrent_fp
+            "concurrency_metrics": {
+                "ground_truth_concurrent_pairs": gt_concurrent_count,
+                "true_positives": concurrency_tp,
+                "false_positives": concurrency_fp,
+                "false_negatives": concurrency_fn,
+                "precision": round(conc_prec, 4),
+                "recall": round(conc_rec, 4),
+                "f1_score": round(conc_f1, 4)
+            }
         }
 
     def evaluate_correlation(self, predicted_clusters: List[List[str]], only_attack_clusters: bool = True) -> Dict[str, Any]:

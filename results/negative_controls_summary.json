@@ -1,0 +1,144 @@
+{
+  "benchmark": "NEGATIVE_CONTROLS_EVALUATION",
+  "total_scenarios": 6,
+  "results": [
+    {
+      "scenario": "SCENARIO_1_SHARED_IP_NAT",
+      "event_count": 6,
+      "ip_only_baseline": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1_score": 0.5714,
+        "cross_attacker_contamination": 9
+      },
+      "temporal_only_baseline": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1_score": 0.5714,
+        "cross_attacker_contamination": 9
+      },
+      "proposed_multi_tier": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "cross_attacker_contamination": 0
+      },
+      "empirical_finding": "IP-only produced 9 false merge contamination; Proposed achieved contamination = 0."
+    },
+    {
+      "scenario": "SCENARIO_2_DIFFERENT_IP_SAME_ATTACKER",
+      "event_count": 4,
+      "ip_only_baseline": {
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1_score": 0.5,
+        "cross_attacker_contamination": 0
+      },
+      "temporal_only_baseline": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "cross_attacker_contamination": 0
+      },
+      "proposed_multi_tier": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "cross_attacker_contamination": 0
+      },
+      "empirical_finding": "IP-only recall collapsed to 0.3333; Proposed achieved recall = 1.0 across rotated IPs."
+    },
+    {
+      "scenario": "SCENARIO_3_CONCURRENT_ATTACKERS",
+      "event_count": 6,
+      "ip_only_baseline": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "cross_attacker_contamination": 0
+      },
+      "temporal_only_baseline": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1_score": 0.5714,
+        "cross_attacker_contamination": 9
+      },
+      "proposed_multi_tier": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "cross_attacker_contamination": 0
+      },
+      "empirical_finding": "Proposed model achieved F1=1.0 vs IP-only F1=1.0."
+    },
+    {
+      "scenario": "SCENARIO_4_MISSING_EVENT",
+      "event_count": 3,
+      "ip_only_baseline": {
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1_score": 0.5,
+        "cross_attacker_contamination": 0
+      },
+      "temporal_only_baseline": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "cross_attacker_contamination": 0
+      },
+      "proposed_multi_tier": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "cross_attacker_contamination": 0
+      },
+      "empirical_finding": "Proposed model achieved F1=1.0 vs IP-only F1=0.5."
+    },
+    {
+      "scenario": "SCENARIO_5_DUPLICATE_EVENTS",
+      "event_count": 6,
+      "ip_only_baseline": {
+        "precision": 0.5,
+        "recall": 0.3333,
+        "f1_score": 0.4,
+        "cross_attacker_contamination": 0
+      },
+      "temporal_only_baseline": {
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1_score": 0.8571,
+        "cross_attacker_contamination": 0
+      },
+      "proposed_multi_tier": {
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1_score": 0.8571,
+        "cross_attacker_contamination": 0
+      },
+      "empirical_finding": "Proposed model achieved F1=0.8571 vs IP-only F1=0.4."
+    },
+    {
+      "scenario": "SCENARIO_6_OUT_OF_ORDER",
+      "event_count": 4,
+      "ip_only_baseline": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "cross_attacker_contamination": 0
+      },
+      "temporal_only_baseline": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "cross_attacker_contamination": 0
+      },
+      "proposed_multi_tier": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "cross_attacker_contamination": 0
+      },
+      "empirical_finding": "Proposed model achieved F1=0.0 vs IP-only F1=0.0."
+    }
+  ]
+}

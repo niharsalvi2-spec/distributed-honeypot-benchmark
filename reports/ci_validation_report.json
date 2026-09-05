@@ -1,0 +1,476 @@
+{
+  "schema_version": "1.0.0",
+  "benchmark": "Distributed Honeypot Benchmark Framework",
+  "validation_level": "EMPIRICAL_RESEARCH_GRADE",
+  "generated_at_utc": "2026-09-05T20:17:17.645023+00:00",
+  "git": {
+    "commit_sha": "a0e1a81ae5c3046d4ccf46310d4f3b893da59a66",
+    "branch": "main"
+  },
+  "environment": {
+    "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+    "platform": "win32"
+  },
+  "pytest_validation": {
+    "status": "PASSED",
+    "total_tests": 74,
+    "passed": 74,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "duration_sec": 2.923,
+    "test_cases": [
+      {
+        "name": "test_collector_staging_and_hashing",
+        "classname": "tests.integration.test_collector",
+        "status": "PASSED",
+        "duration_sec": 0.01
+      },
+      {
+        "name": "test_full_distributed_lifecycle",
+        "classname": "tests.integration.test_distributed_pipeline",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_event_normalization_pipeline",
+        "classname": "tests.integration.test_event_pipeline",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_repository_descriptors[cowrie-ssh]",
+        "classname": "tests.integration.test_repository_deployment",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_repository_descriptors[opencanary-ftp]",
+        "classname": "tests.integration.test_repository_deployment",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_repository_descriptors[dionaea-smb]",
+        "classname": "tests.integration.test_repository_deployment",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_repository_descriptors[conpot-modbus]",
+        "classname": "tests.integration.test_repository_deployment",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_repository_descriptors[honeytrap-dynamic]",
+        "classname": "tests.integration.test_repository_deployment",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_repository_descriptors[tpot-all]",
+        "classname": "tests.integration.test_repository_deployment",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_repository_descriptors[mhn-hpfeeds]",
+        "classname": "tests.integration.test_repository_deployment",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_f1_and_pr_curve",
+        "classname": "tests.unit.test_analysis_modules",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_statistical_calculations",
+        "classname": "tests.unit.test_analysis_modules",
+        "status": "PASSED",
+        "duration_sec": 0.002
+      },
+      {
+        "name": "test_hypothesis_tester",
+        "classname": "tests.unit.test_analysis_modules",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_lamport_clock_mechanics",
+        "classname": "tests.unit.test_clocks_and_ordering",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_vector_clock_causality",
+        "classname": "tests.unit.test_clocks_and_ordering",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_clock_comparator",
+        "classname": "tests.unit.test_clocks_and_ordering",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_lamport_ordering_sort",
+        "classname": "tests.unit.test_clocks_and_ordering",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_ip_correlation_engine",
+        "classname": "tests.unit.test_correlation",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_session_correlation_engine",
+        "classname": "tests.unit.test_correlation",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_timestamp_correlation_engine",
+        "classname": "tests.unit.test_correlation",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_rule_based_correlation_engine",
+        "classname": "tests.unit.test_correlation",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_session_linker_scoring",
+        "classname": "tests.unit.test_correlation_and_graph",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_event_graph_and_sequence_reconstruction",
+        "classname": "tests.unit.test_correlation_and_graph",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_attacker_profile_generation",
+        "classname": "tests.unit.test_correlation_and_graph",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_data_integrity_and_manifest",
+        "classname": "tests.unit.test_data_integrity",
+        "status": "PASSED",
+        "duration_sec": 0.006
+      },
+      {
+        "name": "test_experiment_manifest_creation",
+        "classname": "tests.unit.test_data_integrity",
+        "status": "PASSED",
+        "duration_sec": 0.002
+      },
+      {
+        "name": "test_valid_canonical_event_schema",
+        "classname": "tests.unit.test_event_schema",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_invalid_canonical_event_schema",
+        "classname": "tests.unit.test_event_schema",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_native_node_implements_interface",
+        "classname": "tests.unit.test_execution_interface",
+        "status": "PASSED",
+        "duration_sec": 0.507
+      },
+      {
+        "name": "test_docker_node_implements_interface",
+        "classname": "tests.unit.test_execution_interface",
+        "status": "PASSED",
+        "duration_sec": 0.146
+      },
+      {
+        "name": "test_lamport_clock_monotonicity",
+        "classname": "tests.unit.test_lamport",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_lamport_clock_update",
+        "classname": "tests.unit.test_lamport",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_lamport_clock_serialization",
+        "classname": "tests.unit.test_lamport",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_timestamp_normalizer",
+        "classname": "tests.unit.test_normalization",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_source_normalizer",
+        "classname": "tests.unit.test_normalization",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_service_normalizer",
+        "classname": "tests.unit.test_normalization",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_timestamp_normalizer",
+        "classname": "tests.unit.test_normalizers",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_source_normalizer",
+        "classname": "tests.unit.test_normalizers",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_service_normalizer",
+        "classname": "tests.unit.test_normalizers",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_cowrie_valid_login_fixture",
+        "classname": "tests.unit.test_parser_fixtures",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_cowrie_command_fixture",
+        "classname": "tests.unit.test_parser_fixtures",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_opencanary_http_fixture",
+        "classname": "tests.unit.test_parser_fixtures",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_dionaea_smb_fixture",
+        "classname": "tests.unit.test_parser_fixtures",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_cowrie_parser",
+        "classname": "tests.unit.test_parsers",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_opencanary_parser",
+        "classname": "tests.unit.test_parsers",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_dionaea_parser",
+        "classname": "tests.unit.test_parsers",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_run_manager_lifecycle",
+        "classname": "tests.unit.test_run_manager",
+        "status": "PASSED",
+        "duration_sec": 0.032
+      },
+      {
+        "name": "test_deterministic_seed_reproducibility",
+        "classname": "tests.unit.test_scenario_generator",
+        "status": "PASSED",
+        "duration_sec": 0.002
+      },
+      {
+        "name": "test_scenario_1_nat_negative_control",
+        "classname": "tests.unit.test_scenario_generator",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_scenario_2_different_ip_same_attacker",
+        "classname": "tests.unit.test_scenario_generator",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_scenario_3_concurrent_attackers",
+        "classname": "tests.unit.test_scenario_generator",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_scenario_4_missing_event",
+        "classname": "tests.unit.test_scenario_generator",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_scenario_5_duplicate_events",
+        "classname": "tests.unit.test_scenario_generator",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_scenario_6_out_of_order",
+        "classname": "tests.unit.test_scenario_generator",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_causal_graph_topological_sort",
+        "classname": "tests.unit.test_sequence",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_sequence_reconstruction_accuracy",
+        "classname": "tests.unit.test_sequence",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_vector_clock_tick_and_comparison",
+        "classname": "tests.unit.test_vector_clock",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_vector_clock_message_passing",
+        "classname": "tests.unit.test_vector_clock",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_oracle_perfect_sequence_accuracy",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_oracle_detects_causal_inversions",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_oracle_perfect_correlation_clusters",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_oracle_detects_cross_attacker_contamination",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_feature_ablation_oracle_validation",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_oracle_everything_split_collapses_recall",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_oracle_everything_merged_collapses_precision",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_oracle_missing_events_penalizes_completeness",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.001
+      },
+      {
+        "name": "test_oracle_partial_order_evaluation",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.002
+      },
+      {
+        "name": "test_oracle_detects_concurrency_in_branching_dag",
+        "classname": "tests.validation.test_benchmark_oracle",
+        "status": "PASSED",
+        "duration_sec": 0.002
+      },
+      {
+        "name": "test_campaign_a_manifests",
+        "classname": "tests.validation.test_ground_truth",
+        "status": "PASSED",
+        "duration_sec": 0.002
+      },
+      {
+        "name": "test_precision_recall_f1_calculations",
+        "classname": "tests.validation.test_metrics",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_fbeta_weighting",
+        "classname": "tests.validation.test_metrics",
+        "status": "PASSED",
+        "duration_sec": 0.0
+      },
+      {
+        "name": "test_no_ground_truth_imports_in_production_algorithms",
+        "classname": "tests.validation.test_no_ground_truth_leakage",
+        "status": "PASSED",
+        "duration_sec": 0.025
+      },
+      {
+        "name": "test_raw_data_immutability_during_e01_execution",
+        "classname": "tests.validation.test_raw_immutability",
+        "status": "PASSED",
+        "duration_sec": 0.102
+      },
+      {
+        "name": "test_run_manager_isolation",
+        "classname": "tests.validation.test_reproducibility",
+        "status": "PASSED",
+        "duration_sec": 0.015
+      }
+    ]
+  },
+  "verification_summary": {
+    "all_tests_passed": true,
+    "test_pass_rate": 1.0,
+    "oracle_reachability_verified": true,
+    "negative_controls_evaluated": true,
+    "repeated_trials_persisted": 30
+  }
+}

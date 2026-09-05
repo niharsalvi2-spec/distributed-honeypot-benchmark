@@ -185,6 +185,26 @@ class AlgorithmicCorrelationEngine:
         return cls._cluster_by_affinity_graph(eids, affinity, threshold=0.5)
 
     @classmethod
+    def _get_epoch_time(cls, event: Dict[str, Any]) -> float:
+        ts = event.get("timestamp")
+        if ts is None:
+            ts = event.get("real_timestamp")
+        if isinstance(ts, (int, float)):
+            return float(ts)
+        if isinstance(ts, str):
+            try:
+                return float(ts)
+            except ValueError:
+                pass
+            try:
+                from datetime import datetime
+                clean_ts = ts.replace("Z", "+00:00")
+                return datetime.fromisoformat(clean_ts).timestamp()
+            except Exception:
+                return 0.0
+        return 0.0
+
+    @classmethod
     def run_temporal_only(cls, events: List[Dict[str, Any]], window_seconds: float = 300.0) -> List[List[str]]:
         """
         Architecture 2: Temporal-Only (Sliding Window).
@@ -196,7 +216,7 @@ class AlgorithmicCorrelationEngine:
         for i in range(len(events)):
             for j in range(i + 1, len(events)):
                 u, v = events[i], events[j]
-                dt = abs(u["timestamp"] - v["timestamp"])
+                dt = abs(cls._get_epoch_time(u) - cls._get_epoch_time(v))
                 time_match = 1.0 if dt <= window_seconds else 0.0
                 affinity[(u["event_id"], v["event_id"])] = time_match
 
@@ -209,12 +229,32 @@ class AlgorithmicCorrelationEngine:
         - Payload character token set (shingles / bag of words)
         - Event type category (probe, auth, exec, upload, smb, payload, ntp)
         """
-        raw_text = (event.get("payload") or "").lower()
+        payload = event.get("payload")
+        if isinstance(payload, (dict, list)):
+            raw_text = json.dumps(payload).lower()
+        else:
+            raw_text = str(payload or "").lower()
         tokens = set(re.findall(r"[a-z0-9_]{3,}", raw_text))
+
+        user_agent = ""
+        username = ""
+        tactic = ""
+        if isinstance(payload, dict):
+            user_agent = str(payload.get("user_agent") or "").strip()
+            username = str(payload.get("username") or "").strip()
+            tactic = str(payload.get("tactic") or "").strip()
+
+        event_type = event.get("event_type") or tactic or "unknown"
+        service = event.get("service") or event.get("service_id") or "unknown"
+        session_id = event.get("session_id")
+
         return {
             "tokens": tokens,
-            "event_type": event.get("event_type", "unknown"),
-            "service": event.get("service", "unknown")
+            "event_type": event_type,
+            "service": service,
+            "session_id": session_id,
+            "user_agent": user_agent,
+            "username": username
         }
 
     @classmethod
@@ -304,7 +344,13 @@ class AlgorithmicCorrelationEngine:
             ("web_upload", "smb_connect"): 0.6,
             ("smb_connect", "payload_write"): 0.8,
             ("auth_login", "auth_login"): 0.7,
-            ("port_scan", "auth_login"): 0.6
+            ("port_scan", "auth_login"): 0.6,
+            ("TA0001_Initial_Access", "TA0002_Execution"): 0.8,
+            ("TA0002_Execution", "TA0006_Credential_Access"): 0.8,
+            ("TA0001_Initial_Access", "TA0007_Discovery"): 0.8,
+            ("TA0007_Discovery", "TA0010_Exfiltration"): 0.8,
+            ("TA0002_Execution", "TA0008_Lateral_Movement"): 0.8,
+            ("TA0008_Lateral_Movement", "TA0010_Exfiltration"): 0.8
         }
 
         affinity = {}
@@ -315,10 +361,10 @@ class AlgorithmicCorrelationEngine:
                 vid = v["event_id"]
 
                 # 1. Source score
-                s_source = 1.0 if u["source_ip"] == v["source_ip"] else 0.0
+                s_source = 1.0 if u.get("source_ip") and u["source_ip"] == v.get("source_ip") else 0.0
 
                 # 2. Temporal score
-                dt = abs(u["timestamp"] - v["timestamp"])
+                dt = abs(cls._get_epoch_time(u) - cls._get_epoch_time(v))
                 s_temporal = 1.0 if dt <= 300.0 else 0.0
 
                 # 3. Behaviour score
@@ -328,28 +374,44 @@ class AlgorithmicCorrelationEngine:
                     stage_transitions.get((u_b["event_type"], v_b["event_type"]), 0.0),
                     stage_transitions.get((v_b["event_type"], u_b["event_type"]), 0.0)
                 )
-                s_behavior = trans_score
+                union_tok = u_b["tokens"].union(v_b["tokens"])
+                inter_tok = u_b["tokens"].intersection(v_b["tokens"])
+                jaccard = (len(inter_tok) / len(union_tok)) if union_tok else 0.0
+                s_behavior = max(trans_score, jaccard)
 
                 # 4. Causal continuity score
                 tok_u = u.get("causal_token")
                 tok_v = v.get("causal_token")
                 s_causal = 1.0 if (tok_u and tok_v and tok_u == tok_v) else 0.0
 
-                # Multi-Tier Decision:
-                # If source IPs differ, an explicit causal bridge (e.g. decoy jump token) is REQUIRED
-                # to prevent cross-attacker contamination across independent external IP spaces.
-                if s_source == 0.0 and s_causal == 0.0:
-                    composite = 0.0
-                elif s_causal > 0.5:
-                    # Verified causal pivot bridges internal IP hop
-                    composite = 0.85
+                # 5. Session & Fingerprint attributes
+                s_session = 1.0 if (u_b["session_id"] and v_b["session_id"] and u_b["session_id"] == v_b["session_id"]) else 0.0
+                s_agent = 1.0 if (u_b["user_agent"] and v_b["user_agent"] and u_b["user_agent"] == v_b["user_agent"]) else 0.0
+                s_user = 1.0 if (u_b["username"] and v_b["username"] and u_b["username"] == v_b["username"]) else 0.0
+                s_fingerprint = 0.5 * s_agent + 0.5 * s_user if (s_agent or s_user) else 0.0
+
+                # Multi-Tier Decision Logic:
+                if s_causal > 0.5 or s_session > 0.5:
+                    composite = 0.90
+                elif s_source == 1.0:
+                    # Same IP: Check for NAT collision indicators
+                    # If sessions conflict AND (services differ OR user agents conflict) without causal bridge:
+                    if (u_b["session_id"] and v_b["session_id"] and u_b["session_id"] != v_b["session_id"]
+                        and (u_b["service"] != v_b["service"] or (u_b["user_agent"] and v_b["user_agent"] and u_b["user_agent"] != v_b["user_agent"]))
+                        and s_causal == 0.0):
+                        composite = 0.15  # NAT collision
+                    else:
+                        composite = (0.40 * s_source) + (0.20 * s_temporal) + (0.25 * s_behavior) + (0.15 * (1.0 if s_fingerprint > 0 else 0.5))
                 else:
-                    # Same IP space: evaluate temporal and behavioral progression
-                    composite = (0.50 * s_source) + (0.20 * s_temporal) + (0.30 * s_behavior)
+                    # Different IP: Requires strong behavioral fingerprint or causal link to bridge
+                    if s_fingerprint >= 0.5 and s_temporal > 0 and s_behavior > 0:
+                        composite = 0.75  # IP rotation across same actor
+                    else:
+                        composite = 0.0
 
                 affinity[(uid, vid)] = composite
 
-        return cls._cluster_by_affinity_graph(eids, affinity, threshold=0.45)
+        return cls._cluster_by_affinity_graph(eids, affinity, threshold=0.50)
 
 class FeatureAblationBenchmark:
     """

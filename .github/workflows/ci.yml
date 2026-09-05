@@ -31,7 +31,13 @@ jobs:
 
       - name: Run automated test suite (pytest)
         run: |
-          pytest tests/ -v
+          mkdir -p reports
+          pytest tests/ -v --junitxml=reports/junit.xml
+
+      - name: Generate Machine-Readable CI Verification Report
+        if: always()
+        run: |
+          python scripts/ci/generate_ci_report.py
 
       - name: Validate all 10 experiment runners
         run: |
@@ -45,3 +51,20 @@ jobs:
           python experiments/E08_node_failure/runner.py
           python experiments/E09_collector_failure/runner.py
           python experiments/E10_scalability/runner.py
+
+      - name: Run Algorithmic Feature Ablation Benchmark
+        run: |
+          python -m analysis.feature_ablation.ablation_runner
+
+      - name: Run Empirical Negative Controls Benchmark
+        run: |
+          python -m analysis.negative_controls.benchmark_negative_controls
+
+      - name: Upload Verification & Benchmark Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-ci-validation-artifacts
+          path: |
+            reports/
+            results/

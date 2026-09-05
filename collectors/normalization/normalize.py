@@ -22,6 +22,7 @@ def normalize_event(raw_event: Dict[str, Any], repo_name: str, run_id: str) -> D
     now_iso = datetime.utcnow().isoformat() + "Z"
     
     canonical = {
+        "schema_version": "2.0.0",
         "event_id": str(raw_event.get("event_id") or raw_event.get("eventid") or f"can_{event_uuid[:8]}"),
         "node_id": raw_event.get("node_id", f"node_{repo_name}"),
         "service_id": raw_event.get("service", raw_event.get("service_id", repo_name)),

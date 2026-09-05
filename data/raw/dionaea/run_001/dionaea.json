@@ -1,0 +1,26 @@
+[
+  {
+    "connection_type": "EXPLOITATION_ATTEMPT",
+    "timestamp": "2026-09-06T00:14:00Z",
+    "connection_id": "dion_conn_001",
+    "remote_host": "192.168.10.5",
+    "remote_port": 61234,
+    "local_host": "172.28.0.30",
+    "local_port": 445,
+    "protocol": "smb",
+    "download_md5": null,
+    "download_sha256": null
+  },
+  {
+    "connection_type": "MALWARE_DOWNLOAD",
+    "timestamp": "2026-09-06T00:15:00Z",
+    "connection_id": "dion_conn_002",
+    "remote_host": "192.168.10.5",
+    "remote_port": 61235,
+    "local_host": "172.28.0.30",
+    "local_port": 445,
+    "protocol": "smb",
+    "download_md5": "5d41402abc4b2a76b9719d911017c592",
+    "download_sha256": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae"
+  }
+]

@@ -5,7 +5,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg?logo=python&logoColor=white)](pyproject.toml)
 [![Docker Compose](https://img.shields.io/badge/docker--compose-v2-2496ED.svg?logo=docker&logoColor=white)](docker-compose.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status: Verified Framework](https://img.shields.io/badge/status-Harness%20Verified%20%7C%20Validation%20in%20Progress-orange.svg)](configs/experiments/experiment_registry.yaml)
+[![Status: Verified Framework](https://img.shields.io/badge/status-Framework%20Verified%20%7C%20Validation%20in%20Progress-orange.svg)](configs/experiments/experiment_registry.yaml)
 [![Scientific Oracle](https://img.shields.io/badge/oracle-ground__truth%20active-success.svg)](ground_truth/oracle.py)
 
 > **Academic Context & Affiliation**  
@@ -19,7 +19,7 @@
 > **Scientific Maturity & Implementation Status Notice**  
 > This repository provides a **fully implemented, reproducible benchmarking harness and synthetic evaluation oracle** for distributed honeypots.  
 > To uphold rigorous academic honesty, we explicitly separate:
-> 1. **Implemented & Verified Code:** The modular benchmarking architecture, canonical ingestion parsers, Lamport/Vector clock ordering engines, multi-tier correlator, synthetic Ground Truth Oracle (`ground_truth/`), and feature ablation framework (`analysis/feature_ablation/`) are fully implemented and verified via automated test suites (56/56 passing tests).
+> 1. **Implemented & Verified Code:** The modular benchmarking architecture, canonical ingestion parsers, Lamport/Vector clock ordering engines, multi-tier correlator, synthetic Ground Truth Oracle (`ground_truth/`), and feature ablation framework (`analysis/feature_ablation/`) are fully implemented and verified via automated test suites (**64/64 passing tests**).
 > 2. **Scientific Hypotheses & Targets:** Stated quantitative goals (e.g., $F_1 \ge 0.85$, $0.00\%$ causal inversions) represent target hypotheses undergoing systematic evaluation, rather than asserted conclusions across all wild Internet deployments.
 > 3. **Validation Roadmap:** Active validation is progressing from controlled synthetic testbeds to live, distributed multi-sensor physical honeypot clusters.
 
@@ -220,10 +220,14 @@ ground_truth/
 
 ---
 
-## 5. Empirical Feature Ablation Benchmark
+## 5. Synthetic Oracle Validation — Feature Ablation
 
 To prevent correlation weights from being "decorative mathematics", we implement a dedicated **Feature Ablation Benchmark** ([`analysis/feature_ablation/ablation_runner.py`](analysis/feature_ablation/ablation_runner.py)).  
 The framework evaluates 5 distinct correlation models against the Ground Truth Oracle under an identical multi-stage workload containing **lateral movement** (external to internal IP pivot) and **concurrent scanning noise**:
+
+> [!NOTE]
+> **Synthetic Oracle Dataset Validation Disclaimer:**  
+> *These values validate the behavior of the implemented benchmark models on the current deterministic synthetic oracle dataset; they are not estimates of performance on unseen real-world traffic.*
 
 ```
 =====================================================================================
@@ -233,8 +237,8 @@ Model Architecture                         | Precision | Recall   | F1-Score | C
 -------------------------------------------------------------------------------------
 1. Source-Only (IP Baseline)               | 1.0000    | 0.5556   | 0.7143   | 0     
 2. Temporal-Only (Window Baseline)         | 0.5000    | 1.0000   | 0.6667   | 4     
-3. Behaviour-Only (Tactic Match)           | 1.0000    | 1.0000   | 1.0000   | 0     
-4. Causal-Ordering Only (Happens-Before)   | 1.0000    | 1.0000   | 1.0000   | 0     
+3. Behaviour-Only (Tactic Match)           | 0.4643    | 0.7222   | 0.5652   | 3     
+4. Causal-Ordering Only (Happens-Before)   | 1.0000    | 0.3333   | 0.5000   | 0     
 5. Full Multi-Tier Model (Our Benchmark)   | 1.0000    | 1.0000   | 1.0000   | 0     
 =====================================================================================
 ```
@@ -244,7 +248,11 @@ Model Architecture                         | Precision | Recall   | F1-Score | C
    When Attacker Alpha pivots from external IP `198.51.100.42` to internal IP `192.168.10.5`, the IP-only baseline splits the single campaign into two disconnected fragments, causing Recall to collapse to **$0.5556$** ($F_1 = 0.7143$).
 2. **Temporal-Only Windowing Causes Severe Contamination:**  
    Clustering solely by sliding window $W_t = 300\,\text{s}$ achieves perfect Recall ($1.0000$) but suffers from **$4$ cross-attacker contaminated pairs**, dropping Precision to **$0.5000$** because independent botnet noise is merged into the targeted attack.
-3. **Multi-Tier Integration is Essential:**  
+3. **Behaviour-Only Encounters Partial Collisions:**  
+   Because common authentication steps exist in both campaigns, behavioral matching without source IP or causal continuity achieves $F_1 = 0.5652$ with $3$ cross-contamination errors.
+4. **Causal-Ordering Only Guarantees High Precision:**  
+   Tracing explicit causal tokens yields $100\%$ Precision and $0$ contamination, but only achieves Recall $= 0.3333$ for stages carrying explicit jump tokens.
+5. **Multi-Tier Integration is Essential:**  
    Only the combined model (Source + Temporal + Behaviour + Causal Clocks) successfully resolves lateral pivots while rejecting concurrent noise, achieving **Precision = 1.0000, Recall = 1.0000, $F_1 = 1.0000$, Contamination = 0**.
 
 ---

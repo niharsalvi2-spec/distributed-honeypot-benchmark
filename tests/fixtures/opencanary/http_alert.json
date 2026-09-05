@@ -1,0 +1,13 @@
+{
+  "logtype": 3000,
+  "utc_time": "2026-09-06 00:09:00",
+  "node_id": "canary-node-1",
+  "src_host": "198.51.100.42",
+  "src_port": 50123,
+  "dst_host": "172.28.0.20",
+  "dst_port": 80,
+  "logdata": {
+    "PATH": "/setup.php",
+    "HEADERS": "User-Agent: Mozilla/5.0"
+  }
+}

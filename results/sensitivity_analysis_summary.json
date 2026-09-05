@@ -1,0 +1,46 @@
+{
+  "window_sweep": [
+    {
+      "window_seconds": 30.0,
+      "precision": 0.4643,
+      "recall": 0.7222,
+      "f1_score": 0.5652,
+      "contamination": 4
+    },
+    {
+      "window_seconds": 60.0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "contamination": 4
+    },
+    {
+      "window_seconds": 120.0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "contamination": 4
+    },
+    {
+      "window_seconds": 300.0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "contamination": 4
+    },
+    {
+      "window_seconds": 600.0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "contamination": 4
+    },
+    {
+      "window_seconds": 900.0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "contamination": 4
+    }
+  ]
+}

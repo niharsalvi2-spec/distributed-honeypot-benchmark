@@ -1,0 +1,13 @@
+{
+  "eventid": "cowrie.login.success",
+  "timestamp": "2026-09-06T00:10:15.123456Z",
+  "session": "sess_cowrie_901",
+  "src_ip": "198.51.100.42",
+  "src_port": 49152,
+  "dst_ip": "172.28.0.10",
+  "dst_port": 2222,
+  "protocol": "SSH",
+  "username": "admin",
+  "password": "secretpassword123",
+  "sensor": "cowrie-node-1"
+}

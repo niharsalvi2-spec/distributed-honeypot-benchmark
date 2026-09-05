@@ -6,7 +6,7 @@ from typing import Dict, Any, List
 
 class CompletenessValidator:
     REQUIRED_FIELDS = [
-        "event_id", "node_id", "service", "source", "timestamps", "event_type"
+        "event_id", "node_id", "service_id", "source", "timestamps", "event_type"
     ]
 
     @classmethod
@@ -16,3 +16,9 @@ class CompletenessValidator:
             if f not in event or event[f] is None:
                 missing.append(f)
         return missing
+
+    @classmethod
+    def compute_completeness(cls, event: Dict[str, Any]) -> float:
+        missing = cls.check(event)
+        return (len(cls.REQUIRED_FIELDS) - len(missing)) / len(cls.REQUIRED_FIELDS)
+

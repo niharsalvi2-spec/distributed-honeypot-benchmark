@@ -419,11 +419,21 @@ class FeatureAblationBenchmark:
     and evaluate predicted clusters against the independent BenchmarkOracle.
     """
 
-    def __init__(self, oracle: BenchmarkOracle = None):
-        # The algorithm layer only receives unlabeled canonical telemetry!
-        self.telemetry = generate_unannotated_canonical_telemetry()
-        # The Oracle is held strictly isolated in the evaluation layer
+    def __init__(self, oracle: BenchmarkOracle = None, seed: int = 42, use_dynamic_workload: bool = True):
         self.oracle = oracle or BenchmarkOracle()
+        self.seed = seed
+        self.use_dynamic_workload = use_dynamic_workload
+
+        if self.use_dynamic_workload:
+            from ground_truth.generator.scenario_generator import ScenarioGenerator
+            gen = ScenarioGenerator(seed=self.seed)
+            workload = gen.generate_benchmark_workload(seed=self.seed)
+            # The algorithm layer only receives unlabeled canonical telemetry!
+            self.telemetry = workload["unannotated_events"]
+            self.custom_gt_clusters = workload["ground_truth_clusters"]
+        else:
+            self.telemetry = generate_unannotated_canonical_telemetry()
+            self.custom_gt_clusters = None
 
     def evaluate_all(self) -> Dict[str, Any]:
         """
@@ -439,7 +449,11 @@ class FeatureAblationBenchmark:
 
         results = {}
         for name, predicted_clusters in models.items():
-            metrics = self.oracle.evaluate_correlation(predicted_clusters, only_attack_clusters=True)
+            metrics = self.oracle.evaluate_correlation(
+                predicted_clusters,
+                only_attack_clusters=True,
+                custom_gt_clusters=self.custom_gt_clusters
+            )
             results[name] = metrics
 
         return results

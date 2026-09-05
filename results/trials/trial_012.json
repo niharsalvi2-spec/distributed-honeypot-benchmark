@@ -1,56 +1,19 @@
 {
   "trial": 12,
   "seed": 42012,
-  "noise_count": 2,
-  "proposed_f1": 1.0,
-  "source_only_f1": 0.7143,
-  "temporal_only_f1": 0.6667,
-  "contamination": 0,
-  "proposed_metrics": {
-    "true_positives": 18,
-    "false_positives": 0,
-    "false_negatives": 0,
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1_score": 1.0,
-    "cross_attacker_contamination_count": 0,
-    "contaminated_pairs": []
+  "correlation": {
+    "proposed_f1": 1.0,
+    "proposed_precision": 1.0,
+    "proposed_recall": 1.0,
+    "contamination": 0,
+    "source_only_f1": 0.7143,
+    "temporal_only_f1": 0.6667
   },
-  "source_only_metrics": {
-    "true_positives": 10,
-    "false_positives": 0,
-    "false_negatives": 8,
-    "precision": 1.0,
-    "recall": 0.5556,
-    "f1_score": 0.7143,
-    "cross_attacker_contamination_count": 0,
-    "contaminated_pairs": []
-  },
-  "temporal_only_metrics": {
-    "true_positives": 18,
-    "false_positives": 18,
-    "false_negatives": 0,
-    "precision": 0.5,
-    "recall": 1.0,
-    "f1_score": 0.6667,
-    "cross_attacker_contamination_count": 4,
-    "contaminated_pairs": [
-      [
-        "evt-alpha-001",
-        "evt-beta-001"
-      ],
-      [
-        "evt-alpha-002",
-        "evt-beta-002"
-      ],
-      [
-        "evt-alpha-003",
-        "evt-beta-003"
-      ],
-      [
-        "evt-alpha-005",
-        "evt-beta-002"
-      ]
-    ]
+  "clocks": {
+    "physical_inversion_rate": 0.1515,
+    "physical_kendall_tau": 0.6969696969696969,
+    "lamport_inversion_rate": 0.0152,
+    "lamport_kendall_tau": 0.9696969696969696,
+    "vector_dag_accuracy": 0.9697
   }
 }

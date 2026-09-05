@@ -1,0 +1,13 @@
+{
+  "eventid": "cowrie.session.file_download",
+  "timestamp": "2026-09-06T00:11:15.300000Z",
+  "session": "sess_cowrie_901",
+  "src_ip": "198.51.100.42",
+  "src_port": 49152,
+  "dst_ip": "172.28.0.10",
+  "dst_port": 2222,
+  "url": "http://cdn.io/payload.sh",
+  "outfile": "/tmp/payload.sh",
+  "shasum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "sensor": "cowrie-node-1"
+}

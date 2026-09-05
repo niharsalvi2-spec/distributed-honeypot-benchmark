@@ -1,0 +1,10 @@
+{
+  "connection_type": "smb_bind",
+  "timestamp": "2026-09-06T00:14:50Z",
+  "connection_id": "dion_conn_445_bind",
+  "remote_host": "192.168.10.5",
+  "remote_port": 61230,
+  "local_host": "172.28.0.30",
+  "local_port": 445,
+  "protocol": "smb"
+}

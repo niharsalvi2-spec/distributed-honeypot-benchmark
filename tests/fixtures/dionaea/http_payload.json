@@ -1,0 +1,13 @@
+{
+  "connection_type": "http_download",
+  "timestamp": "2026-09-06T00:16:00Z",
+  "connection_id": "dion_conn_80",
+  "remote_host": "192.168.10.5",
+  "remote_port": 61250,
+  "local_host": "172.28.0.30",
+  "local_port": 80,
+  "protocol": "http",
+  "download_md5": "098f6bcd4621d373cade4e832627b4f6",
+  "download_sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+  "download_url": "http://192.168.10.5/trojan.exe"
+}

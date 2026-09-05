@@ -1,0 +1,12 @@
+{
+  "logtype": 2000,
+  "utc_time": "2026-09-06 00:09:45",
+  "node_id": "canary-node-1",
+  "src_host": "198.51.100.42",
+  "src_port": 50125,
+  "dst_host": "172.28.0.20",
+  "dst_port": 21,
+  "logdata": {
+    "COMMAND": "STOR test_exfil.tar.gz"
+  }
+}

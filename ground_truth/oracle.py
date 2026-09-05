@@ -186,24 +186,47 @@ class BenchmarkOracle:
             }
         }
 
-    def evaluate_correlation(self, predicted_clusters: List[List[str]], only_attack_clusters: bool = True) -> Dict[str, Any]:
+    def evaluate_correlation(
+        self,
+        predicted_clusters: List[List[str]],
+        only_attack_clusters: bool = True,
+        custom_gt_clusters: Optional[Dict[str, List[str]]] = None
+    ) -> Dict[str, Any]:
         """
         Evaluates predicted clusters against ground truth event groupings using pairwise metrics.
         Computes True Positives, False Positives (over-clustering/contamination), False Negatives (under-clustering),
         Precision, Recall, F1 score, and checks disallowed cross-attacker pairs.
+        Supports both pre-defined JSON oracle specs and dynamic custom_gt_clusters from ScenarioGenerator.
         """
         # Build ground truth pairwise co-membership set
         gt_pairs = set()
         all_gt_events = set()
-        for cl in self.expected_clusters:
-            if only_attack_clusters and not cl.get("is_attack", True):
-                continue
-            eids = cl.get("event_ids", [])
-            for e in eids:
-                all_gt_events.add(e)
-            for i in range(len(eids)):
-                for j in range(i + 1, len(eids)):
-                    gt_pairs.add(tuple(sorted((eids[i], eids[j]))))
+        disallowed = set()
+
+        if custom_gt_clusters:
+            for actor, eids in custom_gt_clusters.items():
+                for e in eids:
+                    all_gt_events.add(e)
+                for i in range(len(eids)):
+                    for j in range(i + 1, len(eids)):
+                        gt_pairs.add(tuple(sorted((eids[i], eids[j]))))
+            actors = list(custom_gt_clusters.keys())
+            for i in range(len(actors)):
+                for j in range(i + 1, len(actors)):
+                    for e1 in custom_gt_clusters[actors[i]]:
+                        for e2 in custom_gt_clusters[actors[j]]:
+                            disallowed.add(tuple(sorted((e1, e2))))
+        else:
+            for cl in self.expected_clusters:
+                if only_attack_clusters and not cl.get("is_attack", True):
+                    continue
+                eids = cl.get("event_ids", [])
+                for e in eids:
+                    all_gt_events.add(e)
+                for i in range(len(eids)):
+                    for j in range(i + 1, len(eids)):
+                        gt_pairs.add(tuple(sorted((eids[i], eids[j]))))
+            disallowed = {tuple(sorted((p1, p2))) for p1, p2 in self.disallowed_pairs}
 
         # Build predicted pairwise co-membership set (only for events recognized by oracle)
         pred_pairs = set()
@@ -223,10 +246,9 @@ class BenchmarkOracle:
 
         # Check cross-attacker contamination from disallowed pairs
         contaminated_pairs = []
-        for p1, p2 in self.disallowed_pairs:
-            pair_key = tuple(sorted((p1, p2)))
+        for pair_key in disallowed:
             if pair_key in pred_pairs:
-                contaminated_pairs.append([p1, p2])
+                contaminated_pairs.append(list(pair_key))
 
         return {
             "true_positives": tp,

@@ -21,11 +21,40 @@ def collect_telemetry(run_id: str) -> Dict[str, Any]:
     normalizer = EventNormalizer()
     integrity_mgr = IntegrityManager()
 
-    # Stage raw sample files from all supported honeypots into the run directory
-    supported_repos = ["cowrie", "opencanary", "dionaea", "tpot", "mhn", "conpot", "honeytrap"]
+    from collectors.parsers.cowrie_parser import CowrieParser
+    from collectors.parsers.opencanary_parser import OpenCanaryParser
+    from collectors.parsers.dionaea_parser import DionaeaParser
+
+    native_parsers = {
+        "cowrie": CowrieParser(),
+        "opencanary": OpenCanaryParser(),
+        "dionaea": DionaeaParser()
+    }
+
     staged_records = []
     normalized_events = []
 
+    # 1. Process active staged run directory data/raw/<run_id>/
+    run_raw_dir = os.path.join(project_root, "data", "raw", run_id)
+    target_staged_files = {
+        "cowrie": os.path.join(run_raw_dir, "cowrie_events.json"),
+        "opencanary": os.path.join(run_raw_dir, "opencanary_events.json"),
+        "dionaea": os.path.join(run_raw_dir, "dionaea_events.json")
+    }
+
+    for repo, filepath in target_staged_files.items():
+        if os.path.exists(filepath):
+            staged_records.append({"repository": repo, "staged_path": filepath})
+            with open(filepath, "r", encoding="utf-8") as f:
+                raw_entries = json.load(f)
+                parser = native_parsers[repo]
+                for raw_entry in raw_entries:
+                    parsed = parser.parse(raw_entry)
+                    norm = normalizer.normalize_event(repo, parsed, run_id)
+                    normalized_events.append(norm)
+
+    # 2. Also stage baseline repository samples to verify multi-repo coverage
+    supported_repos = ["cowrie", "opencanary", "dionaea", "tpot", "mhn", "conpot", "honeytrap"]
     for repo in supported_repos:
         repo_dir = os.path.join(project_root, "data", "raw", repo, "run_001")
         sample_path = None
@@ -36,39 +65,25 @@ def collect_telemetry(run_id: str) -> Dict[str, Any]:
                 sample_path = cp
                 break
 
-        if not sample_path:
-            sample_path = os.path.join(repo_dir, f"{repo}_sample.json")
-
-        res = collector.stage_node_logs(
-            repository=repo,
-            run_id=run_id,
-            node_id=f"node_{repo}",
-            source_log_path=sample_path
-        )
-        staged_records.append(res)
-        
-        # If staged file has content, parse and normalize
-        if os.path.exists(res["staged_path"]) and os.path.getsize(res["staged_path"]) > 0:
-            with open(res["staged_path"], "r", encoding="utf-8") as f:
-                content = f.read().strip()
-                if content.startswith("["):
+        if sample_path:
+            res = collector.stage_node_logs(
+                repository=repo,
+                run_id=run_id,
+                node_id=f"node_{repo}",
+                source_log_path=sample_path
+            )
+            staged_records.append(res)
+            # If not already parsed in active files, normalize sample
+            if repo not in target_staged_files:
+                with open(res["staged_path"], "r", encoding="utf-8") as f:
+                    content = f.read().strip()
                     try:
-                        raw_entries = json.loads(content)
+                        raw_entries = json.loads(content) if content.startswith("[") else [json.loads(line) for line in content.splitlines() if line.strip()]
                         for raw_entry in raw_entries:
                             norm = normalizer.normalize_event(repo, raw_entry, run_id)
                             normalized_events.append(norm)
                     except Exception:
                         pass
-                else:
-                    for line in content.splitlines():
-                        line = line.strip()
-                        if line:
-                            try:
-                                raw_entry = json.loads(line)
-                                norm = normalizer.normalize_event(repo, raw_entry, run_id)
-                                normalized_events.append(norm)
-                            except Exception:
-                                pass
 
     # Save normalized events to data/normalized/<run_id>/
     norm_dir = os.path.join(project_root, "data", "normalized", run_id)

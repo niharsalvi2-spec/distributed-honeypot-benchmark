@@ -1,0 +1,12 @@
+{
+  "eventid": "cowrie.session.file_upload",
+  "timestamp": "2026-09-06T00:11:45.400000Z",
+  "session": "sess_cowrie_901",
+  "src_ip": "198.51.100.42",
+  "src_port": 49152,
+  "dst_ip": "172.28.0.10",
+  "dst_port": 2222,
+  "outfile": "backdoor.php",
+  "shasum": "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e",
+  "sensor": "cowrie-node-1"
+}

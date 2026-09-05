@@ -1,0 +1,10 @@
+{
+  "connection_type": "mssql_connect",
+  "timestamp": "2026-09-06T00:15:30Z",
+  "connection_id": "dion_conn_1433",
+  "remote_host": "192.168.10.5",
+  "remote_port": 61240,
+  "local_host": "172.28.0.30",
+  "local_port": 1433,
+  "protocol": "mssql"
+}
